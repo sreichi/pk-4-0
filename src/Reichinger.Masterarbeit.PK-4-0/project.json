@@ -1,5 +1,6 @@
-﻿{
+{
   "dependencies": {
+    "Novell.Directory.LDAP": "1.0.1",
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
       "type": "platform"
@@ -24,6 +25,7 @@
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
+        "dnxcore50",
         "dotnet5.6",
         "portable-net45+win8"
       ]
@@ -31,7 +33,8 @@
   },
 
   "buildOptions": {
-    "emitEntryPoint": true,
+      "debugType": "portable",
+      "emitEntryPoint": true,
     "preserveCompilationContext": true
   },
 
