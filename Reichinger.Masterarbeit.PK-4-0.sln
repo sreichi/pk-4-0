@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4F273D85-238
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3AC5D9D-7FEA-4BA1-A9E7-82831D38A4F3}"
 	ProjectSection(SolutionItems) = preProject
+		.docker\application.production.dockerfile = .docker\application.production.dockerfile
+		.docker\Dockerfile = .docker\Dockerfile
 		global.json = global.json
 	EndProjectSection
 EndProject
