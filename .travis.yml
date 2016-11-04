@@ -1,8 +1,8 @@
-﻿language: csharp
+language: csharp
 
 services:
     - docker
 
-script: 
+script:
     - docker-compose build
     - docker-compose up
