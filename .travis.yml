@@ -39,4 +39,5 @@ before_install:
 
 script:
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml build
+    - netstat -tulpen
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml up
