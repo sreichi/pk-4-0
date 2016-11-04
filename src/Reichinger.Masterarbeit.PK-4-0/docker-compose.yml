@@ -26,7 +26,7 @@ services:
         volumes_from:
             - database-data
         ports:
-            - "1337:1337"
+            - "5433:5433"
         networks:
             - core-application-network
 
