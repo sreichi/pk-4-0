@@ -40,4 +40,4 @@ before_install:
 script:
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml build
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml up -d
-    - curl -X GET http://127.0.0.1:5000/
+    - curl -I GET http://127.0.0.1:5000/
