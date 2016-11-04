@@ -21,7 +21,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Connect());
+            return Ok("Hello World");
+//            return Ok(Connect());
         }
 
         // GET api/values/5
