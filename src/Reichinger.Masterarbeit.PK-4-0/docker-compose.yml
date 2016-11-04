@@ -1,0 +1,39 @@
+﻿# Run docker-compose build
+# Run docker-compose up
+# Live long and prosper
+
+version: "2"
+
+services:
+
+    application:
+        container_name: coreapp
+        image: coreapp
+        build:
+            context: .
+            dockerfile: .docker/application.development.dockerfile
+        ports:
+            - "5000:5000"
+        networks:
+            - core-application-network
+    
+    database-server:
+        container_name: psqldatabase
+        image: psqldatabase
+        build:
+            context: .
+            dockerfile: .docker/postgresql.dockerfile
+        volumes_from:
+            - database-data
+        ports:
+            - "5432:5432"
+        networks:
+            - core-application-network
+
+    database-data:
+        image: psqldatabase
+        entrypoint: /bin/bash
+
+networks:
+    core-application-network:
+        driver: bridge

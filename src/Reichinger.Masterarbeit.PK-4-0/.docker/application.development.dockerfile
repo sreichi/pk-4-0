@@ -1,11 +1,5 @@
 FROM buildpack-deps:jessie-scm
 
-# Work around https://github.com/dotnet/cli/issues/1582 until Docker releases a
-# fix (https://github.com/docker/docker/issues/20818). This workaround allows
-# the container to be run with the default seccomp Docker settings by avoiding
-# the restart_syscall made by LTTng which causes a failed assertion.
-ENV LTTNG_UST_REGISTER_TIMEOUT 0
-
 # Install .NET CLI dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -20,11 +14,10 @@ RUN apt-get update \
         libunwind8 \
         libuuid1 \
         zlib1g \
-        vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Install .NET Core SDK
-ENV DOTNET_SDK_VERSION 1.0.0-preview2-003131
+ENV DOTNET_SDK_VERSION 1.0.0-preview2.1-003155
 ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/preview/Binaries/$DOTNET_SDK_VERSION/dotnet-dev-debian-x64.$DOTNET_SDK_VERSION.tar.gz
 
 RUN curl -SL $DOTNET_SDK_DOWNLOAD_URL --output dotnet.tar.gz \
@@ -43,13 +36,12 @@ RUN mkdir warmup \
     && rm -rf /tmp/NuGetScratch
 
 
-
 COPY . ./code
 
-RUN dotnet restore
+RUN (cd /code && dotnet restore)
 
-EXPOSE 5678
+EXPOSE 5000
 
-WORKDIR /code/src/Reichinger.Masterarbeit.PK-4-0
+WORKDIR /code
 
 ENTRYPOINT ["dotnet", "run"]

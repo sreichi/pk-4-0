@@ -61,7 +61,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             String ldapHost = "ldap1.hs-augsburg.de";
             String loginDN = "";
             String password = "";
-            String searchBase = "ou=Groups,dc=fh-augsburg,dc=de";
+            String searchBase = "ou=People,dc=fh-augsburg,dc=de";
             String searchFilter = "";
             LdapConnection lc = new LdapConnection();
 
