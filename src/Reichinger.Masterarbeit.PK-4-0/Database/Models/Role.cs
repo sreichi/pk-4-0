@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Reichinger.Masterarbeit.Database.Models
+namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 {
     public class Role
     {

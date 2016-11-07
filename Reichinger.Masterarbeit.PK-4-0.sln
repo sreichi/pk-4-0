@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Reichinger.Masterarbeit.PK-4-0", "src\Reichinger.Masterarbeit.PK-4-0\Reichinger.Masterarbeit.PK-4-0.xproj", "{E0FC456C-6A49-4839-94A9-5852D1756DE2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Reichinger.Masterarbeit.Database", "Reichinger.Masterarbeit.Database\Reichinger.Masterarbeit.Database.xproj", "{807D4446-093D-4CBA-B553-E90FFA624A65}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,16 +24,11 @@ Global
 		{E0FC456C-6A49-4839-94A9-5852D1756DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0FC456C-6A49-4839-94A9-5852D1756DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0FC456C-6A49-4839-94A9-5852D1756DE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{807D4446-093D-4CBA-B553-E90FFA624A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{807D4446-093D-4CBA-B553-E90FFA624A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{807D4446-093D-4CBA-B553-E90FFA624A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{807D4446-093D-4CBA-B553-E90FFA624A65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E0FC456C-6A49-4839-94A9-5852D1756DE2} = {4F273D85-2389-4E39-96ED-D43B3EAE11C7}
-		{807D4446-093D-4CBA-B553-E90FFA624A65} = {4F273D85-2389-4E39-96ED-D43B3EAE11C7}
 	EndGlobalSection
 EndGlobal
