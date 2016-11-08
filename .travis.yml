@@ -41,3 +41,4 @@ script:
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml build
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml up -d
     - docker-compose -f src/Reichinger.Masterarbeit.PK-4-0/docker-compose.yml ps
+	- docker-machine ip
