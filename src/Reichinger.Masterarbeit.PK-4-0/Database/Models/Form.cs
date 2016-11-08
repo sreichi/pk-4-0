@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 {
-    [Table("role")]
-    public partial class Role
+    [Table("form")]
+    public partial class Form
     {
-        public Role()
+        public Form()
         {
-            RolePermission = new HashSet<RolePermission>();
-            UserHasRole = new HashSet<UserHasRole>();
+            Application = new HashSet<Application>();
+            FormHasField = new HashSet<FormHasField>();
         }
 
         [Column("id")]
@@ -21,9 +21,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [InverseProperty("Role")]
-        public virtual ICollection<RolePermission> RolePermission { get; set; }
-        [InverseProperty("Role")]
-        public virtual ICollection<UserHasRole> UserHasRole { get; set; }
+        [InverseProperty("Form")]
+        public virtual ICollection<Application> Application { get; set; }
+        [InverseProperty("Form")]
+        public virtual ICollection<FormHasField> FormHasField { get; set; }
     }
 }
