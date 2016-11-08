@@ -5,50 +5,61 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Novell.Directory.Ldap;
+using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    [Route("api/[controller]")]
+
     public class ValuesController : Controller
     {
         private readonly ILogger<ValuesController> _log;
+        private ApplicationDbContext _applicationDbContext;
 
-        public ValuesController(ILogger<ValuesController> logger)
+        public ValuesController(ILogger<ValuesController> logger, ApplicationDbContext applicationDbContext)
         {
             _log = logger;
+            _applicationDbContext = applicationDbContext;
         }
         // GET api/values
         [HttpGet]
-        public IActionResult Get()
+        [Route("/api/GetUser")]
+        public IActionResult GetUser()
         {
-            return Ok("Hello World");
+            var role = _applicationDbContext.Role;
+//            role.Add(new Role()
+//            {
+//                Name = "test",
+//                Id = 14
+//            });
+            _applicationDbContext.SaveChanges();
+            return Ok(_applicationDbContext.Role.First());
 //            return Ok(Connect());
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+//        // GET api/values/5
+//        [HttpGet("{id}")]
+//        public string Get(int id)
+//        {
+//            return "value";
+//        }
+//
+//        // POST api/values
+//        [HttpPost]
+//        public void Post([FromBody]string value)
+//        {
+//        }
+//
+//        // PUT api/values/5
+//        [HttpPut("{id}")]
+//        public void Put(int id, [FromBody]string value)
+//        {
+//        }
+//
+//        // DELETE api/values/5
+//        [HttpDelete("{id}")]
+//        public void Delete(int id)
+//        {
+//        }
 
 
         public List<String> Connect()

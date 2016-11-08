@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Reichinger.Masterarbeit.PK_4_0.Database;
+using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0
 {
@@ -32,6 +33,17 @@ namespace Reichinger.Masterarbeit.PK_4_0
             // Add framework services.
             services.AddMvc();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "PK-4.0 API",
+                    Description = "API for the PK-4.0",
+                    TermsOfService = "Some terms ..."
+                });
+            });
+
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)
@@ -45,6 +57,13 @@ namespace Reichinger.Masterarbeit.PK_4_0
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.UseSwagger((httpRequest, swaggerDoc) =>
+            {
+                swaggerDoc.Host = httpRequest.Host.Value;
+            });
+
+            app.UseSwaggerUi();
         }
     }
 }
