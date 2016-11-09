@@ -24,7 +24,7 @@
     "Swashbuckle": "6.0.0-beta902"
   },
   "tools": {
-    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.0.0-preview3-*"
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.0.0-preview3-final"
   },
   "frameworks": {
     "netcoreapp1.1": {

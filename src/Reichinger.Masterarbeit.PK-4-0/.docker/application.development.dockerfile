@@ -14,7 +14,10 @@ RUN apt-get update \
         libunwind8 \
         libuuid1 \
         zlib1g \
-    && rm -rf /var/lib/apt/lists/*
+        curl \
+        gettext 
+#    && rm -rf /var/lib/apt/lists/*
+
 
 # Install .NET Core SDK
 ENV DOTNET_SDK_VERSION 1.0.0-preview2.1-003155
@@ -25,6 +28,11 @@ RUN curl -SL $DOTNET_SDK_DOWNLOAD_URL --output dotnet.tar.gz \
     && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
     && rm dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+    
+RUN curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=827530 \
+    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \ 
+    && rm dotnet.tar.gz 
+
 
 # Trigger the population of the local package cache
 ENV NUGET_XMLDOC_MODE skip
