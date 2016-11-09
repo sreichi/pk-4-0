@@ -13,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseUrls("http://*:5000")
+                .UseUrls("http://*:8000")
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

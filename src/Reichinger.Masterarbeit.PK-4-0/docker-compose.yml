@@ -13,7 +13,7 @@ services:
             context: .
             dockerfile: .docker/application.development.dockerfile
         ports:
-            - "5000:5000"
+            - "8000:8000"
         networks:
             - core-application-network
     

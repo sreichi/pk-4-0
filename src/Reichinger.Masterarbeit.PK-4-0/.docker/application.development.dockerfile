@@ -40,7 +40,7 @@ COPY . ./code
 
 RUN (cd /code && dotnet restore)
 
-EXPOSE 5000
+EXPOSE 8000
 
 WORKDIR /code
 
