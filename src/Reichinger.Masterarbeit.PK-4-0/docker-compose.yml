@@ -33,6 +33,8 @@ services:
     database-data:
         image: psqldatabase
         entrypoint: /bin/bash
+        networks:
+            - core-application-network
 
 networks:
     core-application-network:
