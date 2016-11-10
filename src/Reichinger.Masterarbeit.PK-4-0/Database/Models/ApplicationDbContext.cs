@@ -21,6 +21,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<UserHasRole> UserHasRole { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
