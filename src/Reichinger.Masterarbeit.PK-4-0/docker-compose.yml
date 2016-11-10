@@ -5,19 +5,6 @@
 version: "2"
 
 services:
-
-    application:
-        container_name: coreapp
-        image: coreapp
-        build:
-            context: .
-            dockerfile: .docker/application.development.dockerfile
-        ports:
-            - "8000:8000"
-        networks:
-            - core-application-network
-        links:
-            - database-server:database
     
     database-server:
         container_name: psqldatabase
@@ -31,6 +18,21 @@ services:
             - "5433:5432"
         networks:
             - core-application-network
+
+
+    application:
+        container_name: coreapp
+        image: coreapp
+        build:
+            context: .
+            dockerfile: .docker/application.development.dockerfile
+        ports:
+            - "8000:8000"
+        networks:
+            - core-application-network
+        links:
+            - database-server:database
+
 
     database-data:
         image: psqldatabase
