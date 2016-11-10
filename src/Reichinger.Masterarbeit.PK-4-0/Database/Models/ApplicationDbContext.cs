@@ -21,11 +21,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<UserHasRole> UserHasRole { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseNpgsql(@"User ID=dbadmin;Password=psqldocker;Host=192.168.99.100;Port=5433;Database=pk-database;Pooling=true;");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
