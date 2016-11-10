@@ -16,8 +16,6 @@ services:
             - database-data
         ports:
             - "5433:5432"
-        networks:
-            - core-application-network
 
 
     application:
@@ -28,16 +26,12 @@ services:
             dockerfile: .docker/application.development.dockerfile
         ports:
             - "8000:8000"
-        networks:
-            - core-application-network
 
 
     database-data:
         image: psqldatabase
         entrypoint: /bin/bash
-        networks:
-            - core-application-network
 
-networks:
-    core-application-network:
-        driver: bridge
+#networks:
+#    core-application-network:
+#        driver: bridge
