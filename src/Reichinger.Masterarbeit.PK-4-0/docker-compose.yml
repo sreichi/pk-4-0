@@ -16,6 +16,8 @@ services:
             - "8000:8000"
         networks:
             - core-application-network
+        links:
+            - database-server:database
     
     database-server:
         container_name: psqldatabase
