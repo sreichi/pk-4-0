@@ -8,13 +8,21 @@
     },
 
     "frameworks": {
-        "netcoreapp1.0": {
-            "dependencies": {
-                "Microsoft.NETCore.App": {
-                    "type": "platform",
-                    "version": "1.0.0"
-                }
-            }
+        "netcoreapp1.1": {
+            "imports": [
+                "dnxcore50",
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
         }
+    },
+
+    "runtimes": {
+        "win10-x86": {},
+        "win10-x64": {},
+        "win8-x64": {},
+        "win8-x86": {},
+        "win81-x64": {},
+        "win81-x86": {}
     }
 }
