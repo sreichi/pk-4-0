@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Interfaces;
+using Reichinger.Masterarbeit.PK_4_0.Repositories;
 using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0
@@ -30,6 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserRepository, UserRepository>();
             // Add framework services.
             services.AddMvc();
 
