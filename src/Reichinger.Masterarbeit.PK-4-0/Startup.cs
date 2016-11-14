@@ -32,7 +32,19 @@ namespace Reichinger.Masterarbeit.PK_4_0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //add all repositories to the IoC container.
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IConferenceRepository, ConferenceRepository>();
+            services.AddTransient<IFieldTypeRepository, FieldTypeRepository>();
+            services.AddTransient<IFormFieldRepository, FormFieldRepository>();
+            services.AddTransient<IFormRepository, FormRepository>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+
+
             // Add framework services.
             services.AddMvc();
 
