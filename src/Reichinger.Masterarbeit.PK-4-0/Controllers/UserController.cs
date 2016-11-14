@@ -5,34 +5,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Novell.Directory.Ldap;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
 
-    public class ValuesController : Controller
+    public class UserController : Controller
     {
-        private readonly ILogger<ValuesController> _log;
+        private readonly ILogger<UserController> _log;
         private ApplicationDbContext _applicationDbContext;
+        private readonly IUserRepository _userRepository;
 
-        public ValuesController(ILogger<ValuesController> logger, ApplicationDbContext applicationDbContext)
+        public UserController(ILogger<UserController> logger, ApplicationDbContext applicationDbContext, IUserRepository userRepository)
         {
             _log = logger;
             _applicationDbContext = applicationDbContext;
+            _userRepository = userRepository;
         }
+
         // GET api/values
         [HttpGet]
-        [Route("/api/GetUser")]
-        public IActionResult GetUser()
+        [Route("/api/Users")]
+        public IEnumerable<AppUser> GetAllUsers()
         {
-            var role = _applicationDbContext.Role;
-//            role.Add(new Role()
-//            {
-//                Name = "test",
-//                Id = 14
-//            });
-            _applicationDbContext.SaveChanges();
-            return Ok(_applicationDbContext.Role.First());
-//            return Ok(Connect());
+            var allUsers = _userRepository.GetAllUsers().ToList();
+            return allUsers;
+        }
+
+        /// <param name="id"></param>
+        [HttpGet]
+        [Route("api/Users/{id}")]
+        public IActionResult GetUserById([FromRoute] int id)
+        {
+            return Ok(_userRepository.GetUserById(id));
         }
 
         public List<String> Connect()
