@@ -23,6 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public Role GetRoleById(int roleId)
         {
             var role = _dbRoles.FirstOrDefault(entry => entry.Id == roleId);
+            return role;
         }
     }
 }

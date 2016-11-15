@@ -24,6 +24,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public FieldType GetFieldTypeById(int fieldTypeId)
         {
             var fieldType = _dbFieldTypes.FirstOrDefault(entry => entry.Id == fieldTypeId);
+            return fieldType;
         }
     }
 }

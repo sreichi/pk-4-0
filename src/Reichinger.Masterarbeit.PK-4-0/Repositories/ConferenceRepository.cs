@@ -14,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public ConferenceRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbConferences = _applicationDbContext.Conference
+            _dbConferences = _applicationDbContext.Conference;
         }
         public IEnumerable<Conference> GetAllConferences()
         {
