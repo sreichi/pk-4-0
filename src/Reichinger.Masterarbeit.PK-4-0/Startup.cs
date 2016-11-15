@@ -63,17 +63,17 @@ namespace Reichinger.Masterarbeit.PK_4_0
             });
 
 
-            if (this._environment.IsEnvironment("Development"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                        options.UseInMemoryDatabase());
-            }
-            else
+            if (this._environment.IsEnvironment("Production"))
             {
                 var connectionString = Configuration["DbContextSettings:ConnectionString"];
                 services.AddDbContext<ApplicationDbContext>(
                     opts => opts.UseNpgsql(connectionString)
                 );
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseInMemoryDatabase());
             }
         }
 

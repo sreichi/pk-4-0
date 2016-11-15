@@ -16,7 +16,7 @@ services:
             - database-data
         ports:
             - "5433:5432"
-        netwokrs:
+        networks:
             - core-application-network
 
 
@@ -26,9 +26,11 @@ services:
         build:
             context: .
             dockerfile: application.development.dockerfile
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
         ports:
             - "8000:8000"
-        netwokrs:
+        networks:
             - core-application-network
 
 
@@ -36,10 +38,10 @@ services:
         container_name: data_container
         image: psqldatabase
         entrypoint: /bin/bash
-        netwokrs:
+        networks:
             - core-application-network
 
 
-    networks:
-        core-application-network:
-            driver: bridge
+networks:
+    core-application-network:
+        driver: bridge
