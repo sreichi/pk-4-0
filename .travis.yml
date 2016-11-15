@@ -11,7 +11,7 @@ env:
 
 
 before_install:
-  - sudo service --status-all
+  - sudo service postgresql stop
   # update is required to update the repositories to see the new packages for
   # Docker.
   - sudo apt-get update
