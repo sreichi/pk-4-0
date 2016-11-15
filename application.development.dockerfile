@@ -44,12 +44,15 @@ RUN mkdir warmup \
     && rm -rf /tmp/NuGetScratch
 
 
-COPY . ./code
+COPY /src/Reichinger.Masterarbeit.PK-4-0 ./app
+COPY /src/Reichinger.Masterarbeit.PK-4-0.Test ./tests
 
-RUN (cd /code && dotnet restore)
+RUN (cd /tests && dotnet restore)
+
+RUN (cd /app && dotnet restore)
 
 EXPOSE 8000
 
-WORKDIR /code
+WORKDIR /app
 
 ENTRYPOINT ["dotnet", "run"]

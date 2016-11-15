@@ -11,7 +11,7 @@ services:
         image: psqldatabase
         build:
             context: .
-            dockerfile: .docker/postgresql.dockerfile
+            dockerfile: postgresql.dockerfile
         volumes_from:
             - database-data
         ports:
@@ -23,7 +23,7 @@ services:
         image: coreapp
         build:
             context: .
-            dockerfile: .docker/application.development.dockerfile
+            dockerfile: application.development.dockerfile
         ports:
             - "8000:8000"
 
@@ -31,7 +31,3 @@ services:
     database-data:
         image: psqldatabase
         entrypoint: /bin/bash
-
-#networks:
-#    core-application-network:
-#        driver: bridge
