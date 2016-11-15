@@ -17,12 +17,15 @@ namespace Reichinger.Masterarbeit.PK_4_0
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        private readonly IHostingEnvironment _environment;
+
+        public Startup(IHostingEnvironment environment)
         {
+            _environment = environment;
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
+                .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -59,10 +62,19 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 });
             });
 
-            var connectionString = Configuration["DbContextSettings:ConnectionString"];
-            services.AddDbContext<ApplicationDbContext>(
-                opts => opts.UseNpgsql(connectionString)
+
+            if (this._environment.IsEnvironment("Development"))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseInMemoryDatabase());
+            }
+            else
+            {
+                var connectionString = Configuration["DbContextSettings:ConnectionString"];
+                services.AddDbContext<ApplicationDbContext>(
+                    opts => opts.UseNpgsql(connectionString)
                 );
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
