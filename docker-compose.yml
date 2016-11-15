@@ -16,6 +16,8 @@ services:
             - database-data
         ports:
             - "5433:5432"
+        netwokrs:
+            - core-application-network
 
 
     application:
@@ -26,9 +28,18 @@ services:
             dockerfile: application.development.dockerfile
         ports:
             - "8000:8000"
+        netwokrs:
+            - core-application-network
 
 
     database-data:
         container_name: data_container
         image: psqldatabase
         entrypoint: /bin/bash
+        netwokrs:
+            - core-application-network
+
+
+    networks:
+        core-application-network:
+            driver: bridge
