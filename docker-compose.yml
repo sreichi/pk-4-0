@@ -29,5 +29,6 @@ services:
 
 
     database-data:
+        container_name: data_container
         image: psqldatabase
         entrypoint: /bin/bash
