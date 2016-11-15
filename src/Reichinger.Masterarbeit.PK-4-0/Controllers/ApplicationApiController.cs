@@ -20,9 +20,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="200">The new Application Object</response>
         [HttpPost]
         [Route("/applications")]
-        [SwaggerOperation("AddApplication")]
+        [SwaggerOperation("CreateApplication")]
         [ProducesResponseType(typeof(Application), 200)]
-        public virtual IActionResult AddApplication([FromHeader]long? token, [FromBody]Application application)
+        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]Application application)
         {
             string exampleJson = null;
 
