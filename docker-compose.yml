@@ -25,7 +25,7 @@ services:
         image: coreapp
         build:
             context: .
-            dockerfile: application.development.dockerfile
+            dockerfile: application.dockerfile
         environment:
             - ASPNETCORE_ENVIRONMENT=Production
         ports:
