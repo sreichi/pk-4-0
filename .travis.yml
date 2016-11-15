@@ -11,7 +11,9 @@ env:
 
 
 before_install:
+  # Shutting down postgres to use port 5432 for docker container
   - sudo service postgresql stop
+
   # update is required to update the repositories to see the new packages for
   # Docker.
   - sudo apt-get update
@@ -42,4 +44,4 @@ script:
     - docker-compose build
     - docker-compose up -d
     - docker-compose ps
-    - docker exec -it coreapp dotnet test /tests
+    - docker exec coreapp dotnet test /tests
