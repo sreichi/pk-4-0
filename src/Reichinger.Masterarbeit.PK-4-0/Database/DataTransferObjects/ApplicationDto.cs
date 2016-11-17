@@ -28,17 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public int FormId { get; set; }
 
-        public virtual List<AppUser> Asignees { get; set; }
-
-        public virtual List<Comment> Comments { get; set; }
-
-        public virtual Conference Conference { get; set; }
-
-        public virtual Form Form { get; set; }
-
-        public virtual Status Status { get; set; }
-
-        public virtual AppUser User { get; set; }
+        public virtual IEnumerable<int> Asignees { get; set; }
 
     }
 }

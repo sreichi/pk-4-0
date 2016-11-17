@@ -33,7 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
-        [ProducesResponseType(typeof(Application), 200)]
+        [ProducesResponseType(typeof(ApplicationDto), 200)]
         public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]Application application)
         {
             string exampleJson = null;
@@ -117,18 +117,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
-        [ProducesResponseType(typeof(List<Application>), 200)]
+        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
         public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
         {
-            var applications = from entry in _dbContext.Application.ToList()
-                select new ApplicationDto()
-                {
-                    Id = entry.Id,
-                    Created = entry.Created,
-                    Version = 1000
-                };
-
-            return applications;
+            return _applicationRepository.GetAllApplications();
         }
 
 

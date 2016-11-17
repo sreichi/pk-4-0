@@ -22,7 +22,36 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateForms(dbContext);
             CreateStatuses(dbContext);
             CreateApplications(dbContext);
+            CreateAsignees(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateAsignees(ApplicationDbContext dbContext)
+        {
+            dbContext.Asignee.Add(new Asignee
+            {
+                Id = 1,
+                ApplicationId = 1,
+                UserId = 1
+            });
+            dbContext.Asignee.Add(new Asignee
+            {
+                Id = 2,
+                ApplicationId = 1,
+                UserId = 2
+            });
+            dbContext.Asignee.Add(new Asignee
+            {
+                Id = 3,
+                ApplicationId = 2,
+                UserId = 1
+            });
+            dbContext.Asignee.Add(new Asignee
+            {
+                Id = 5,
+                ApplicationId = 2,
+                UserId = 2
+            });
         }
 
         private static void CreateStatuses(ApplicationDbContext dbContext)
