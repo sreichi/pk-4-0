@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Novell.Directory.Ldap;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
+using Reichinger.Masterarbeit.PK_4_0.Repositories;
 using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
@@ -14,6 +15,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
     public class UserController : Controller
     {
+        private readonly UserRepository _userRepository;
+
+        public UserController(UserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
         /// <summary>
         /// Create new AppUser from LDAP
         /// </summary>
@@ -68,14 +75,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users")]
         [SwaggerOperation("GetUsers")]
         [ProducesResponseType(typeof(List<AppUser>), 200)]
-        public virtual IActionResult GetUsers([FromHeader]long? token)
+        public virtual IEnumerable<AppUser> GetUsers([FromHeader]long? token)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<List<AppUser>>(exampleJson)
-                : default(List<AppUser>);
-            return new ObjectResult(example);
+            return _userRepository.GetAllUsers();
         }
 
 
