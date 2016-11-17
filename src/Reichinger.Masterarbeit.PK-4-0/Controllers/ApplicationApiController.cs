@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.Swagger.Application;
@@ -12,10 +15,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
     public class ApplicationApiController : Controller
     {
         private readonly IApplicationRepository _applicationRepository;
+        private readonly ApplicationDbContext _dbContext;
 
-        public ApplicationApiController(IApplicationRepository applicationRepository)
+        public ApplicationApiController(IApplicationRepository applicationRepository, ApplicationDbContext dbContext)
         {
             _applicationRepository = applicationRepository;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -113,9 +118,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
         [ProducesResponseType(typeof(List<Application>), 200)]
-        public virtual IEnumerable<Application> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
+        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
         {
-            return _applicationRepository.GetAllApplications();
+            var applications = from entry in _dbContext.Application.ToList()
+                select new ApplicationDto()
+                {
+                    Id = entry.Id,
+                    Created = entry.Created,
+                    Version = 1000
+                };
+
+            return applications;
         }
 
 
