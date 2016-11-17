@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.Swagger.Application;
 using Swashbuckle.SwaggerGen.Annotations;
 
@@ -10,6 +11,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
     public class ApplicationApiController : Controller
     {
+        private readonly IApplicationRepository _applicationRepository;
+
+        public ApplicationApiController(IApplicationRepository applicationRepository)
+        {
+            _applicationRepository = applicationRepository;
+        }
 
         /// <summary>
         /// Create new Application
@@ -106,14 +113,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
         [ProducesResponseType(typeof(List<Application>), 200)]
-        public virtual IActionResult GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
+        public virtual IEnumerable<Application> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<List<Application>>(exampleJson)
-                : default(List<Application>);
-            return new ObjectResult(example);
+            return _applicationRepository.GetAllApplications();
         }
 
 
