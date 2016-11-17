@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
@@ -87,6 +88,11 @@ namespace Reichinger.Masterarbeit.PK_4_0
             });
 
             app.UseSwaggerUi();
+
+            if (_environment.IsEnvironment("Development"))
+            {
+                app.SeedData();
+            }
         }
     }
 }
