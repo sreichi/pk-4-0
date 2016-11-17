@@ -3,102 +3,136 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Novell.Directory.Ldap;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
+using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
 
     public class UserController : Controller
     {
-        private readonly ILogger<UserController> _log;
-        private ApplicationDbContext _applicationDbContext;
-        private readonly IUserRepository _userRepository;
+        /// <summary>
+        /// Create new AppUser from LDAP
+        /// </summary>
 
-        public UserController(ILogger<UserController> logger, ApplicationDbContext applicationDbContext, IUserRepository userRepository)
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="user">The AppUser credentials</param>
+        /// <response code="200">The new AppUser Object</response>
+        [HttpPost]
+        [Route("/users")]
+        [SwaggerOperation("AddUser")]
+        [ProducesResponseType(typeof(AppUser), 200)]
+        public virtual IActionResult AddUser([FromHeader]long? token, [FromBody]AppUser user)
         {
-            _log = logger;
-            _applicationDbContext = applicationDbContext;
-            _userRepository = userRepository;
+            string exampleJson = null;
+
+            var example = exampleJson != null
+                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
+                : default(AppUser);
+            return new ObjectResult(example);
         }
 
-        // GET api/values
+
+        /// <summary>
+        /// GET one AppUser by Id
+        /// </summary>
+
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="userId">ID of AppUser</param>
+        /// <response code="200">AppUser by id</response>
         [HttpGet]
-        [Route("/api/Users")]
-        public IEnumerable<AppUser> GetAllUsers()
+        [Route("/users/{user_id}")]
+        [SwaggerOperation("GetUserById")]
+        [ProducesResponseType(typeof(AppUser), 200)]
+        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]decimal? userId)
         {
-            var allUsers = _userRepository.GetAllUsers().ToList();
-            return allUsers;
+            string exampleJson = null;
+
+            var example = exampleJson != null
+                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
+                : default(AppUser);
+            return new ObjectResult(example);
         }
 
-        /// <param name="id"></param>
+
+        /// <summary>
+        /// GET all AppUser
+        /// </summary>
+        /// <remarks>The Users Endpoint returns all Users</remarks>
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <response code="200">An array of Users</response>
         [HttpGet]
-        [Route("api/Users/{id}")]
-        public IActionResult GetUserById([FromRoute] int id)
+        [Route("/users")]
+        [SwaggerOperation("GetUsers")]
+        [ProducesResponseType(typeof(List<AppUser>), 200)]
+        public virtual IActionResult GetUsers([FromHeader]long? token)
         {
-            return Ok(_userRepository.GetUserById(id));
+            string exampleJson = null;
+
+            var example = exampleJson != null
+                ? JsonConvert.DeserializeObject<List<AppUser>>(exampleJson)
+                : default(List<AppUser>);
+            return new ObjectResult(example);
         }
 
-        public List<String> Connect()
+
+        /// <summary>
+        /// Reset the AppUser&#39;s Password
+        /// </summary>
+
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="userId">ID of AppUser</param>
+        /// <param name="email">The AppUser&#39;s E-Mail address</param>
+        /// <response code="200">Email to reset Password has been sent.</response>
+        [HttpPut]
+        [Route("/users/{user_id}/reset")]
+        [SwaggerOperation("ResetUserPassword")]
+        public virtual void ResetUserPassword([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]string email)
         {
-            var result = new List<String>(); 
-            int LdapPort = LdapConnection.DEFAULT_PORT;
-            int searchScope = LdapConnection.SCOPE_SUB;
-            int LdapVersion = LdapConnection.Ldap_V3; ;
-            bool attributeOnly = true;
-            String[] attrs = { LdapConnection.NO_ATTRS };
-            String ldapHost = "ldap1.hs-augsburg.de";
-            String loginDN = "";
-            String password = "";
-            String searchBase = "ou=People,dc=fh-augsburg,dc=de";
-            String searchFilter = "";
-            LdapConnection lc = new LdapConnection();
+            throw new NotImplementedException();
+        }
 
-            try
-            {
-                // connect to the server
-                lc.Connect(ldapHost, LdapPort);
-                // bind to the server
-                lc.Bind(LdapVersion, loginDN, password);
 
-                LdapSearchResults searchResults =
-                    lc.Search(searchBase,      // container to search
-                        searchScope,     // search scope
-                        searchFilter,    // search filter
-                        attrs,           // "1.1" returns entry name only
-                        attributeOnly);  // no attributes are returned
+        /// <summary>
+        /// Update AppUser with Id
+        /// </summary>
 
-                // print out all the objects
-                while (searchResults.hasMore())
-                {
-                    LdapEntry nextEntry = null;
-                    try
-                    {
-                        nextEntry = searchResults.next();
-                    }
-                    catch (LdapException e)
-                    {
-                        _log.LogError(e.ToString());
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="userId">ID of AppUser</param>
+        /// <param name="user">Updated AppUser</param>
+        /// <response code="200">The updated AppUser Object</response>
+        [HttpPut]
+        [Route("/users/{user_id}")]
+        [SwaggerOperation("UpdateUserById")]
+        [ProducesResponseType(typeof(AppUser), 200)]
+        public virtual IActionResult UpdateUserById([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]AppUser user)
+        {
+            string exampleJson = null;
 
-                        // Exception is thrown, go for next entry
-                        continue;
-                    }
-                    result.Add(nextEntry.DN);
-                    _log.LogInformation(nextEntry.DN);
-                }
-                // disconnect with the server
-                lc.Disconnect();
-            }
-            catch (LdapException e)
-            {
-                _log.LogError(e.ToString());
-            }
-            catch (Exception e)
-            {
-                _log.LogError(e.ToString());
-            }
-            return result;
+            var example = exampleJson != null
+                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
+                : default(AppUser);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
+        /// Update the AppUser&#39;s Role
+        /// </summary>
+
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="userId">ID of AppUser</param>
+        /// <param name="role">The AppUser&#39;s new Role</param>
+        /// <response code="200">Role has been changed.</response>
+        [HttpPut]
+        [Route("/users/{user_id}/role")]
+        [SwaggerOperation("UpdateUserRole")]
+        public virtual void UpdateUserRole([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]decimal? role)
+        {
+            throw new NotImplementedException();
         }
     }
 }
