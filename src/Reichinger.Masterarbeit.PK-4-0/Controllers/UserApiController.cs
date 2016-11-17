@@ -15,12 +15,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
     public class UserController : Controller
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(UserRepository userRepository)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
+
         /// <summary>
         /// Create new AppUser from LDAP
         /// </summary>
@@ -51,7 +52,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="userId">ID of AppUser</param>
         /// <response code="200">AppUser by id</response>
         [HttpGet]
-        [Route("/users/{user_id}")]
+        [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
         [ProducesResponseType(typeof(AppUser), 200)]
         public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]decimal? userId)
@@ -90,7 +91,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="email">The AppUser&#39;s E-Mail address</param>
         /// <response code="200">Email to reset Password has been sent.</response>
         [HttpPut]
-        [Route("/users/{user_id}/reset")]
+        [Route("/users/{userId}/reset")]
         [SwaggerOperation("ResetUserPassword")]
         public virtual void ResetUserPassword([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]string email)
         {
@@ -107,7 +108,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="user">Updated AppUser</param>
         /// <response code="200">The updated AppUser Object</response>
         [HttpPut]
-        [Route("/users/{user_id}")]
+        [Route("/users/{userId}")]
         [SwaggerOperation("UpdateUserById")]
         [ProducesResponseType(typeof(AppUser), 200)]
         public virtual IActionResult UpdateUserById([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]AppUser user)
@@ -130,7 +131,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="role">The AppUser&#39;s new Role</param>
         /// <response code="200">Role has been changed.</response>
         [HttpPut]
-        [Route("/users/{user_id}/role")]
+        [Route("/users/{userId}/role")]
         [SwaggerOperation("UpdateUserRole")]
         public virtual void UpdateUserRole([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]decimal? role)
         {
