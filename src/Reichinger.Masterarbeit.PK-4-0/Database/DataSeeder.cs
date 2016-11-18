@@ -30,7 +30,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateFieldTypes(dbContext);
             CreateFormFields(dbContext);
             CreateFormHasField(dbContext);
+            CreateUserHasRole(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateUserHasRole(ApplicationDbContext dbContext)
+        {
+            dbContext.UserHasRole.Add(new UserHasRole
+            {
+                Id = 1,
+                RoleId = 1,
+                UserId = 1
+            });
+            dbContext.UserHasRole.Add(new UserHasRole
+            {
+                Id = 2,
+                RoleId = 2,
+                UserId = 1
+            });
+            dbContext.UserHasRole.Add(new UserHasRole
+            {
+                Id = 3,
+                RoleId = 2,
+                UserId = 2
+            });
         }
 
         private static void CreateFormHasField(ApplicationDbContext dbContext)
