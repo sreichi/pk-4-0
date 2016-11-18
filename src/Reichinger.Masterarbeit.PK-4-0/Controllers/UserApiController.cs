@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Novell.Directory.Ldap;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
@@ -75,8 +76,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/users")]
         [SwaggerOperation("GetUsers")]
-        [ProducesResponseType(typeof(List<AppUser>), 200)]
-        public virtual IEnumerable<AppUser> GetUsers([FromHeader]long? token)
+        [ProducesResponseType(typeof(List<UserDto>), 200)]
+        public virtual IEnumerable<UserDto> GetUsers([FromHeader]long? token)
         {
             return _userRepository.GetAllUsers();
         }

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml.XPath;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
@@ -16,9 +17,23 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
             _dbUsers = _applicationDbContext.AppUser;
         }
-        public IEnumerable<AppUser> GetAllUsers()
+
+        public IEnumerable<UserDto> GetAllUsers()
         {
-            return _dbUsers.ToList();
+            return _applicationDbContext.AppUser.Select(entry => new UserDto()
+            {
+                Id = entry.Id,
+                Firstname = entry.Firstname,
+                Lastname = entry.Lastname,
+                Created = entry.Created,
+                Active = entry.Active,
+                Email = entry.Email,
+                LdapId = entry.LdapId,
+                MatNr = entry.MatNr,
+                Password = entry.Password,
+                SaltString = entry.SaltString,
+                UserHasRole = entry.UserHasRole.Select(e => e.Role.Name)
+            });
         }
 
         public AppUser GetUserById(int userId)
