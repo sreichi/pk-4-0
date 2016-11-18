@@ -36,3 +36,10 @@ Restore database from backup file
 ``` 
 cat [your_dump.sql] | docker exec -i [your-db-container] psql -U postgres
 ```
+
+## Entity Framework Commands
+
+Apply all Migrations (needs to be at the same level as project.json)
+```
+dotnet ef database update -e Production
+```

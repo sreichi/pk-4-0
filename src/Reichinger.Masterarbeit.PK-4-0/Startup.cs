@@ -60,18 +60,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
             });
 
 
-            if (this._environment.IsEnvironment("Production"))
-            {
-                var connectionString = Configuration["DbContextSettings:ConnectionString"];
-                services.AddDbContext<ApplicationDbContext>(
-                    opts => opts.UseNpgsql(connectionString)
-                );
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                        options.UseInMemoryDatabase());
-            }
+            var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            services.AddDbContext<ApplicationDbContext>(
+                opts => opts.UseNpgsql(connectionString)
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,10 +74,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             app.UseMvc();
 
-            app.UseSwagger((httpRequest, swaggerDoc) =>
-            {
-                swaggerDoc.Host = httpRequest.Host.Value;
-            });
+            app.UseSwagger((httpRequest, swaggerDoc) => { swaggerDoc.Host = httpRequest.Host.Value; });
 
             app.UseSwaggerUi();
 

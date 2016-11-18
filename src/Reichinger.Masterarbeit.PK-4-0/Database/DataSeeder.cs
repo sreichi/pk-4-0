@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
@@ -9,7 +9,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
     {
         public static void SeedData(this IApplicationBuilder applicationBuilder)
         {
-            var db = applicationBuilder.ApplicationServices.GetService(typeof (ApplicationDbContext)) as ApplicationDbContext;
+            var db =
+                applicationBuilder.ApplicationServices.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
             CreateTestData(db);
         }
 
@@ -25,7 +26,144 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateConferences(dbContext);
             CreateApplications(dbContext);
             CreateAsignees(dbContext);
+            CreateComments(dbContext);
+            CreateFieldTypes(dbContext);
+            CreateFormFields(dbContext);
+            CreateFormHasField(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateFormHasField(ApplicationDbContext dbContext)
+        {
+            dbContext.FormHasField.Add(new FormHasField
+            {
+                Id = 1,
+                FormId = 1,
+                FormFieldId = 1,
+                Required = true,
+                Label = "Firstname",
+                PositionIndex = 1,
+                Styling = "color:red,margin:5px"
+            });
+            dbContext.FormHasField.Add(new FormHasField
+            {
+                Id = 2,
+                FormId = 1,
+                FormFieldId = 2,
+                Required = true,
+                Label = "Lastname",
+                PositionIndex = 2,
+                Styling = "color:green"
+            });
+            dbContext.FormHasField.Add(new FormHasField
+            {
+                Id = 3,
+                FormId = 1,
+                FormFieldId = 3,
+                Required = true,
+                Label = "Geschlecht",
+                PositionIndex = 3,
+                Styling = "margin:5px"
+            });
+            dbContext.FormHasField.Add(new FormHasField
+            {
+                Id = 4,
+                FormId = 1,
+                FormFieldId = 4,
+                Required = false,
+                Label = "Zusatzinformationen",
+                PositionIndex = 1,
+                Styling = "padding:10px"
+            });
+        }
+
+        private static void CreateFormFields(ApplicationDbContext dbContext)
+        {
+            dbContext.FormField.Add(new FormField
+            {
+                Id = 1,
+                FieldType = 1,
+                Name = "Firstname"
+            });
+            dbContext.FormField.Add(new FormField
+            {
+                Id = 2,
+                FieldType = 1,
+                Name = "Lastname"
+            });
+            dbContext.FormField.Add(new FormField
+            {
+                Id = 3,
+                FieldType = 3,
+                Name = "Gender"
+            });
+            dbContext.FormField.Add(new FormField
+            {
+                Id = 4,
+                FieldType = 2,
+                Name = "Active"
+            });
+            dbContext.FormField.Add(new FormField
+            {
+                Id = 5,
+                FieldType = 4,
+                Name = "Beschreibung"
+            });
+        }
+
+        private static void CreateFieldTypes(ApplicationDbContext dbContext)
+        {
+            dbContext.FieldType.Add(new FieldType
+            {
+                Id = 1,
+                Description = "INPUT"
+            });
+            dbContext.FieldType.Add(new FieldType
+            {
+                Id = 2,
+                Description = "CHECKBOX"
+            });
+            dbContext.FieldType.Add(new FieldType
+            {
+                Id = 3,
+                Description = "RADIO"
+            });
+            dbContext.FieldType.Add(new FieldType
+            {
+                Id = 4,
+                Description = "TEXTAREA"
+            });
+        }
+
+        private static void CreateComments(ApplicationDbContext dbContext)
+        {
+            dbContext.Comment.Add(new Comment
+            {
+                Id = 1,
+                ApplicationId = 1,
+                Created = DateTime.Parse("2016-11-18T13:15:08+00:00"),
+                UserId = 1,
+                Text = "Da fehlt noch was",
+                IsPrivate = false
+            });
+            dbContext.Comment.Add(new Comment
+            {
+                Id = 2,
+                ApplicationId = 1,
+                Created = DateTime.Parse("2016-10-18T13:15:08+00:00"),
+                UserId = 2,
+                Text = "Ja das Änder ich noch schnell",
+                IsPrivate = false
+            });
+            dbContext.Comment.Add(new Comment
+            {
+                Id = 3,
+                ApplicationId = 2,
+                Created = DateTime.Parse("2016-11-18T15:15:08+00:00"),
+                UserId = 1,
+                Text = "Jetzt passt alles",
+                IsPrivate = false
+            });
         }
 
         private static void CreateConferences(ApplicationDbContext dbContext)
@@ -94,20 +232,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Form.Add(
                 new Form
                 {
-                     Id = 1,
+                    Id = 1,
                     Name = "Masterarbeit"
                 });
             dbContext.Add(
                 new Form
                 {
-                     Id = 2,
+                    Id = 2,
                     Name = "Notenanerkennung"
                 });
         }
 
         private static void CreateApplications(ApplicationDbContext dbContext)
         {
-
             dbContext.Application.Add(
                 new Application
                 {
@@ -116,9 +253,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     LastModified = DateTime.Now,
                     Version = 1,
                     IsCurrent = false,
+                    PreviousVersion = 1,
                     UserId = 1,
                     StatusId = 2,
-                    FormId = 1
+                    FormId = 1,
+                    ConferenceId = 1
                 });
             dbContext.Add(
                 new Application
@@ -131,7 +270,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     PreviousVersion = 1,
                     UserId = 1,
                     StatusId = 1,
-                    FormId = 1
+                    FormId = 1,
+                    ConferenceId = 1
                 });
         }
 
