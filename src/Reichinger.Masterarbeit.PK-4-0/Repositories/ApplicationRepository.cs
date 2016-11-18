@@ -28,7 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 IsCurrent = entry.IsCurrent,
                 PreviousVersion = entry.PreviousVersion,
                 UserId = entry.UserId,
-                ConferenceId = entry.Conference.Id,
+                ConferenceId = entry.ConferenceId,
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
                 Asignees = entry.Asignee.Select(e => e.UserId)
