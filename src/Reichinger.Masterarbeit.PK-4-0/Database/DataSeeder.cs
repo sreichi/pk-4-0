@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Builder;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
@@ -21,9 +22,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateUsers(dbContext);
             CreateForms(dbContext);
             CreateStatuses(dbContext);
+            CreateConferences(dbContext);
             CreateApplications(dbContext);
             CreateAsignees(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateConferences(ApplicationDbContext dbContext)
+        {
+            dbContext.Conference.Add(new Conference
+            {
+                Id = 1,
+                DateOfEvent = DateTime.Now,
+                Description = "Hauptsitzung der PK"
+            });
+            dbContext.Conference.Add(new Conference
+            {
+                Id = 2,
+                DateOfEvent = DateTime.Now,
+                Description = "Spontansitzung der Informatik"
+            });
         }
 
         private static void CreateAsignees(ApplicationDbContext dbContext)
