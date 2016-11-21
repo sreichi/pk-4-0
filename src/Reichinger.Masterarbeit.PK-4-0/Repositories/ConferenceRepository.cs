@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
@@ -9,25 +10,34 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class ConferenceRepository : IConferenceRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<Conference> _dbConferences;
 
         public ConferenceRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbConferences = _applicationDbContext.Conference;
         }
-        public IEnumerable<Conference> GetAllConferences()
+        public IEnumerable<ConferenceDto> GetAllConferences()
         {
-            return _dbConferences.ToList();
+            return _applicationDbContext.Conference.Select(entry => new ConferenceDto()
+            {
+                Id = entry.Id,
+                Description =  entry.Description,
+                DateOfEvent = entry.DateOfEvent,
+                Application = entry.Application.Select(e => e.Id)
+            });
         }
 
-        public Conference GetConferernceById(int conferenceId)
+        public ConferenceDto GetConferernceById(int conferenceId)
         {
-            var conference = _dbConferences.FirstOrDefault(entry => entry.Id == conferenceId);
-            return conference;
+            return _applicationDbContext.Conference.Select(entry => new ConferenceDto()
+            {
+                Id = entry.Id,
+                Description =  entry.Description,
+                DateOfEvent = entry.DateOfEvent,
+                Application = entry.Application.Select(e => e.Id)
+            }).FirstOrDefault(entry => entry.Id == conferenceId);
         }
 
-        public IEnumerable<Conference> GetConferencesByUser(int userId)
+        public IEnumerable<ConferenceDto> GetConferencesByUser(int userId)
         {
             throw new System.NotImplementedException();
         }
