@@ -44,12 +44,11 @@ RUN mkdir warmup \
     && rm -rf /tmp/NuGetScratch
 
 
-COPY /src/Reichinger.Masterarbeit.PK-4-0 ./app
-COPY /src/Reichinger.Masterarbeit.PK-4-0.Test ./tests
+COPY /src/ ./src
 
-RUN (cd /app && dotnet restore)
+RUN (cd /src/Reichinger.Masterarbeit.PK-4-0 && dotnet restore)
 
-RUN (cd /tests && dotnet restore)
+RUN (cd /src/Reichinger.Masterarbeit.PK-4-0.Test && dotnet restore)
 
 EXPOSE 8000
 
