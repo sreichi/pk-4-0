@@ -47,9 +47,9 @@ RUN mkdir warmup \
 COPY /src/Reichinger.Masterarbeit.PK-4-0 ./app
 COPY /src/Reichinger.Masterarbeit.PK-4-0.Test ./tests
 
-RUN (cd /tests && dotnet restore)
-
 RUN (cd /app && dotnet restore)
+
+RUN (cd /tests && dotnet restore)
 
 EXPOSE 8000
 
