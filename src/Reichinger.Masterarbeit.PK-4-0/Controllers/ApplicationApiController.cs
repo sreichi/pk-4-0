@@ -73,7 +73,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="comment">New Comment</param>
         /// <response code="200">The new Comment Object</response>
         [HttpPost]
-        [Route("/applications/{application_id}/comments")]
+        [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
         [ProducesResponseType(typeof(Comment), 200)]
         public virtual IActionResult AddCommentToApplication([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromBody]Comment comment)
@@ -95,7 +95,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application deleted</response>
         [HttpDelete]
-        [Route("/applications/{application_id}")]
+        [Route("/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationById")]
         public virtual void DeleteApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId)
         {
@@ -111,7 +111,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application by id</response>
         [HttpGet]
-        [Route("/applications/{application_id}")]
+        [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
         [ProducesResponseType(typeof(Application), 200)]
         public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId)
@@ -134,7 +134,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="application">Application to Update</param>
         /// <response code="200">The updated Application</response>
         [HttpPut]
-        [Route("/applications/{application_id}")]
+        [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
         [ProducesResponseType(typeof(Application),200)]
         public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromBody]Application application)
@@ -158,7 +158,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="comment">Updated Comment</param>
         /// <response code="200">The updated Comment Object</response>
         [HttpPut]
-        [Route("/applications/{application_id}/comments/{comment_id}")]
+        [Route("/applications/{applicationId}/comments/{comment_id}")]
         [SwaggerOperation("UpdateApplicationCommentById")]
         [ProducesResponseType(typeof(Comment), 200)]
         public virtual IActionResult UpdateApplicationCommentById([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromRoute]decimal? commentId, [FromBody]Comment comment)
