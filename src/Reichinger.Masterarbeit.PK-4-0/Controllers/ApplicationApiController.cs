@@ -24,6 +24,25 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         }
 
         /// <summary>
+        /// GET all Applications
+        /// </summary>
+        /// <remarks>The Applications Endpoint returns all Applications</remarks>
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="filter">Filter the Result</param>
+        /// <param name="sort">Sort the Result</param>
+        /// <response code="200">An array of Applications</response>
+        [HttpGet]
+        [Route("/applications")]
+        [SwaggerOperation("GetApplications")]
+        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
+        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
+        {
+            return _applicationRepository.GetAllApplications();
+        }
+
+
+
+        /// <summary>
         /// Create new Application
         /// </summary>
 
@@ -103,24 +122,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
                 ? JsonConvert.DeserializeObject<Application>(exampleJson)
                 : default(Application);
             return new ObjectResult(example);
-        }
-
-
-        /// <summary>
-        /// GET all Applications
-        /// </summary>
-        /// <remarks>The Applications Endpoint returns all Applications</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
-        /// <param name="filter">Filter the Result</param>
-        /// <param name="sort">Sort the Result</param>
-        /// <response code="200">An array of Applications</response>
-        [HttpGet]
-        [Route("/applications")]
-        [SwaggerOperation("GetApplications")]
-        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
-        {
-            return _applicationRepository.GetAllApplications();
         }
 
 

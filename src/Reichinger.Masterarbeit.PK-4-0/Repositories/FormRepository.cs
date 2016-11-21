@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
@@ -15,14 +16,27 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
             _dbForms = _applicationDbContext.Form;
         }
-        public IEnumerable<Form> GetAllForms()
+        public IEnumerable<FormDto> GetAllForms()
         {
-            return _dbForms.ToList();
+            return _applicationDbContext.Form.Select(entry => new FormDto()
+            {
+                Id =  entry.Id,
+                Name = entry.Name,
+                Application = entry.Application.Select(e => e.Id),
+                FormHasField = entry.FormHasField.Select(e => e.Id)
+            });
         }
 
-        public Form GetFormById(int formId)
+        public FormDto GetFormById(int formId)
         {
-            var form = _dbForms.FirstOrDefault(entry => entry.Id == formId);
+            var form = _dbForms.Select(entry => new FormDto()
+            {
+                Id =  entry.Id,
+                Name = entry.Name,
+                Application = entry.Application.Select(e => e.Id),
+                FormHasField = entry.FormHasField.Select(e => e.Id)
+            }).FirstOrDefault(entry => entry.Id == formId);
+
             return form;
         }
     }
