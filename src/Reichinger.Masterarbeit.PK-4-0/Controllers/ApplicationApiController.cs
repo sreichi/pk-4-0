@@ -15,12 +15,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
     public class ApplicationApiController : Controller
     {
         private readonly IApplicationRepository _applicationRepository;
-        private readonly ApplicationDbContext _dbContext;
 
-        public ApplicationApiController(IApplicationRepository applicationRepository, ApplicationDbContext dbContext)
+        public ApplicationApiController(IApplicationRepository applicationRepository)
         {
             _applicationRepository = applicationRepository;
-            _dbContext = dbContext;
         }
 
         /// <summary>

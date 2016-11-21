@@ -5,19 +5,16 @@ using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
-using Reichinger.Masterarbeit.PK_4_0.Repositories;
 using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
     public class FormApiController: Controller
     {
-        private readonly ApplicationDbContext _applicationDbContext;
         private readonly IFormRepository _formRepository;
 
-        public FormApiController(ApplicationDbContext applicationDbContext, IFormRepository formRepository)
+        public FormApiController(IFormRepository formRepository)
         {
-            _applicationDbContext = applicationDbContext;
             _formRepository = formRepository;
         }
 
@@ -48,7 +45,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/forms/{formId}")]
         [SwaggerOperation("GetFormById")]
-        [ProducesResponseType(typeof(Form), 200)]
+        [ProducesResponseType(typeof(FormDto), 200)]
         public virtual IActionResult GetFormById([FromHeader]long? token, [FromRoute]int formId)
         {
             return Ok(_formRepository.GetFormById(formId));
