@@ -52,6 +52,6 @@ RUN (cd /src/Reichinger.Masterarbeit.PK-4-0.Test && dotnet restore)
 
 EXPOSE 8000
 
-WORKDIR /app
+WORKDIR /src/Reichinger.Masterarbeit.PK-4-0
 
 ENTRYPOINT ["dotnet", "run"]
