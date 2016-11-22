@@ -26,8 +26,6 @@ services:
         build:
             context: .
             dockerfile: application.dockerfile
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Production
         ports:
             - "8000:8000"
         networks:
