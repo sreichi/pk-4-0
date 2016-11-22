@@ -44,4 +44,6 @@ script:
     - docker-compose build
     - docker-compose up -d
     - docker-compose ps
-    - docker exec coreapp dotnet test /src/Reichinger.Masterarbeit.PK-4-0.Test
+    - echo $ASPNETCORE_ENVIRONMENT
+    - docker exec coreapp ping database-server
+   # - docker exec coreapp dotnet test /src/Reichinger.Masterarbeit.PK-4-0.Test
