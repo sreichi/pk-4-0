@@ -13,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
         public IntegrationTestBase()
         {
-            _server = new TestServer(new WebHostBuilder().UseEnvironment("Development").UseStartup<Startup>());
+            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
             _client = _server.CreateClient();
         }
 
