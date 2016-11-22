@@ -7,6 +7,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     public interface IUserRepository
     {
         IEnumerable<UserDto> GetAllUsers();
-        AppUser GetUserById(int userId);
+        UserDto GetUserById(int userId);
     }
 }
