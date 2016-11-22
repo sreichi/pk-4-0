@@ -1,4 +1,4 @@
-
+dist: trusty
 sudo: required
 services:
     - docker
@@ -8,6 +8,7 @@ env:
     # There should be a time in the future when this is not necessary - it is
     # explained in more detail below.
     DOCKER_COMPOSE_VERSION: 1.8.1
+    ASPNETCORE_ENVIRONMENT=Travis
 
 
 before_install:
@@ -44,5 +45,5 @@ script:
     - docker-compose build
     - docker-compose up -d
     - docker-compose ps
-    - docker exec coreapp dotnet ef database update --verbose
+    #- docker exec coreapp dotnet ef database update --verbose
     - docker exec coreapp dotnet test /src/Reichinger.Masterarbeit.PK-4-0.Test

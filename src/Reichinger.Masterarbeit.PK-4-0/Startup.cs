@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,7 +61,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 });
             });
 
-
+            IDictionary XXX = Environment.GetEnvironmentVariables();
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)
@@ -77,11 +79,8 @@ namespace Reichinger.Masterarbeit.PK_4_0
             app.UseSwagger((httpRequest, swaggerDoc) => { swaggerDoc.Host = httpRequest.Host.Value; });
 
             app.UseSwaggerUi();
-
-            if (_environment.IsEnvironment("Development"))
-            {
-                app.SeedData();
-            }
+            
+            app.SeedData();
         }
     }
 }

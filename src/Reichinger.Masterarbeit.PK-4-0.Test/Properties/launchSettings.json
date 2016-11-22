@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Reichinger.Masterarbeit.PK-4-0.Test": {
+      "commandName": "test",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
