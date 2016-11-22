@@ -32,6 +32,6 @@
     "debian.8-x64": {}
   },
   "buildOptions": {
-    "copyToOutput": { "includeFiles": [ "appsettings.json", "appsettings.Development.json" ] }
+    "copyToOutput": { "includeFiles": [ "appsettings.json", "appsettings.Development.json","appsettings.Production.json" ] }
   }
 }
