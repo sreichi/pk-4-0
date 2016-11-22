@@ -23,6 +23,40 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             _userRepository = userRepository;
         }
 
+
+        /// <summary>
+        /// GET all AppUser
+        /// </summary>
+        /// <remarks>The Users Endpoint returns all Users</remarks>
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <response code="200">An array of Users</response>
+        [HttpGet]
+        [Route("/users")]
+        [SwaggerOperation("GetUsers")]
+        [ProducesResponseType(typeof(List<UserDto>), 200)]
+        public virtual IEnumerable<UserDto> GetUsers([FromHeader]long? token)
+        {
+            return _userRepository.GetAllUsers();
+        }
+
+
+        /// <summary>
+        /// GET one AppUser by Id
+        /// </summary>
+
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="userId">ID of AppUser</param>
+        /// <response code="200">AppUser by id</response>
+        [HttpGet]
+        [Route("/users/{userId}")]
+        [SwaggerOperation("GetUserById")]
+        [ProducesResponseType(typeof(UserDto), 200)]
+        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]int userId)
+        {
+            return Ok(_userRepository.GetUserById(userId));
+        }
+
+
         /// <summary>
         /// Create new AppUser from LDAP
         /// </summary>
@@ -42,44 +76,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
                 ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
                 : default(AppUser);
             return new ObjectResult(example);
-        }
-
-
-        /// <summary>
-        /// GET one AppUser by Id
-        /// </summary>
-
-        /// <param name="token">Accesstoken to authenticate with the API</param>
-        /// <param name="userId">ID of AppUser</param>
-        /// <response code="200">AppUser by id</response>
-        [HttpGet]
-        [Route("/users/{userId}")]
-        [SwaggerOperation("GetUserById")]
-        [ProducesResponseType(typeof(AppUser), 200)]
-        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]decimal? userId)
-        {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
-                : default(AppUser);
-            return new ObjectResult(example);
-        }
-
-
-        /// <summary>
-        /// GET all AppUser
-        /// </summary>
-        /// <remarks>The Users Endpoint returns all Users</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
-        /// <response code="200">An array of Users</response>
-        [HttpGet]
-        [Route("/users")]
-        [SwaggerOperation("GetUsers")]
-        [ProducesResponseType(typeof(List<UserDto>), 200)]
-        public virtual IEnumerable<UserDto> GetUsers([FromHeader]long? token)
-        {
-            return _userRepository.GetAllUsers();
         }
 
 

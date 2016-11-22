@@ -36,10 +36,22 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             });
         }
 
-        public AppUser GetUserById(int userId)
+        public UserDto GetUserById(int userId)
         {
-            var user = _dbUsers.FirstOrDefault(entry => entry.Id == userId);
-            return user;
+            return _applicationDbContext.AppUser.Select(entry => new UserDto()
+            {
+                Id = entry.Id,
+                Firstname = entry.Firstname,
+                Lastname = entry.Lastname,
+                Created = entry.Created,
+                Active = entry.Active,
+                Email = entry.Email,
+                LdapId = entry.LdapId,
+                MatNr = entry.MatNr,
+                Password = entry.Password,
+                SaltString = entry.SaltString,
+                UserHasRole = entry.UserHasRole.Select(e => e.Role.Name)
+            }).FirstOrDefault(e => e.Id == userId);
         }
     }
 }
