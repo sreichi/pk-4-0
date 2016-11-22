@@ -20,7 +20,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         public async void GetUserByIdShouldReturnOneUser()
         {
             var result = await GetHttpResult(UrlPath + 1);
-            result.Content.ReadAsStringAsync();
+            var jsonString = await result.Content.ReadAsStringAsync();
         }
     }
 }
