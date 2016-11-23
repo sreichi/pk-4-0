@@ -79,8 +79,11 @@ namespace Reichinger.Masterarbeit.PK_4_0
             app.UseSwagger((httpRequest, swaggerDoc) => { swaggerDoc.Host = httpRequest.Host.Value; });
 
             app.UseSwaggerUi();
-
-            app.SeedData();
+//
+//            if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
+//            {
+                app.SeedData();
+//            }
         }
     }
 }
