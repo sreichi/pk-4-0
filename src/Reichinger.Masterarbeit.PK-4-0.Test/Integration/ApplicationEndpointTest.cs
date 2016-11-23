@@ -15,6 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private const string UrlPath = "/applications/";
         private const int ApplicationId = 1;
+        private const int InvalidApplicationId = 987654;
 
         [Fact]
         public async void GettAllApplicationsShouldReturnAListOfApplicationDtos()
@@ -28,6 +29,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             applications.ForEach(dto => dto.Should().BeOfType<ApplicationDto>());
         }
 
+        [Fact]
         public async void GetApplicationByIdShouldReturnOneElement()
         {
             var result = await GetHttpResult(UrlPath + ApplicationId);
@@ -36,6 +38,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var application = JsonConvert.DeserializeObject<ApplicationDto>(result.Content.ReadAsStringAsync().Result);
             application.Should().BeOfType<ApplicationDto>();
+        }
+
+        [Fact]
+        public async void GetApplicationByIdShouldReturnNotFoundForInvalidId()
+        {
+            var result = await GetHttpResult(UrlPath + InvalidApplicationId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
+using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
@@ -12,8 +11,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private const string UrlPath = "/forms/";
         private const int FormId = 1;
+        private const int InvalidFormId = 98765;
 
-        public async void GetAllApplicationsShouldReturnAListofApplicationDtos()
+        [Fact]
+        public async void GetAllFormsShouldReturnAListofFormDtos()
         {
             var result = await GetHttpResult(UrlPath);
             result.Should().NotBeNull();
@@ -24,6 +25,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             forms.Count.Should().Be(2);
         }
 
+        [Fact]
         public async void GetFormByIdShouldReturnOneFormDto()
         {
             var result = await GetHttpResult(UrlPath + FormId);
@@ -33,5 +35,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var form = JsonConvert.DeserializeObject<FormDto>(result.Content.ReadAsStringAsync().Result);
             form.Should().BeOfType<FormDto>();
         }
+
+        [Fact]
+        public async void GetFormByIdShouldReturnNotFoundForInvalidId()
+        {
+            var result = await GetHttpResult(UrlPath + InvalidFormId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
     }
 }

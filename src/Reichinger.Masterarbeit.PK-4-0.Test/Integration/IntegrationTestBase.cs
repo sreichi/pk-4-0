@@ -4,9 +4,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
+    [Collection("TestCollection")]
     public class IntegrationTestBase
     {
         private TestServer _server;

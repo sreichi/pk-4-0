@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Server.Kestrel.Internal.Http;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
+using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
@@ -14,6 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private const int InvalidConferenceId = 9876543;
 
 
+        [Fact]
         public async void GetAllConferencesShouldReturnAListOfConferenceDtos()
         {
             var result = await GetHttpResult(UrlPath);
@@ -24,6 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto>());
         }
 
+        [Fact]
         public async void GetConferenceByIdShouldReturnOneConferenceDto()
         {
             var result = await GetHttpResult(UrlPath + ConferenceId);
@@ -34,6 +37,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             confernce.Should().BeOfType<ConferenceDto>();
         }
 
+        [Fact]
         public async void GetConferenceByIdShouldReturnNotFoundForInvalidId()
         {
             var result = await GetHttpResult(UrlPath + InvalidConferenceId);

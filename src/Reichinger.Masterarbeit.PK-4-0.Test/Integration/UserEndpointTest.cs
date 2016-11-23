@@ -11,6 +11,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     public class UserEndpointTest: IntegrationTestBase
     {
         private const string UrlPath = "/users/";
+        private const int UserId = 1;
+        private const int InvalidUserId = 98765;
 
         [Fact]
         public async void GetAllUsersShouldReturnStatusCodeOk()
@@ -26,13 +28,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetUserByIdShouldReturnOneUser()
         {
-            var result = await GetHttpResult(UrlPath + 1);
+            var result = await GetHttpResult(UrlPath + UserId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var user = JsonConvert.DeserializeObject<UserDto>(result.Content.ReadAsStringAsync().Result);
             user.Should().BeOfType<UserDto>();
             user.Firstname.Should().Be("Stephan");
+        }
+
+        [Fact]
+        public async void GetUserByIdShouldReturnNotFoundForInvalidId()
+        {
+            var result = await GetHttpResult(UrlPath + InvalidUserId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
