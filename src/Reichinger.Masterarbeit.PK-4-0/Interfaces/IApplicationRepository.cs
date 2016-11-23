@@ -7,6 +7,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     public interface IApplicationRepository
     {
         IEnumerable<ApplicationDto> GetAllApplications();
-        Application GetApplicationById(int id);
+        ApplicationDto GetApplicationById(int applicationId);
     }
 }
