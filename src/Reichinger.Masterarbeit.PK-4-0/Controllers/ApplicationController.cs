@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -36,6 +37,29 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
         {
             return _applicationRepository.GetAllApplications();
+        }
+
+
+        /// <summary>
+        /// GET one Application by Id
+        /// </summary>
+
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <param name="applicationId">ID of the Application</param>
+        /// <response code="200">Application by id</response>
+        /// <response code="404">Not Found</response>
+        [HttpGet]
+        [Route("/applications/{applicationId}")]
+        [SwaggerOperation("GetApplicationById")]
+        [ProducesResponseType(typeof(Application), 200)]
+        public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]int applicationId)
+        {
+            var application = _applicationRepository.GetApplicationById(applicationId);
+            if (application == null)
+            {
+                return NotFound();
+            }
+            return Ok(application);
         }
 
 
@@ -98,28 +122,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         public virtual void DeleteApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId)
         {
             throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// GET one Application by Id
-        /// </summary>
-
-        /// <param name="token">Accesstoken to authenticate with the API</param>
-        /// <param name="applicationId">ID of the Application</param>
-        /// <response code="200">Application by id</response>
-        [HttpGet]
-        [Route("/applications/{applicationId}")]
-        [SwaggerOperation("GetApplicationById")]
-        [ProducesResponseType(typeof(Application), 200)]
-        public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId)
-        {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Application>(exampleJson)
-                : default(Application);
-            return new ObjectResult(example);
         }
 
 

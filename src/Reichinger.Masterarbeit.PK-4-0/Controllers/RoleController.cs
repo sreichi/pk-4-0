@@ -48,7 +48,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [ProducesResponseType(typeof(RoleDto), 200)]
         public virtual IActionResult GetRoleById([FromHeader]long? token, [FromRoute]int roleId)
         {
-            return Ok(_roleRepository.GetRoleById(roleId));
+            var role = _roleRepository.GetRoleById(roleId);
+            if (role == null)
+            {
+                return NotFound();
+            }
+            return Ok(role);
         }
 
         /// <summary>

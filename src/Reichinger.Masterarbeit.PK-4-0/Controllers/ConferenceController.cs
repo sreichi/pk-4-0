@@ -44,13 +44,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">Conference by id</response>
+        /// <response code="404">Not Found</response>
         [HttpGet]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
         [ProducesResponseType(typeof(ConferenceDto), 200)]
         public virtual IActionResult GetConferenceById([FromHeader]long? token, [FromRoute]int conferenceId)
         {
-            return Ok(_conferenceRepository.GetConferernceById(conferenceId));
+            var conference = _conferenceRepository.GetConferernceById(conferenceId);
+            if (conference == null)
+            {
+                return NotFound();
+            }
+            return Ok(conference);
         }
 
         /// <summary>

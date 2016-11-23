@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 using Novell.Directory.Ldap;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -47,13 +48,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="userId">ID of AppUser</param>
         /// <response code="200">AppUser by id</response>
+        /// <response code="404">Not Found</response>
         [HttpGet]
         [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
         [ProducesResponseType(typeof(UserDto), 200)]
         public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]int userId)
         {
-            return Ok(_userRepository.GetUserById(userId));
+            var user = _userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
 

@@ -9,7 +9,7 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class FormController: Controller
+    public class FormController : Controller
     {
         private readonly IFormRepository _formRepository;
 
@@ -29,7 +29,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms")]
         [SwaggerOperation("GetForms")]
         [ProducesResponseType(typeof(List<FormDto>), 200)]
-        public virtual IEnumerable<FormDto> GetForms([FromHeader]long? token)
+        public virtual IEnumerable<FormDto> GetForms([FromHeader] long? token)
         {
             return _formRepository.GetAllForms();
         }
@@ -38,24 +38,28 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET one Form by Id
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <response code="200">Form by id</response>
+        /// <response code="404">Not Found</response>
         [HttpGet]
         [Route("/forms/{formId}")]
         [SwaggerOperation("GetFormById")]
         [ProducesResponseType(typeof(FormDto), 200)]
-        public virtual IActionResult GetFormById([FromHeader]long? token, [FromRoute]int formId)
+        public virtual IActionResult GetFormById([FromHeader] long? token, [FromRoute] int formId)
         {
-            return Ok(_formRepository.GetFormById(formId));
+            var form = _formRepository.GetFormById(formId);
+            if (form == null)
+            {
+                return NotFound();
+            }
+            return Ok(form);
         }
 
 
         /// <summary>
         /// Create new Form
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="form">new Form</param>
         /// <response code="200">The new Form Object</response>
@@ -63,7 +67,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms")]
         [SwaggerOperation("AddForm")]
         [ProducesResponseType(typeof(Form), 200)]
-        public virtual IActionResult AddForm([FromHeader]long? token, [FromBody]Form form)
+        public virtual IActionResult AddForm([FromHeader] long? token, [FromBody] Form form)
         {
             string exampleJson = null;
 
@@ -77,14 +81,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Delete Form with Id
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <response code="200">Form deleted</response>
         [HttpDelete]
         [Route("/forms/{formId}")]
         [SwaggerOperation("DeleteFormById")]
-        public virtual void DeleteFormById([FromHeader]long? token, [FromRoute]decimal? formId)
+        public virtual void DeleteFormById([FromHeader] long? token, [FromRoute] decimal? formId)
         {
             throw new NotImplementedException();
         }
@@ -93,14 +96,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET the config for input types
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">Form Config Types</response>
         [HttpGet]
         [Route("/forms/config/types")]
         [SwaggerOperation("GetFormConfig")]
-        [ProducesResponseType(typeof(FormField),200)]
-        public virtual IActionResult GetFormConfig([FromHeader]long? token)
+        [ProducesResponseType(typeof(FormField), 200)]
+        public virtual IActionResult GetFormConfig([FromHeader] long? token)
         {
             string exampleJson = null;
 
@@ -114,14 +116,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET the config for input options
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">Form Config Options</response>
         [HttpGet]
         [Route("/forms/config/options")]
         [SwaggerOperation("GetFormOptions")]
         [ProducesResponseType(typeof(Object), 200)]
-        public virtual IActionResult GetFormOptions([FromHeader]long? token)
+        public virtual IActionResult GetFormOptions([FromHeader] long? token)
         {
             string exampleJson = null;
 
@@ -135,14 +136,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET the config for input Styles
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">Form Config Styles</response>
         [HttpGet]
         [Route("/forms/config/styles")]
         [SwaggerOperation("GetFormStyles")]
         [ProducesResponseType(typeof(Object), 200)]
-        public virtual IActionResult GetFormStyles([FromHeader]long? token)
+        public virtual IActionResult GetFormStyles([FromHeader] long? token)
         {
             string exampleJson = null;
 
@@ -156,14 +156,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET the config for input Validations
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">Form Config Validations</response>
         [HttpGet]
         [Route("/forms/config/validations")]
         [SwaggerOperation("GetFormValidations")]
         [ProducesResponseType(typeof(Object), 200)]
-        public virtual IActionResult GetFormValidations([FromHeader]long? token)
+        public virtual IActionResult GetFormValidations([FromHeader] long? token)
         {
             string exampleJson = null;
 
@@ -177,7 +176,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Update Form with Id
         /// </summary>
-
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <param name="form">Updated Form</param>
@@ -186,7 +184,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms/{formId}")]
         [SwaggerOperation("UpdateFormById")]
         [ProducesResponseType(typeof(Form), 200)]
-        public virtual IActionResult UpdateFormById([FromHeader]long? token, [FromRoute]decimal? formId, [FromBody]Form form)
+        public virtual IActionResult UpdateFormById([FromHeader] long? token, [FromRoute] decimal? formId,
+            [FromBody] Form form)
         {
             string exampleJson = null;
 
