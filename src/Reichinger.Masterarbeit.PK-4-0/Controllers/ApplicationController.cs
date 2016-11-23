@@ -12,11 +12,11 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class ApplicationApiController : Controller
+    public class ApplicationController : Controller
     {
         private readonly IApplicationRepository _applicationRepository;
 
-        public ApplicationApiController(IApplicationRepository applicationRepository)
+        public ApplicationController(IApplicationRepository applicationRepository)
         {
             _applicationRepository = applicationRepository;
         }

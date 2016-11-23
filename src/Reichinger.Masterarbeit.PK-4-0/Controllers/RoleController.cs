@@ -9,11 +9,11 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class RoleApiController: Controller
+    public class RoleController: Controller
     {
         private readonly IRoleRepository _roleRepository;
 
-        public RoleApiController(IRoleRepository roleRepository)
+        public RoleController(IRoleRepository roleRepository)
         {
             _roleRepository = roleRepository;
         }

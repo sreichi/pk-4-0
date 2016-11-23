@@ -9,11 +9,11 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class FormApiController: Controller
+    public class FormController: Controller
     {
         private readonly IFormRepository _formRepository;
 
-        public FormApiController(IFormRepository formRepository)
+        public FormController(IFormRepository formRepository)
         {
             _formRepository = formRepository;
         }

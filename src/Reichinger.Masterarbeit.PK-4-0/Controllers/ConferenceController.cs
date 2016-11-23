@@ -9,11 +9,11 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class ConferenceApiController: Controller
+    public class ConferenceController: Controller
     {
         private readonly IConferenceRepository _conferenceRepository;
 
-        public ConferenceApiController(IConferenceRepository conferenceRepository)
+        public ConferenceController(IConferenceRepository conferenceRepository)
         {
             _conferenceRepository = conferenceRepository;
         }
