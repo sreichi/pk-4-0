@@ -27,7 +27,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("is_current")]
         public bool IsCurrent { get; set; }
         [Column("previous_version")]
-        public int PreviousVersion { get; set; }
+        public int? PreviousVersion { get; set; }
         [Column("user_id")]
         public int UserId { get; set; }
         [Column("conference_id")]
