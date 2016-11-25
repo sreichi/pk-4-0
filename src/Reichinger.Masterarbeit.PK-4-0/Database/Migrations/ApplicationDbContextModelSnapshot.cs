@@ -41,7 +41,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnName("last_modified");
 
-                    b.Property<int>("PreviousVersion")
+                    b.Property<int?>("PreviousVersion")
                         .HasColumnName("previous_version");
 
                     b.Property<int>("StatusId")
@@ -613,8 +613,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", "PreviousVersionNavigation")
                         .WithMany("InversePreviousVersionNavigation")
-                        .HasForeignKey("PreviousVersion")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PreviousVersion");
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Status", "Status")
                         .WithMany("Application")

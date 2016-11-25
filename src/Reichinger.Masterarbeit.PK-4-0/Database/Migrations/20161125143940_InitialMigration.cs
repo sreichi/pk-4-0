@@ -281,7 +281,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     form_id = table.Column<int>(nullable: false),
                     is_current = table.Column<bool>(nullable: false),
                     last_modified = table.Column<DateTime>(nullable: false),
-                    previous_version = table.Column<int>(nullable: false),
+                    previous_version = table.Column<int>(nullable: true),
                     status_id = table.Column<int>(nullable: false),
                     user_id = table.Column<int>(nullable: false),
                     version = table.Column<int>(nullable: false)
@@ -306,7 +306,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         column: x => x.previous_version,
                         principalTable: "application",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_application_status_status_id",
                         column: x => x.status_id,

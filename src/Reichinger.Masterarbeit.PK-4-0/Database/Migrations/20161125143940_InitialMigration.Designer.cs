@@ -8,7 +8,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161125142903_InitialMigration")]
+    [Migration("20161125143940_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnName("last_modified");
 
-                    b.Property<int>("PreviousVersion")
+                    b.Property<int?>("PreviousVersion")
                         .HasColumnName("previous_version");
 
                     b.Property<int>("StatusId")
@@ -614,8 +614,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", "PreviousVersionNavigation")
                         .WithMany("InversePreviousVersionNavigation")
-                        .HasForeignKey("PreviousVersion")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PreviousVersion");
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Status", "Status")
                         .WithMany("Application")
