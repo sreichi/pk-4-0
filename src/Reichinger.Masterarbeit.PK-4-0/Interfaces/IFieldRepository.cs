@@ -3,8 +3,8 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
-    public interface IFormFieldRepository
+    public interface IFieldRepository
     {
-        IEnumerable<FormField> GetAllFormFieldsByForm(int formId);
+        IEnumerable<Field> GetAllFormFieldsByForm(int formId);
     }
 }

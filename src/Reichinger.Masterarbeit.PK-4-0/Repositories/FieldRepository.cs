@@ -5,17 +5,17 @@ using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 {
-    public class FormFieldRepository : IFormFieldRepository
+    public class FieldRepository : IFieldRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<FormField> _dbFormFields;
+        private readonly IQueryable<Field> _dbFormFields;
 
-        public FormFieldRepository(ApplicationDbContext applicationDbContext)
+        public FieldRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbFormFields = _applicationDbContext.FormField;
+            _dbFormFields = _applicationDbContext.Field;
         }
-        public IEnumerable<FormField> GetAllFormFieldsByForm(int formId)
+        public IEnumerable<Field> GetAllFormFieldsByForm(int formId)
         {
             throw new System.NotImplementedException();
         }

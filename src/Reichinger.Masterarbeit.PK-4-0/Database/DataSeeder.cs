@@ -62,7 +62,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = 1,
                 FormId = 1,
-                FormFieldId = 1,
+                FieldId = 1,
                 Required = true,
                 Label = "Firstname",
                 PositionIndex = 1,
@@ -72,7 +72,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = 2,
                 FormId = 1,
-                FormFieldId = 2,
+                FieldId = 2,
                 Required = true,
                 Label = "Lastname",
                 PositionIndex = 2,
@@ -82,7 +82,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = 3,
                 FormId = 1,
-                FormFieldId = 3,
+                FieldId = 3,
                 Required = true,
                 Label = "Geschlecht",
                 PositionIndex = 3,
@@ -92,7 +92,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = 4,
                 FormId = 1,
-                FormFieldId = 4,
+                FieldId = 4,
                 Required = false,
                 Label = "Zusatzinformationen",
                 PositionIndex = 1,
@@ -102,31 +102,31 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         private static void CreateFormFields(ApplicationDbContext dbContext)
         {
-            dbContext.FormField.Add(new FormField
+            dbContext.Field.Add(new Field
             {
                 Id = 1,
                 FieldType = 1,
                 Name = "Firstname"
             });
-            dbContext.FormField.Add(new FormField
+            dbContext.Field.Add(new Field
             {
                 Id = 2,
                 FieldType = 1,
                 Name = "Lastname"
             });
-            dbContext.FormField.Add(new FormField
+            dbContext.Field.Add(new Field
             {
                 Id = 3,
                 FieldType = 3,
                 Name = "Gender"
             });
-            dbContext.FormField.Add(new FormField
+            dbContext.Field.Add(new Field
             {
                 Id = 4,
                 FieldType = 2,
                 Name = "Active"
             });
-            dbContext.FormField.Add(new FormField
+            dbContext.Field.Add(new Field
             {
                 Id = 5,
                 FieldType = 4,
