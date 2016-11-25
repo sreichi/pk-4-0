@@ -20,10 +20,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("name", TypeName = "varchar")]
         [MaxLength(50)]
         public string Name { get; set; }
+        [Column("deprecated")]
+        public bool Deprecated { get; set; }
+        [Column("previous_version")]
+        public int? PreviousVersion { get; set; }
 
         [InverseProperty("Form")]
         public virtual ICollection<Application> Application { get; set; }
         [InverseProperty("Form")]
         public virtual ICollection<FormHasField> FormHasField { get; set; }
+        [ForeignKey("PreviousVersion")]
+        [InverseProperty("InversePreviousVersionNavigation")]
+        public virtual Form PreviousVersionNavigation { get; set; }
+        [InverseProperty("PreviousVersionNavigation")]
+        public virtual ICollection<Form> InversePreviousVersionNavigation { get; set; }
     }
 }

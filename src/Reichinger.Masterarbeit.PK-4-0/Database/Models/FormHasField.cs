@@ -23,12 +23,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public string Styling { get; set; }
         [Column("form_id")]
         public int FormId { get; set; }
-        [Column("form_field_id")]
-        public int FormFieldId { get; set; }
+        [Column("field_id")]
+        public int FieldId { get; set; }
 
-        [ForeignKey("FormFieldId")]
+        [ForeignKey("FieldId")]
         [InverseProperty("FormHasField")]
-        public virtual FormField FormField { get; set; }
+        public virtual Field Field { get; set; }
         [ForeignKey("FormId")]
         [InverseProperty("FormHasField")]
         public virtual Form Form { get; set; }
