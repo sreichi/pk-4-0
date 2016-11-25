@@ -113,8 +113,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
             modelBuilder.Entity<FormHasField>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Required).HasDefaultValueSql("false");
             });
 
             modelBuilder.Entity<Permission>(entity =>

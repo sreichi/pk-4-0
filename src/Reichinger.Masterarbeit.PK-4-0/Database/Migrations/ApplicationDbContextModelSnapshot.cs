@@ -393,24 +393,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<int>("FormId")
                         .HasColumnName("form_id");
 
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnName("label")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("PositionIndex")
-                        .HasColumnName("position_index");
-
-                    b.Property<bool>("Required")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("required")
-                        .HasDefaultValueSql("false");
-
-                    b.Property<string>("Styling")
-                        .IsRequired()
-                        .HasColumnName("styling");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FieldId");

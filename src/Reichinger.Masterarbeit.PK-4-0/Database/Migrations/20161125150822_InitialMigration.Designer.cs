@@ -8,7 +8,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161125143940_InitialMigration")]
+    [Migration("20161125150822_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -393,24 +393,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.Property<int>("FormId")
                         .HasColumnName("form_id");
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnName("label")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("PositionIndex")
-                        .HasColumnName("position_index");
-
-                    b.Property<bool>("Required")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("required")
-                        .HasDefaultValueSql("false");
-
-                    b.Property<string>("Styling")
-                        .IsRequired()
-                        .HasColumnName("styling");
 
                     b.HasKey("Id");
 

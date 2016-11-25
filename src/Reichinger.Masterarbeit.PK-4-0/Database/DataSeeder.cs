@@ -28,7 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateAsignees(dbContext);
             CreateComments(dbContext);
             CreateFieldTypes(dbContext);
-            CreateFormFields(dbContext);
+            CreateFields(dbContext);
             CreateFormHasField(dbContext);
             CreateUserHasRole(dbContext);
             dbContext.SaveChanges();
@@ -62,45 +62,29 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = 1,
                 FormId = 1,
-                FieldId = 1,
-                Required = true,
-                Label = "Firstname",
-                PositionIndex = 1,
-                Styling = "color:red,margin:5px"
+                FieldId = 1
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 Id = 2,
                 FormId = 1,
-                FieldId = 2,
-                Required = true,
-                Label = "Lastname",
-                PositionIndex = 2,
-                Styling = "color:green"
+                FieldId = 2
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 Id = 3,
                 FormId = 1,
-                FieldId = 3,
-                Required = true,
-                Label = "Geschlecht",
-                PositionIndex = 3,
-                Styling = "margin:5px"
+                FieldId = 3
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 Id = 4,
                 FormId = 1,
-                FieldId = 4,
-                Required = false,
-                Label = "Zusatzinformationen",
-                PositionIndex = 1,
-                Styling = "padding:10px"
+                FieldId = 4
             });
         }
 
-        private static void CreateFormFields(ApplicationDbContext dbContext)
+        private static void CreateFields(ApplicationDbContext dbContext)
         {
             dbContext.Field.Add(new Field
             {
@@ -139,22 +123,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.FieldType.Add(new FieldType
             {
                 Id = 1,
-                Description = "INPUT"
+                Description = "INPUT",
+                Name = "input"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = 2,
-                Description = "CHECKBOX"
+                Description = "CHECKBOX",
+                Name = "checkbox"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = 3,
-                Description = "RADIO"
+                Description = "RADIO",
+                Name = "radio"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = 4,
-                Description = "TEXTAREA"
+                Description = "TEXTAREA",
+                Name = "textarea"
             });
         }
 

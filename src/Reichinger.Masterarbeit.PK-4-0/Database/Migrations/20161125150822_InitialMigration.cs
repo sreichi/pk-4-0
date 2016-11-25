@@ -427,12 +427,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 {
                     id = table.Column<int>(nullable: false),
                     field_id = table.Column<int>(nullable: false),
-                    form_id = table.Column<int>(nullable: false),
-                    label = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
-                    position_index = table.Column<int>(nullable: false),
-                    required = table.Column<bool>(nullable: false, defaultValueSql: "false")
-                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
-                    styling = table.Column<string>(nullable: false)
+                    form_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
