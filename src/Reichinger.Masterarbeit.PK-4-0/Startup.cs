@@ -61,7 +61,6 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 });
             });
 
-            IDictionary XXX = Environment.GetEnvironmentVariables();
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)

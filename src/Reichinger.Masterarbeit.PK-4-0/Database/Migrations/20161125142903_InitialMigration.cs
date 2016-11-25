@@ -43,11 +43,38 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "config",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    value = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_config", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "enum_options_table",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    reference_table_name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    value = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_enum_options_table", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "field_type",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false),
-                    description = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                    description = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,11 +86,19 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false),
-                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                    deprecated = table.Column<bool>(nullable: false),
+                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    previous_version = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_form", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_form_form_previous_version",
+                        column: x => x.previous_version,
+                        principalTable: "form",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,19 +138,82 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "form_field",
+                name: "style",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false),
-                    field_type = table.Column<int>(nullable: false),
-                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                    style_string = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_form_field", x => x.id);
+                    table.PrimaryKey("PK_style", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "validation",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    validation_string = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_validation", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "field",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    content_type = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
+                    enum_options_table_id = table.Column<int>(nullable: true),
+                    field_type = table.Column<int>(nullable: false),
+                    label = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
+                    multiple_select = table.Column<bool>(nullable: true),
+                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    options = table.Column<string>(type: "json", nullable: true),
+                    placeholder = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
+                    required = table.Column<bool>(nullable: true),
+                    value = table.Column<string>(type: "varchar", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field", x => x.id);
                     table.ForeignKey(
-                        name: "FK_form_field_field_type_field_type",
+                        name: "FK_field_enum_options_table_enum_options_table_id",
+                        column: x => x.enum_options_table_id,
+                        principalTable: "enum_options_table",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_field_field_type_field_type",
                         column: x => x.field_type,
+                        principalTable: "field_type",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "type_has_config",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    config_id = table.Column<int>(nullable: false),
+                    field_type_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_type_has_config", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_type_has_config_config_config_id",
+                        column: x => x.config_id,
+                        principalTable: "config",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_type_has_config_field_type_field_type_id",
+                        column: x => x.field_type_id,
                         principalTable: "field_type",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -224,11 +322,111 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "type_has_style",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    field_type_id = table.Column<int>(nullable: false),
+                    style_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_type_has_style", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_type_has_style_field_type_field_type_id",
+                        column: x => x.field_type_id,
+                        principalTable: "field_type",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_type_has_style_style_style_id",
+                        column: x => x.style_id,
+                        principalTable: "style",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "type_has_validation",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    field_type_id = table.Column<int>(nullable: false),
+                    validation_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_type_has_validation", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_type_has_validation_field_type_field_type_id",
+                        column: x => x.field_type_id,
+                        principalTable: "field_type",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_type_has_validation_validation_validation_id",
+                        column: x => x.validation_id,
+                        principalTable: "validation",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "field_has_style",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    field_id = table.Column<int>(nullable: false),
+                    style_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field_has_style", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_field_has_style_field_field_id",
+                        column: x => x.field_id,
+                        principalTable: "field",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_field_has_style_style_style_id",
+                        column: x => x.style_id,
+                        principalTable: "style",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "field_has_validation",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false),
+                    field_id = table.Column<int>(nullable: false),
+                    validation_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field_has_validation", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_field_has_validation_field_field_id",
+                        column: x => x.field_id,
+                        principalTable: "field",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_field_has_validation_validation_validation_id",
+                        column: x => x.validation_id,
+                        principalTable: "validation",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "form_has_field",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false),
-                    form_field_id = table.Column<int>(nullable: false),
+                    field_id = table.Column<int>(nullable: false),
                     form_id = table.Column<int>(nullable: false),
                     label = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     position_index = table.Column<int>(nullable: false),
@@ -240,9 +438,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 {
                     table.PrimaryKey("PK_form_has_field", x => x.id);
                     table.ForeignKey(
-                        name: "FK_form_has_field_form_field_form_field_id",
-                        column: x => x.form_field_id,
-                        principalTable: "form_field",
+                        name: "FK_form_has_field_field_field_id",
+                        column: x => x.field_id,
+                        principalTable: "field",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -360,14 +558,44 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_form_field_field_type",
-                table: "form_field",
+                name: "IX_field_enum_options_table_id",
+                table: "field",
+                column: "enum_options_table_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_field_field_type",
+                table: "field",
                 column: "field_type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_form_has_field_form_field_id",
+                name: "IX_field_has_style_field_id",
+                table: "field_has_style",
+                column: "field_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_field_has_style_style_id",
+                table: "field_has_style",
+                column: "style_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_field_has_validation_field_id",
+                table: "field_has_validation",
+                column: "field_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_field_has_validation_validation_id",
+                table: "field_has_validation",
+                column: "validation_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_form_previous_version",
+                table: "form",
+                column: "previous_version");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_form_has_field_field_id",
                 table: "form_has_field",
-                column: "form_field_id");
+                column: "field_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_form_has_field_form_id",
@@ -383,6 +611,36 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "IX_role_permission_role_id",
                 table: "role_permission",
                 column: "role_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_config_config_id",
+                table: "type_has_config",
+                column: "config_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_config_field_type_id",
+                table: "type_has_config",
+                column: "field_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_style_field_type_id",
+                table: "type_has_style",
+                column: "field_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_style_style_id",
+                table: "type_has_style",
+                column: "style_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_validation_field_type_id",
+                table: "type_has_validation",
+                column: "field_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_type_has_validation_validation_id",
+                table: "type_has_validation",
+                column: "validation_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_has_role_role_id",
@@ -404,10 +662,25 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "comment");
 
             migrationBuilder.DropTable(
+                name: "field_has_style");
+
+            migrationBuilder.DropTable(
+                name: "field_has_validation");
+
+            migrationBuilder.DropTable(
                 name: "form_has_field");
 
             migrationBuilder.DropTable(
                 name: "role_permission");
+
+            migrationBuilder.DropTable(
+                name: "type_has_config");
+
+            migrationBuilder.DropTable(
+                name: "type_has_style");
+
+            migrationBuilder.DropTable(
+                name: "type_has_validation");
 
             migrationBuilder.DropTable(
                 name: "user_has_role");
@@ -416,10 +689,19 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "application");
 
             migrationBuilder.DropTable(
-                name: "form_field");
+                name: "field");
 
             migrationBuilder.DropTable(
                 name: "permission");
+
+            migrationBuilder.DropTable(
+                name: "config");
+
+            migrationBuilder.DropTable(
+                name: "style");
+
+            migrationBuilder.DropTable(
+                name: "validation");
 
             migrationBuilder.DropTable(
                 name: "role");
@@ -435,6 +717,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "app_user");
+
+            migrationBuilder.DropTable(
+                name: "enum_options_table");
 
             migrationBuilder.DropTable(
                 name: "field_type");

@@ -43,3 +43,8 @@ Apply all Migrations (needs to be at the same level as project.json)
 ```
 dotnet ef database update -e Production
 ```
+
+Create Migration in specific folder
+```
+dotnet ef migrations add {migration-name} --output-dir {path}
+```
