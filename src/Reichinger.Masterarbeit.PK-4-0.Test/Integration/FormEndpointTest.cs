@@ -7,16 +7,23 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    public class FormEndpointTest : IntegrationTestBase
+    [Collection("Database collection")]
+    public class FormEndpointTest
     {
+        private DatabaseFixture _fixture;
         private const string UrlPath = "/forms/";
         private const int FormId = 1;
         private const int InvalidFormId = 98765;
 
+        public FormEndpointTest(DatabaseFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public async void GetAllFormsShouldReturnAListofFormDtos()
         {
-            var result = await GetHttpResult(UrlPath);
+            var result = await _fixture.GetHttpResult(UrlPath);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -28,7 +35,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetFormByIdShouldReturnOneFormDto()
         {
-            var result = await GetHttpResult(UrlPath + FormId);
+            var result = await _fixture.GetHttpResult(UrlPath + FormId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -39,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetFormByIdShouldReturnNotFoundForInvalidId()
         {
-            var result = await GetHttpResult(UrlPath + InvalidFormId);
+            var result = await _fixture.GetHttpResult(UrlPath + InvalidFormId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

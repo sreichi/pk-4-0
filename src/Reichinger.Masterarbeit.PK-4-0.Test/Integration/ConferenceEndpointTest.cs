@@ -8,17 +8,23 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    public class ConferenceEndpointTest : IntegrationTestBase
+    [Collection("Database collection")]
+    public class ConferenceEndpointTest
     {
+        private DatabaseFixture _fixture;
         private const string UrlPath = "/conferences/";
         private const int ConferenceId = 1;
         private const int InvalidConferenceId = 9876543;
 
+        public ConferenceEndpointTest(DatabaseFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
         public async void GetAllConferencesShouldReturnAListOfConferenceDtos()
         {
-            var result = await GetHttpResult(UrlPath);
+            var result = await _fixture.GetHttpResult(UrlPath);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -29,7 +35,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetConferenceByIdShouldReturnOneConferenceDto()
         {
-            var result = await GetHttpResult(UrlPath + ConferenceId);
+            var result = await _fixture.GetHttpResult(UrlPath + ConferenceId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -40,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetConferenceByIdShouldReturnNotFoundForInvalidId()
         {
-            var result = await GetHttpResult(UrlPath + InvalidConferenceId);
+            var result = await _fixture.GetHttpResult(UrlPath + InvalidConferenceId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

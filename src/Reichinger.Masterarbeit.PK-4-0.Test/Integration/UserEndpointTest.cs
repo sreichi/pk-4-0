@@ -8,16 +8,23 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    public class UserEndpointTest: IntegrationTestBase
+    [Collection("Database collection")]
+    public class UserEndpointTest
     {
+        private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/users/";
         private const int UserId = 1;
         private const int InvalidUserId = 98765;
 
+        public UserEndpointTest(DatabaseFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public async void GetAllUsersShouldReturnStatusCodeOk()
         {
-            var result = await GetHttpResult(UrlPath);
+            var result = await _fixture.GetHttpResult(UrlPath);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -28,7 +35,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetUserByIdShouldReturnOneUser()
         {
-            var result = await GetHttpResult(UrlPath + UserId);
+            var result = await _fixture.GetHttpResult(UrlPath + UserId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -40,7 +47,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetUserByIdShouldReturnNotFoundForInvalidId()
         {
-            var result = await GetHttpResult(UrlPath + InvalidUserId);
+            var result = await _fixture.GetHttpResult(UrlPath + InvalidUserId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

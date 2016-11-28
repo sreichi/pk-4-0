@@ -8,7 +8,6 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("TestCollection")]
     public class IntegrationTestBase
     {
         private TestServer _server;
@@ -16,7 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
         public IntegrationTestBase()
         {
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            _server = new TestServer(new WebHostBuilder());
             _client = _server.CreateClient();
         }
 

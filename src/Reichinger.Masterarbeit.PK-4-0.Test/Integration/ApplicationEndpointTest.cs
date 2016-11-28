@@ -11,16 +11,23 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    public class ApplicationEndpointTest : IntegrationTestBase
+    [Collection("Database collection")]
+    public class ApplicationEndpointTest
     {
+        private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/applications/";
         private const int ApplicationId = 1;
         private const int InvalidApplicationId = 987654;
 
+        public ApplicationEndpointTest(DatabaseFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public async void GettAllApplicationsShouldReturnAListOfApplicationDtos()
         {
-            var result = await GetHttpResult(UrlPath);
+            var result = await _fixture.GetHttpResult(UrlPath);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -32,7 +39,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetApplicationByIdShouldReturnOneElement()
         {
-            var result = await GetHttpResult(UrlPath + ApplicationId);
+            var result = await _fixture.GetHttpResult(UrlPath + ApplicationId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -43,7 +50,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetApplicationByIdShouldReturnNotFoundForInvalidId()
         {
-            var result = await GetHttpResult(UrlPath + InvalidApplicationId);
+            var result = await _fixture.GetHttpResult(UrlPath + InvalidApplicationId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

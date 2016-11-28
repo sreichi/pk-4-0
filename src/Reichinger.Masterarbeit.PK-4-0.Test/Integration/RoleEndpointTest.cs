@@ -7,16 +7,23 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    public class RoleEndpointTest: IntegrationTestBase
+    [Collection("Database collection")]
+    public class RoleEndpointTest
     {
+        private DatabaseFixture _fixture;
         private const string UrlPath = "/roles/";
         private const int RoleId = 1;
         private const int InvalidRoleId = 987654;
 
+        public RoleEndpointTest(DatabaseFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public async void GettAllApplicationsShouldReturnAListOfApplicationDtos()
         {
-            var result = await GetHttpResult(UrlPath);
+            var result = await _fixture.GetHttpResult(UrlPath);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -28,7 +35,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetApplicationByIdShouldReturnOneElement()
         {
-            var result = await GetHttpResult(UrlPath + RoleId);
+            var result = await _fixture.GetHttpResult(UrlPath + RoleId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -39,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetApplicationByIdShouldReturnNotFoundForInvalidId()
         {
-            var result = await GetHttpResult(UrlPath + InvalidRoleId);
+            var result = await _fixture.GetHttpResult(UrlPath + InvalidRoleId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
