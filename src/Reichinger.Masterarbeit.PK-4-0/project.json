@@ -39,7 +39,12 @@
         "debugType": "portable",
         "emitEntryPoint": true,
         "preserveCompilationContext": true,
-        "xmlDoc": true
+        "xmlDoc": true,
+        "optimize": true,
+        "nowarn": [
+            "CS0414", "CS0169", "CS1587", "CS1573", "CS1572", "CS1591", "CS0419", "CS0168", "CS0649", "CS0675",
+            "CS1717", "CS3003", "CS3009", "CS3002", "CS3001", "CS0659", "CS0109", "CS1570", "CS0114"
+        ]
     },
     "runtimeOptions": {
         "configProperties": {
