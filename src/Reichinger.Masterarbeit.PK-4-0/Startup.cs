@@ -63,8 +63,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                     TermsOfService = "Some terms ..."
                 });
 
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = Path.Combine(basePath + "\\Reichinger.Masterarbeit.PK-4-0.xml");
+                var xmlPath = $"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_environment.ApplicationName}.xml";
                 options.IncludeXmlComments(xmlPath);
             });
 
