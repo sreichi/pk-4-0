@@ -19,7 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
 
-            CreateRoles(dbContext);
+//            CreateRoles(dbContext);
             CreateUsers(dbContext);
             CreateForms(dbContext);
             CreateStatuses(dbContext);
