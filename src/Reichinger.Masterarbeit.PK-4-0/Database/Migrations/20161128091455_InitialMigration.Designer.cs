@@ -8,7 +8,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161109110246_InitialMigration")]
+    [Migration("20161128091455_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnName("last_modified");
 
-                    b.Property<int>("PreviousVersion")
+                    b.Property<int?>("PreviousVersion")
                         .HasColumnName("previous_version");
 
                     b.Property<int>("StatusId")
@@ -197,6 +197,146 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.ToTable("conference");
                 });
 
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Config", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnName("value")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("config");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.EnumOptionsTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ReferenceTableName")
+                        .IsRequired()
+                        .HasColumnName("reference_table_name")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnName("value")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("enum_options_table");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Field", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnName("content_type")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<int?>("EnumOptionsTableId")
+                        .HasColumnName("enum_options_table_id");
+
+                    b.Property<int>("FieldType")
+                        .HasColumnName("field_type");
+
+                    b.Property<string>("Label")
+                        .HasColumnName("label")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<bool?>("MultipleSelect")
+                        .HasColumnName("multiple_select");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Options")
+                        .HasColumnName("options")
+                        .HasColumnType("json");
+
+                    b.Property<string>("Placeholder")
+                        .HasColumnName("placeholder")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<bool?>("Required")
+                        .HasColumnName("required");
+
+                    b.Property<string>("Value")
+                        .HasColumnName("value")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnumOptionsTableId");
+
+                    b.HasIndex("FieldType");
+
+                    b.ToTable("field");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasStyle", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnName("field_id");
+
+                    b.Property<int>("StyleId")
+                        .HasColumnName("style_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.HasIndex("StyleId");
+
+                    b.ToTable("field_has_style");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasValidation", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnName("field_id");
+
+                    b.Property<int>("ValidationId")
+                        .HasColumnName("validation_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.HasIndex("ValidationId");
+
+                    b.ToTable("field_has_validation");
+                });
+
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldType", b =>
                 {
                     b.Property<int>("Id")
@@ -205,6 +345,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnName("description")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
 
@@ -218,36 +364,23 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<int>("Id")
                         .HasColumnName("id");
 
+                    b.Property<bool>("Deprecated")
+                        .HasColumnName("deprecated");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
 
+                    b.Property<int?>("PreviousVersion")
+                        .HasColumnName("previous_version");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PreviousVersion");
 
                     b.ToTable("form");
-                });
-
-            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormField", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
-                    b.Property<int>("FieldType")
-                        .HasColumnName("field_type");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FieldType");
-
-                    b.ToTable("form_field");
                 });
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormHasField", b =>
@@ -255,33 +388,15 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<int>("Id")
                         .HasColumnName("id");
 
-                    b.Property<int>("FormFieldId")
-                        .HasColumnName("form_field_id");
+                    b.Property<int>("FieldId")
+                        .HasColumnName("field_id");
 
                     b.Property<int>("FormId")
                         .HasColumnName("form_id");
 
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasColumnName("label")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("PositionIndex")
-                        .HasColumnName("position_index");
-
-                    b.Property<bool>("Required")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("required")
-                        .HasDefaultValueSql("false");
-
-                    b.Property<string>("Styling")
-                        .IsRequired()
-                        .HasColumnName("styling");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FormFieldId");
+                    b.HasIndex("FieldId");
 
                     b.HasIndex("FormId");
 
@@ -356,6 +471,82 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.ToTable("status");
                 });
 
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Style", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("StyleString")
+                        .IsRequired()
+                        .HasColumnName("style_string")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("style");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<int>("ConfigId")
+                        .HasColumnName("config_id");
+
+                    b.Property<int>("FieldTypeId")
+                        .HasColumnName("field_type_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConfigId");
+
+                    b.HasIndex("FieldTypeId");
+
+                    b.ToTable("type_has_config");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasStyle", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<int>("FieldTypeId")
+                        .HasColumnName("field_type_id");
+
+                    b.Property<int>("StyleId")
+                        .HasColumnName("style_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldTypeId");
+
+                    b.HasIndex("StyleId");
+
+                    b.ToTable("type_has_style");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasValidation", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<int>("FieldTypeId")
+                        .HasColumnName("field_type_id");
+
+                    b.Property<int>("ValidationId")
+                        .HasColumnName("validation_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldTypeId");
+
+                    b.HasIndex("ValidationId");
+
+                    b.ToTable("type_has_validation");
+                });
+
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.UserHasRole", b =>
                 {
                     b.Property<int>("Id")
@@ -376,6 +567,22 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.ToTable("user_has_role");
                 });
 
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Validation", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ValidationString")
+                        .IsRequired()
+                        .HasColumnName("validation_string")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("validation");
+                });
+
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", b =>
                 {
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Conference", "Conference")
@@ -389,8 +596,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", "PreviousVersionNavigation")
                         .WithMany("InversePreviousVersionNavigation")
-                        .HasForeignKey("PreviousVersion")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PreviousVersion");
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Status", "Status")
                         .WithMany("Application")
@@ -429,19 +635,56 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormField", b =>
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Field", b =>
                 {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.EnumOptionsTable", "EnumOptionsTable")
+                        .WithMany("Field")
+                        .HasForeignKey("EnumOptionsTableId");
+
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldType", "FieldTypeNavigation")
-                        .WithMany("FormField")
+                        .WithMany("Field")
                         .HasForeignKey("FieldType")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasStyle", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Field", "Field")
+                        .WithMany("FieldHasStyle")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Style", "Style")
+                        .WithMany("FieldHasStyle")
+                        .HasForeignKey("StyleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasValidation", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Field", "Field")
+                        .WithMany("FieldHasValidation")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Validation", "Validation")
+                        .WithMany("FieldHasValidation")
+                        .HasForeignKey("ValidationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Form", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Form", "PreviousVersionNavigation")
+                        .WithMany("InversePreviousVersionNavigation")
+                        .HasForeignKey("PreviousVersion");
+                });
+
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormHasField", b =>
                 {
-                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormField", "FormField")
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Field", "Field")
                         .WithMany("FormHasField")
-                        .HasForeignKey("FormFieldId")
+                        .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Form", "Form")
@@ -460,6 +703,45 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Role", "Role")
                         .WithMany("RolePermission")
                         .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasConfig", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Config", "Config")
+                        .WithMany("TypeHasConfig")
+                        .HasForeignKey("ConfigId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldType", "FieldType")
+                        .WithMany("TypeHasConfig")
+                        .HasForeignKey("FieldTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasStyle", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldType", "FieldType")
+                        .WithMany("TypeHasStyle")
+                        .HasForeignKey("FieldTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Style", "Style")
+                        .WithMany("TypeHasStyle")
+                        .HasForeignKey("StyleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasValidation", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldType", "FieldType")
+                        .WithMany("TypeHasValidation")
+                        .HasForeignKey("FieldTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Validation", "Validation")
+                        .WithMany("TypeHasValidation")
+                        .HasForeignKey("ValidationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
