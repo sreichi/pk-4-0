@@ -46,4 +46,3 @@ script:
     - docker-compose up -d
     - docker-compose ps
     - docker exec coreapp dotnet test /src/Reichinger.Masterarbeit.PK-4-0.Test
-    - docker logs coreapp
