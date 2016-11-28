@@ -18,7 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool IsCurrent { get; set; }
 
-        public int PreviousVersion { get; set; }
+        public int? PreviousVersion { get; set; }
 
         public int UserId { get; set; }
 

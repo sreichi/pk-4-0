@@ -8,5 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     {
         IEnumerable<ApplicationDto> GetAllApplications();
         ApplicationDto GetApplicationById(int applicationId);
+        Application CreateApplication(Application applicationToCreate);
+        void Save();
     }
 }

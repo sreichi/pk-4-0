@@ -70,18 +70,23 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="application">The new Application Object</param>
         /// <response code="200">The new Application Object</response>
+        /// <response code="400">Bad Request</response>
         [HttpPost]
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
-        [ProducesResponseType(typeof(ApplicationDto), 200)]
-        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]Application application)
+        [ProducesResponseType(typeof(ApplicationDto), 201)]
+        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]ApplicationDto application)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Application>(exampleJson)
-                : default(Application);
-            return new ObjectResult(example);
+            ApplicationDto newApplication = _applicationRepository.CreateApplication(application);
+            _applicationRepository.Save();
+
+            var location = "/api/Events" + "/" + newApplication.Id;
+            return Created(location, newApplication);
         }
 
 
