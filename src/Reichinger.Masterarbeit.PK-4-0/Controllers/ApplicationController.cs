@@ -9,6 +9,9 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
+    /// <summary>
+    /// Handles all Requests based on Applications
+    /// </summary>
     public class ApplicationController : Controller
     {
         private readonly IApplicationRepository _applicationRepository;

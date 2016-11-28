@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -50,15 +53,19 @@ namespace Reichinger.Masterarbeit.PK_4_0
             // Add framework services.
             services.AddMvc();
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SingleApiVersion(new Info
+                options.SingleApiVersion(new Info
                 {
                     Version = "v1",
                     Title = "PK-4.0 API",
                     Description = "API for the PK-4.0",
                     TermsOfService = "Some terms ..."
                 });
+
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath + "\\Reichinger.Masterarbeit.PK-4-0.xml");
+                options.IncludeXmlComments(xmlPath);
             });
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
