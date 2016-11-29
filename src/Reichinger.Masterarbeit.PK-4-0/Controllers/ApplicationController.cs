@@ -82,10 +82,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
                 return BadRequest();
             }
 
-            ApplicationDto newApplication = _applicationRepository.CreateApplication(application);
+            var newApplication = _applicationRepository.CreateApplication(application);
             _applicationRepository.Save();
 
-            var location = "/api/Events" + "/" + newApplication.Id;
+            var location = "/api/Events/5";
             return Created(location, newApplication);
         }
 

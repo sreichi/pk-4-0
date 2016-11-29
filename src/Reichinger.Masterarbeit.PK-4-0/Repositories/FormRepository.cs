@@ -21,7 +21,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 Id =  entry.Id,
                 Name = entry.Name,
                 Application = entry.Application.Select(e => e.Id),
-                FormHasField = entry.FormHasField.Select(e => e.Id)
+                FormHasField = entry.FormHasField.Select(field => field.FieldId)
             });
         }
 
@@ -32,7 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 Id =  entry.Id,
                 Name = entry.Name,
                 Application = entry.Application.Select(e => e.Id),
-                FormHasField = entry.FormHasField.Select(e => e.Id)
+                FormHasField = entry.FormHasField.Select(field => field.FieldId)
             }).FirstOrDefault(entry => entry.Id == formId);
         }
     }

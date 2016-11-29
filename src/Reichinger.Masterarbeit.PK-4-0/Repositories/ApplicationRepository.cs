@@ -32,7 +32,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 ConferenceId = entry.ConferenceId,
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
-                Asignees = entry.Asignee.Select(e => e.UserId)
+                UserIds = entry.Asignee.Select(asignee => asignee.UserId),
+                Comment = entry.Comment
             });
         }
 
@@ -50,13 +51,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 ConferenceId = entry.ConferenceId,
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
-                Asignees = entry.Asignee.Select(e => e.UserId)
+                UserIds = entry.Asignee.Select(asignee => asignee.UserId),
+                Comment = entry.Comment
             }).FirstOrDefault(e => e.Id == applicationId);
         }
 
-        public Application CreateApplication(Application applicationToCreate)
+        public ApplicationDto CreateApplication(ApplicationDto applicationToCreate)
         {
-            Application newApplication = new Application()
+            var newApplication = new Application()
             {
                 Id = applicationToCreate.Id,
                 Created = DateTime.Now,
@@ -67,12 +69,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 UserId = applicationToCreate.UserId,
                 ConferenceId = applicationToCreate.ConferenceId,
                 StatusId = applicationToCreate.StatusId,
-                FormId = applicationToCreate.FormId,
-                Asignee = applicationToCreate.Asignee
-
+                FormId = applicationToCreate.FormId
             };
+
+            foreach (var entry in applicationToCreate.UserIds)
+            {
+                newApplication.Asignee.Add(new Asignee()
+                {
+                    UserId = entry,
+                    ApplicationId = newApplication.Id
+                });
+            }
+
             _applicationDbContext.Application.Add(newApplication);
-            return newApplication;
+
+            return GetApplicationById(newApplication.Id);
         }
 
         public void Save()
