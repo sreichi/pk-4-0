@@ -59,7 +59,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
                 Assignments = entry.Asignee.Select(asignee => asignee.UserId),
-                Comments = entry.Comment
+                Comments = entry.Comment.Select(comment => new CommentDto()
+                {
+                    UserId = comment.UserId,
+                    ApplicationId = comment.ApplicationId,
+                    Created = comment.Created,
+                    IsPrivate = comment.IsPrivate,
+                    RequiresChanges = comment.RequiresChanges,
+                    Text = comment.Text
+                })
             }).FirstOrDefault(e => e.Id == applicationId);
         }
 

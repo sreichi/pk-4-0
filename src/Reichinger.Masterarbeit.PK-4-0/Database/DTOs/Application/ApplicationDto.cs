@@ -30,7 +30,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public virtual IEnumerable<int> Assignments { get; set; }
 
-        public virtual ICollection<CommentDto> Comments { get; set; }
+        public virtual IEnumerable<CommentDto> Comments { get; set; }
 
     }
 }
