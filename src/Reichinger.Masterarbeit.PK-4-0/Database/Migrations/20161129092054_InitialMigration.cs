@@ -87,8 +87,10 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 {
                     id = table.Column<int>(nullable: false),
                     deprecated = table.Column<bool>(nullable: false),
+                    is_public = table.Column<bool>(nullable: false),
                     name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
-                    previous_version = table.Column<int>(nullable: true)
+                    previous_version = table.Column<int>(nullable: true),
+                    restricted_access = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,13 +200,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "type_has_config",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     config_id = table.Column<int>(nullable: false),
                     field_type_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_type_has_config", x => x.id);
+                    table.PrimaryKey("PK_type_has_config", x => new { x.config_id, x.field_type_id });
                     table.ForeignKey(
                         name: "FK_type_has_config_config_config_id",
                         column: x => x.config_id,
@@ -223,13 +224,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "role_permission",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
-                    permission_id = table.Column<int>(nullable: false),
-                    role_id = table.Column<int>(nullable: false)
+                    role_id = table.Column<int>(nullable: false),
+                    permission_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_role_permission", x => x.id);
+                    table.PrimaryKey("PK_role_permission", x => new { x.role_id, x.permission_id });
                     table.ForeignKey(
                         name: "FK_role_permission_permission_permission_id",
                         column: x => x.permission_id,
@@ -248,13 +248,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "user_has_role",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     role_id = table.Column<int>(nullable: false),
                     user_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_has_role", x => x.id);
+                    table.PrimaryKey("PK_user_has_role", x => new { x.role_id, x.user_id });
                     table.ForeignKey(
                         name: "FK_user_has_role_role_role_id",
                         column: x => x.role_id,
@@ -325,13 +324,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "type_has_style",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     field_type_id = table.Column<int>(nullable: false),
                     style_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_type_has_style", x => x.id);
+                    table.PrimaryKey("PK_type_has_style", x => new { x.field_type_id, x.style_id });
                     table.ForeignKey(
                         name: "FK_type_has_style_field_type_field_type_id",
                         column: x => x.field_type_id,
@@ -350,13 +348,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "type_has_validation",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     field_type_id = table.Column<int>(nullable: false),
                     validation_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_type_has_validation", x => x.id);
+                    table.PrimaryKey("PK_type_has_validation", x => new { x.field_type_id, x.validation_id });
                     table.ForeignKey(
                         name: "FK_type_has_validation_field_type_field_type_id",
                         column: x => x.field_type_id,
@@ -375,13 +372,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "field_has_style",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     field_id = table.Column<int>(nullable: false),
                     style_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_field_has_style", x => x.id);
+                    table.PrimaryKey("PK_field_has_style", x => new { x.field_id, x.style_id });
                     table.ForeignKey(
                         name: "FK_field_has_style_field_field_id",
                         column: x => x.field_id,
@@ -400,13 +396,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "field_has_validation",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     field_id = table.Column<int>(nullable: false),
                     validation_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_field_has_validation", x => x.id);
+                    table.PrimaryKey("PK_field_has_validation", x => new { x.field_id, x.validation_id });
                     table.ForeignKey(
                         name: "FK_field_has_validation_field_field_id",
                         column: x => x.field_id,
@@ -425,13 +420,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "form_has_field",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
-                    field_id = table.Column<int>(nullable: false),
-                    form_id = table.Column<int>(nullable: false)
+                    form_id = table.Column<int>(nullable: false),
+                    field_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_form_has_field", x => x.id);
+                    table.PrimaryKey("PK_form_has_field", x => new { x.form_id, x.field_id });
                     table.ForeignKey(
                         name: "FK_form_has_field_field_field_id",
                         column: x => x.field_id,
@@ -450,13 +444,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "asignee",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false),
                     application_id = table.Column<int>(nullable: false),
                     user_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_asignee", x => x.id);
+                    table.PrimaryKey("PK_asignee", x => new { x.application_id, x.user_id });
                     table.ForeignKey(
                         name: "FK_asignee_application_application_id",
                         column: x => x.application_id,
@@ -481,6 +474,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     is_private = table.Column<bool>(nullable: false, defaultValueSql: "false")
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    requires_changes = table.Column<bool>(nullable: false),
                     text = table.Column<string>(nullable: false),
                     user_id = table.Column<int>(nullable: false)
                 },

@@ -8,7 +8,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161128091455_InitialMigration")]
+    [Migration("20161129092054_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,16 +129,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Asignee", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("ApplicationId")
                         .HasColumnName("application_id");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("ApplicationId", "UserId")
+                        .HasName("PK_asignee");
 
                     b.HasIndex("ApplicationId");
 
@@ -164,6 +162,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("is_private")
                         .HasDefaultValueSql("false");
+
+                    b.Property<bool>("RequiresChanges")
+                        .HasColumnName("requires_changes");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -299,16 +300,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasStyle", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("FieldId")
                         .HasColumnName("field_id");
 
                     b.Property<int>("StyleId")
                         .HasColumnName("style_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("FieldId", "StyleId")
+                        .HasName("PK_field_has_style");
 
                     b.HasIndex("FieldId");
 
@@ -319,16 +318,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FieldHasValidation", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("FieldId")
                         .HasColumnName("field_id");
 
                     b.Property<int>("ValidationId")
                         .HasColumnName("validation_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("FieldId", "ValidationId")
+                        .HasName("PK_field_has_validation");
 
                     b.HasIndex("FieldId");
 
@@ -367,6 +364,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<bool>("Deprecated")
                         .HasColumnName("deprecated");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("is_public");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
@@ -375,6 +375,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.Property<int?>("PreviousVersion")
                         .HasColumnName("previous_version");
+
+                    b.Property<bool>("RestrictedAccess")
+                        .HasColumnName("restricted_access");
 
                     b.HasKey("Id");
 
@@ -385,16 +388,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.FormHasField", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
+                    b.Property<int>("FormId")
+                        .HasColumnName("form_id");
 
                     b.Property<int>("FieldId")
                         .HasColumnName("field_id");
 
-                    b.Property<int>("FormId")
-                        .HasColumnName("form_id");
-
-                    b.HasKey("Id");
+                    b.HasKey("FormId", "FieldId")
+                        .HasName("PK_form_has_field");
 
                     b.HasIndex("FieldId");
 
@@ -437,16 +438,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.RolePermission", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
+                    b.Property<int>("RoleId")
+                        .HasColumnName("role_id");
 
                     b.Property<int>("PermissionId")
                         .HasColumnName("permission_id");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
-
-                    b.HasKey("Id");
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("PK_role_permission");
 
                     b.HasIndex("PermissionId");
 
@@ -489,16 +488,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasConfig", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("ConfigId")
                         .HasColumnName("config_id");
 
                     b.Property<int>("FieldTypeId")
                         .HasColumnName("field_type_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("ConfigId", "FieldTypeId")
+                        .HasName("PK_type_has_config");
 
                     b.HasIndex("ConfigId");
 
@@ -509,16 +506,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasStyle", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("FieldTypeId")
                         .HasColumnName("field_type_id");
 
                     b.Property<int>("StyleId")
                         .HasColumnName("style_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("FieldTypeId", "StyleId")
+                        .HasName("PK_type_has_style");
 
                     b.HasIndex("FieldTypeId");
 
@@ -529,16 +524,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.TypeHasValidation", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("FieldTypeId")
                         .HasColumnName("field_type_id");
 
                     b.Property<int>("ValidationId")
                         .HasColumnName("validation_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("FieldTypeId", "ValidationId")
+                        .HasName("PK_type_has_validation");
 
                     b.HasIndex("FieldTypeId");
 
@@ -549,16 +542,14 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.UserHasRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnName("id");
-
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId", "UserId")
+                        .HasName("PK_user_has_role");
 
                     b.HasIndex("RoleId");
 
