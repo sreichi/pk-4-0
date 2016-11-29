@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -14,7 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<EnumOptionsTable> EnumOptionsTable { get; set; }
         public virtual DbSet<Field> Field { get; set; }
-        public virtual DbSet<FieldHasStyle> FieldHasStyle { get; set; }
+        public virtual IEnumerable<Style> FieldHasStyle { get; set; }
         public virtual DbSet<FieldHasValidation> FieldHasValidation { get; set; }
         public virtual DbSet<FieldType> FieldType { get; set; }
         public virtual DbSet<Form> Form { get; set; }
@@ -32,7 +33,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,7 +57,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             modelBuilder.Entity<Asignee>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.ApplicationId, e.UserId})
+                    .HasName("PK_asignee");
+
+                entity.HasOne(asignee => asignee.User)
+                    .WithMany(user => user.Asignee)
+                    .HasForeignKey(asignee => asignee.UserId);
+
+                entity.HasOne(asignee => asignee.Application)
+                    .WithMany(application => application.Asignee)
+                    .HasForeignKey(asignee => asignee.ApplicationId);
             });
 
             modelBuilder.Entity<Comment>(entity =>
@@ -69,100 +78,139 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.Property(e => e.IsPrivate).HasDefaultValueSql("false");
             });
 
-            modelBuilder.Entity<Conference>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Conference>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<Config>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Config>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<EnumOptionsTable>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<EnumOptionsTable>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<Field>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Field>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
             modelBuilder.Entity<FieldHasStyle>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.FieldId, e.StyleId})
+                    .HasName("PK_field_has_style");
+
+                entity.HasOne(fhs => fhs.Style)
+                    .WithMany(styles => styles.FieldHasStyle)
+                    .HasForeignKey(fhs => fhs.StyleId);
+
+                entity.HasOne(fhs => fhs.Field)
+                    .WithMany(field => field.FieldHasStyle)
+                    .HasForeignKey(fhs => fhs.FieldId);
             });
 
             modelBuilder.Entity<FieldHasValidation>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.FieldId, e.ValidationId})
+                    .HasName("PK_field_has_validation");
+
+                entity.HasOne(fhv => fhv.Validation)
+                    .WithMany(validation => validation.FieldHasValidation)
+                    .HasForeignKey(fhv => fhv.ValidationId);
+
+                entity.HasOne(fhv => fhv.Field)
+                    .WithMany(field => field.FieldHasValidation)
+                    .HasForeignKey(fhv => fhv.FieldId);
             });
 
-            modelBuilder.Entity<FieldType>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<FieldType>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<Form>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Form>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
             modelBuilder.Entity<FormHasField>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.FormId, e.FieldId})
+                    .HasName("PK_form_has_field");
+
+                entity.HasOne(fhf => fhf.Form)
+                    .WithMany(form => form.FormHasField)
+                    .HasForeignKey(fhf => fhf.FormId);
+
+                entity.HasOne(fhf => fhf.Field)
+                    .WithMany(field => field.FormHasField)
+                    .HasForeignKey(fhf => fhf.FieldId);
             });
 
-            modelBuilder.Entity<Permission>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Permission>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Role>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
             modelBuilder.Entity<RolePermission>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.RoleId, e.PermissionId})
+                    .HasName("PK_role_permission");
+
+                entity.HasOne(rp => rp.Role)
+                    .WithMany(role => role.RolePermission)
+                    .HasForeignKey(rp => rp.RoleId);
+
+                entity.HasOne(rp => rp.Permission)
+                    .WithMany(permission => permission.RolePermission)
+                    .HasForeignKey(rp => rp.PermissionId);
             });
 
-            modelBuilder.Entity<Status>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Status>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
-            modelBuilder.Entity<Style>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Style>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
 
             modelBuilder.Entity<TypeHasConfig>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.ConfigId, e.FieldTypeId})
+                    .HasName("PK_type_has_config");
+
+                entity.HasOne(thc => thc.Config)
+                    .WithMany(config => config.TypeHasConfig)
+                    .HasForeignKey(thc => thc.ConfigId);
+
+                entity.HasOne(thc => thc.FieldType)
+                    .WithMany(fieldType => fieldType.TypeHasConfig)
+                    .HasForeignKey(thc => thc.FieldTypeId);
             });
 
             modelBuilder.Entity<TypeHasStyle>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.FieldTypeId, e.StyleId})
+                    .HasName("PK_type_has_style");
+
+                entity.HasOne(ths => ths.Style)
+                    .WithMany(style => style.TypeHasStyle)
+                    .HasForeignKey(ths => ths.StyleId);
+
+                entity.HasOne(ths => ths.FieldType)
+                    .WithMany(fieldType => fieldType.TypeHasStyle)
+                    .HasForeignKey(ths => ths.FieldTypeId);
             });
 
             modelBuilder.Entity<TypeHasValidation>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.FieldTypeId, e.ValidationId})
+                    .HasName("PK_type_has_validation");
+
+                entity.HasOne(thv => thv.Validation)
+                    .WithMany(validation => validation.TypeHasValidation)
+                    .HasForeignKey(thv => thv.ValidationId);
+
+                entity.HasOne(thv => thv.FieldType)
+                    .WithMany(fieldType => fieldType.TypeHasValidation)
+                    .HasForeignKey(thv => thv.FieldTypeId);
             });
 
             modelBuilder.Entity<UserHasRole>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.HasKey(e => new {e.RoleId, e.UserId})
+                    .HasName("PK_user_has_role");
+
+                entity.HasOne(uhr => uhr.Role)
+                    .WithMany(role => role.UserHasRole)
+                    .HasForeignKey(uhr => uhr.RoleId);
+
+                entity.HasOne(uhr => uhr.User)
+                    .WithMany(user => user.UserHasRole)
+                    .HasForeignKey(uhr => uhr.UserId);
             });
 
-            modelBuilder.Entity<Validation>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            modelBuilder.Entity<Validation>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
         }
     }
 }
