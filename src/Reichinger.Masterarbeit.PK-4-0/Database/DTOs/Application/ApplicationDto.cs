@@ -28,9 +28,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public int FormId { get; set; }
 
-        public virtual IEnumerable<int> UserIds { get; set; }
+        public virtual IEnumerable<int> Assignments { get; set; }
 
-        public virtual ICollection<Comment> Comment { get; set; }
+        public virtual ICollection<CommentDto> Comments { get; set; }
 
     }
 }

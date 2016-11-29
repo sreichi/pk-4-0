@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -32,8 +31,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 ConferenceId = entry.ConferenceId,
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
-                UserIds = entry.Asignee.Select(asignee => asignee.UserId),
-                Comment = entry.Comment
+                Assignments = entry.Asignee.Select(asignee => asignee.UserId),
+                Comments = entry.Comment.Select(comment => new CommentDto()
+                {
+                    UserId = comment.UserId,
+                    ApplicationId = comment.ApplicationId,
+                    Created = comment.Created,
+                    IsPrivate = comment.IsPrivate,
+                    RequiresChanges = comment.RequiresChanges,
+                    Text = comment.Text
+                })
             });
         }
 
@@ -51,8 +58,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 ConferenceId = entry.ConferenceId,
                 StatusId = entry.StatusId,
                 FormId = entry.FormId,
-                UserIds = entry.Asignee.Select(asignee => asignee.UserId),
-                Comment = entry.Comment
+                Assignments = entry.Asignee.Select(asignee => asignee.UserId),
+                Comments = entry.Comment
             }).FirstOrDefault(e => e.Id == applicationId);
         }
 
@@ -72,7 +79,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 FormId = applicationToCreate.FormId
             };
 
-            foreach (var entry in applicationToCreate.UserIds)
+            foreach (var entry in applicationToCreate.Assignments)
             {
                 newApplication.Asignee.Add(new Asignee()
                 {

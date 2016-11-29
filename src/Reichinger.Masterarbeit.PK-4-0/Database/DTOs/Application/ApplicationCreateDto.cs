@@ -6,12 +6,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
     public class ApplicationCreateDto
     {
-        public int Id { get; set; }
-
-        public DateTime Created { get; set; }
-
-        public DateTime LastModified { get; set; }
-
         public string FilledForm { get; set; }
 
         public int Version { get; set; }
@@ -29,5 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public int FormId { get; set; }
 
         public virtual ICollection<Asignee> Asignee { get; set; }
+
+        public virtual ICollection<CommentDto> Comments { get; set; }
     }
 }
