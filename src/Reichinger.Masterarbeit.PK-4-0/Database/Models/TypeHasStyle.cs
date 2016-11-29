@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("type_has_style")]
     public partial class TypeHasStyle
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("field_type_id")]
         public int FieldTypeId { get; set; }
         [Column("style_id")]

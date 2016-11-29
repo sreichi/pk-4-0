@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("asignee")]
     public partial class Asignee
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("application_id")]
         public int ApplicationId { get; set; }
         [Column("user_id")]

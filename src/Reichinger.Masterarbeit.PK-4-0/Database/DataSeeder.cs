@@ -38,19 +38,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                Id = 1,
                 RoleId = 1,
                 UserId = 1
             });
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                Id = 2,
                 RoleId = 2,
                 UserId = 1
             });
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                Id = 3,
                 RoleId = 2,
                 UserId = 2
             });
@@ -60,25 +57,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.FormHasField.Add(new FormHasField
             {
-                Id = 1,
                 FormId = 1,
                 FieldId = 1
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                Id = 2,
                 FormId = 1,
                 FieldId = 2
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                Id = 3,
                 FormId = 1,
                 FieldId = 3
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                Id = 4,
                 FormId = 1,
                 FieldId = 4
             });
@@ -197,25 +190,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.Asignee.Add(new Asignee
             {
-                Id = 1,
                 ApplicationId = 1,
                 UserId = 1
             });
             dbContext.Asignee.Add(new Asignee
             {
-                Id = 2,
                 ApplicationId = 1,
                 UserId = 2
             });
             dbContext.Asignee.Add(new Asignee
             {
-                Id = 3,
                 ApplicationId = 2,
                 UserId = 1
             });
             dbContext.Asignee.Add(new Asignee
             {
-                Id = 5,
                 ApplicationId = 2,
                 UserId = 2
             });

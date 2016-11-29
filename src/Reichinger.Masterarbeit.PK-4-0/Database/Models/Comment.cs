@@ -17,6 +17,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public DateTime Created { get; set; }
         [Column("is_private")]
         public bool IsPrivate { get; set; }
+        [Column("requires_changes")]
+        public bool RequiresChanges { get; set; }
         [Column("user_id")]
         public int UserId { get; set; }
         [Column("application_id")]

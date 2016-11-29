@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("form_has_field")]
     public partial class FormHasField
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("form_id")]
         public int FormId { get; set; }
         [Column("field_id")]

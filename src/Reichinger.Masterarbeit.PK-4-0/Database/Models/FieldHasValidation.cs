@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("field_has_validation")]
     public partial class FieldHasValidation
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("field_id")]
         public int FieldId { get; set; }
         [Column("validation_id")]

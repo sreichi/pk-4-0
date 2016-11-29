@@ -24,6 +24,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public bool Deprecated { get; set; }
         [Column("previous_version")]
         public int? PreviousVersion { get; set; }
+        [Column("restricted_access")]
+        public bool RestrictedAccess { get; set; }
+        [Column("is_public")]
+        public bool IsPublic { get; set; }
 
         [InverseProperty("Form")]
         public virtual ICollection<Application> Application { get; set; }

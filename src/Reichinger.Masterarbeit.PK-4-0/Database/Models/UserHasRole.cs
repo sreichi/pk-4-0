@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("user_has_role")]
     public partial class UserHasRole
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("role_id")]
         public int RoleId { get; set; }
         [Column("user_id")]

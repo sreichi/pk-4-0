@@ -8,8 +8,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     [Table("role_permission")]
     public partial class RolePermission
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("role_id")]
         public int RoleId { get; set; }
         [Column("permission_id")]
