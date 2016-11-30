@@ -22,8 +22,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public Guid FormId { get; set; }
 
-        public virtual ICollection<Assignment> Asignee { get; set; }
+        public virtual ICollection<Guid> Assignments { get; set; }
 
-        public virtual ICollection<CommentDto> Comments { get; set; }
+        public virtual ICollection<Guid> Comments { get; set; }
     }
 }

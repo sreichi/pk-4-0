@@ -75,7 +75,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
         [ProducesResponseType(typeof(ApplicationDto), 201)]
-        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]ApplicationDto application)
+        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             var newApplication = _applicationRepository.CreateApplication(application);
             _applicationRepository.Save();
 
-            var location = "/api/Events/5";
+            var location = "/api/Events/" + newApplication.Id;
             return Created(location, newApplication);
         }
 

@@ -9,7 +9,7 @@ using System.Collections.Generic;
      {
          IEnumerable<ApplicationDto> GetAllApplications();
          ApplicationDto GetApplicationById(Guid applicationId);
-         ApplicationDto CreateApplication(ApplicationDto applicationToCreate);
+         ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate);
          void Save();
      }
  }

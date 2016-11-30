@@ -19,6 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
             _dpApplications = _applicationDbContext.Application;
         }
+
         public IEnumerable<ApplicationDto> GetAllApplications()
         {
             return _applicationDbContext.Application
@@ -29,38 +30,40 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public ApplicationDto GetApplicationById(Guid applicationId)
         {
-            return _applicationDbContext.Application.Select(entry => entry.ToDto())
+            return _applicationDbContext.Application.Include(application => application.Comment)
+                .Include(application => application.Assignment)
+                .Select(entry => entry.ToDto())
                 .FirstOrDefault(e => e.Id == applicationId);
         }
 
-        public ApplicationDto CreateApplication(ApplicationDto applicationToCreate)
+        public ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate)
         {
             var newApplication = new Application()
             {
-//                Id = applicationToCreate.Id,
-//                Created = DateTime.Now,
-//                LastModified = DateTime.Now,
-//                Version = applicationToCreate.Version,
-//                IsCurrent = applicationToCreate.IsCurrent,
-//                PreviousVersion = applicationToCreate.PreviousVersion ?? null,
-//                UserId = applicationToCreate.UserId,
-//                ConferenceId = applicationToCreate.ConferenceId,
-//                StatusId = applicationToCreate.StatusId,
-//                FormId = applicationToCreate.FormId
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                LastModified = DateTime.Now,
+                Version = applicationToCreate.Version,
+                IsCurrent = applicationToCreate.IsCurrent,
+                PreviousVersion = applicationToCreate.PreviousVersion ?? null,
+                UserId = applicationToCreate.UserId,
+                ConferenceId = applicationToCreate.ConferenceId,
+                StatusId = applicationToCreate.StatusId,
+                FormId = applicationToCreate.FormId
             };
 
             foreach (var entry in applicationToCreate.Assignments)
             {
-//                newApplication.Asignee.Add(new Asignee()
-//                {
-//                    UserId = entry,
-//                    ApplicationId = newApplication.Id
-//                });
+                newApplication.Assignment.Add(new Assignment()
+                {
+                    UserId = entry,
+                    ApplicationId = newApplication.Id
+                });
             }
 
             _applicationDbContext.Application.Add(newApplication);
 
-            return null;
+            return newApplication.ToDto();
         }
 
         public void Save()
