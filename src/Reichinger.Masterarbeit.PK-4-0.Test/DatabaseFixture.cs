@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -25,6 +26,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
         public async Task<HttpResponseMessage> GetHttpResult(string path)
         {
             return await _client.GetAsync(path);
+        }
+
+
+        public async Task<HttpResponseMessage> PostHttpResult(string urlPath, string json)
+        {
+            return await _client.PostAsync(urlPath, new StringContent(json, Encoding.UTF8, "application/json"));
         }
 
         public IConfigurationRoot Configuration { get; set; }
