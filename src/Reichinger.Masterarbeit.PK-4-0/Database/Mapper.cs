@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
@@ -29,7 +30,34 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     IsPrivate = comment.IsPrivate,
                     RequiresChanges = comment.RequiresChanges,
                     Text = comment.Text
-                })
+                }).OrderBy(dto => dto.Created)
+            };
+        }
+
+        public static Comment ToModel(this CommentCreateDto response)
+        {
+            return new Comment()
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                IsPrivate = response.IsPrivate,
+                RequiresChanges = response.RequiresChanges,
+                Text = response.Text,
+                ApplicationId = response.ApplicationId,
+                UserId = response.UserId
+            };
+        }
+
+        public static CommentDto ToDto(this Comment response)
+        {
+            return new CommentDto()
+            {
+                Created = response.Created,
+                IsPrivate = response.IsPrivate,
+                RequiresChanges = response.RequiresChanges,
+                Text = response.Text,
+                ApplicationId = response.ApplicationId,
+                UserId = response.UserId
             };
         }
     }

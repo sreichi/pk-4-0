@@ -85,7 +85,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             var newApplication = _applicationRepository.CreateApplication(application);
             _applicationRepository.Save();
 
-            var location = "/api/Events/" + newApplication.Id;
+            var location = "/application/" + newApplication.Id;
             return Created(location, newApplication);
         }
 
@@ -98,18 +98,22 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="applicationId">ID of the Application</param>
         /// <param name="comment">New Comment</param>
         /// <response code="200">The new Comment Object</response>
+        /// <response code="400">Bad Request - Invalid Model State</response>
         [HttpPost]
         [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
-        [ProducesResponseType(typeof(Comment), 200)]
-        public virtual IActionResult AddCommentToApplication([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromBody]Comment comment)
+        [ProducesResponseType(typeof(CommentDto), 200)]
+        public virtual IActionResult AddCommentToApplication([FromHeader]long? token, [FromRoute]Guid applicationId, [FromBody]CommentCreateDto comment)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var newComment = _applicationRepository.AddCommentToApplication(applicationId, comment);
+            _applicationRepository.Save();
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Comment>(exampleJson)
-                : default(Comment);
-            return new ObjectResult(example);
+            var location = "comment";
+            return Created(location, newComment);
         }
 
 

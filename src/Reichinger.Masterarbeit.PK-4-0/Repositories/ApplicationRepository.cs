@@ -66,6 +66,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return newApplication.ToDto();
         }
 
+        public CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment)
+        {
+            var newComment = comment.ToModel();
+            _applicationDbContext.Comment.Add(newComment);
+
+            return newComment.ToDto();
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();

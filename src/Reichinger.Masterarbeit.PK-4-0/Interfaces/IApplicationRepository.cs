@@ -10,6 +10,7 @@ using System.Collections.Generic;
          IEnumerable<ApplicationDto> GetAllApplications();
          ApplicationDto GetApplicationById(Guid applicationId);
          ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate);
+         CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment);
          void Save();
      }
  }
