@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
  using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
  using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
@@ -7,7 +8,7 @@
      public interface IApplicationRepository
      {
          IEnumerable<ApplicationDto> GetAllApplications();
-         ApplicationDto GetApplicationById(int applicationId);
+         ApplicationDto GetApplicationById(Guid applicationId);
          ApplicationDto CreateApplication(ApplicationDto applicationToCreate);
          void Save();
      }

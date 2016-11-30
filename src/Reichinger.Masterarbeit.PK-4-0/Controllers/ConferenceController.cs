@@ -49,7 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
         [ProducesResponseType(typeof(ConferenceDto), 200)]
-        public virtual IActionResult GetConferenceById([FromHeader]long? token, [FromRoute]int conferenceId)
+        public virtual IActionResult GetConferenceById([FromHeader]long? token, [FromRoute]Guid conferenceId)
         {
             var conference = _conferenceRepository.GetConferernceById(conferenceId);
             if (conference == null)

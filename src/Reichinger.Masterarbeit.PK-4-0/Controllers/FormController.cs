@@ -46,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms/{formId}")]
         [SwaggerOperation("GetFormById")]
         [ProducesResponseType(typeof(FormDto), 200)]
-        public virtual IActionResult GetFormById([FromHeader] long? token, [FromRoute] int formId)
+        public virtual IActionResult GetFormById([FromHeader] long? token, [FromRoute] Guid formId)
         {
             var form = _formRepository.GetFormById(formId);
             if (form == null)
@@ -101,14 +101,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/forms/config/types")]
         [SwaggerOperation("GetFormConfig")]
-        [ProducesResponseType(typeof(FormField), 200)]
+        [ProducesResponseType(typeof(Field), 200)]
         public virtual IActionResult GetFormConfig([FromHeader] long? token)
         {
             string exampleJson = null;
 
             var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<FormField>(exampleJson)
-                : default(FormField);
+                ? JsonConvert.DeserializeObject<Field>(exampleJson)
+                : default(Field);
             return new ObjectResult(example);
         }
 

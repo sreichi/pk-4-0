@@ -16,13 +16,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         }
 
         [Column("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [Column("name", TypeName = "varchar")]
         [MaxLength(50)]
         public string Name { get; set; }
         [Column("field_type")]
-        public int FieldType { get; set; }
+        public Guid FieldType { get; set; }
         [Column("label", TypeName = "varchar")]
         [MaxLength(50)]
         public string Label { get; set; }
@@ -42,7 +42,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("options", TypeName = "json")]
         public string Options { get; set; }
         [Column("enum_options_table_id")]
-        public int? EnumOptionsTableId { get; set; }
+        public Guid? EnumOptionsTableId { get; set; }
 
         [InverseProperty("Field")]
         public virtual ICollection<FieldHasStyle> FieldHasStyle { get; set; }

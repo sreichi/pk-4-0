@@ -9,7 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class Comment
     {
         [Column("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [Column("text")]
         public string Text { get; set; }
@@ -20,9 +20,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("requires_changes")]
         public bool RequiresChanges { get; set; }
         [Column("user_id")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         [Column("application_id")]
-        public int ApplicationId { get; set; }
+        public Guid ApplicationId { get; set; }
 
         [ForeignKey("ApplicationId")]
         [InverseProperty("Comment")]

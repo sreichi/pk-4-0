@@ -36,7 +36,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             });
         }
 
-        public UserDto GetUserById(int userId)
+        public UserDto GetUserById(Guid userId)
         {
             return _applicationDbContext.AppUser.Select(entry => new UserDto()
             {

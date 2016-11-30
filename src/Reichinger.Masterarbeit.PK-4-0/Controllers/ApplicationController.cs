@@ -51,7 +51,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
         [ProducesResponseType(typeof(Application), 200)]
-        public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]int applicationId)
+        public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]Guid applicationId)
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
             if (application == null)

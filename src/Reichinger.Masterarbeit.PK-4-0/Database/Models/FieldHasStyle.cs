@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class FieldHasStyle
     {
         [Column("field_id")]
-        public int FieldId { get; set; }
+        public Guid FieldId { get; set; }
         [Column("style_id")]
-        public int StyleId { get; set; }
+        public Guid StyleId { get; set; }
 
         [ForeignKey("FieldId")]
         [InverseProperty("FieldHasStyle")]

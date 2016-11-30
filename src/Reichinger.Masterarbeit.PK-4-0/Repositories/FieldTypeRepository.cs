@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -21,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _dbFieldTypes.ToList();
         }
 
-        public FieldType GetFieldTypeById(int fieldTypeId)
+        public FieldType GetFieldTypeById(Guid fieldTypeId)
         {
             var fieldType = _dbFieldTypes.FirstOrDefault(entry => entry.Id == fieldTypeId);
             return fieldType;

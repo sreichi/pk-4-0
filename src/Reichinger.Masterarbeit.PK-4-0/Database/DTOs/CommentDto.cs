@@ -8,7 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public DateTime Created { get; set; }
         public bool IsPrivate { get; set; }
         public bool RequiresChanges { get; set; }
-        public int UserId { get; set; }
-        public int ApplicationId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ApplicationId { get; set; }
     }
 }

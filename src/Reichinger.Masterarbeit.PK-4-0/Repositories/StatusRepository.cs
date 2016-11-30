@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -21,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _dbStatuses.ToList();
         }
 
-        public Status GetStatusById(int statusId)
+        public Status GetStatusById(Guid statusId)
         {
             var status = _dbStatuses.FirstOrDefault(entry => entry.Id == statusId);
             return status;

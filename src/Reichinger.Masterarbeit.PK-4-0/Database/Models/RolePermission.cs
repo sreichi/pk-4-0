@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class RolePermission
     {
         [Column("role_id")]
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
         [Column("permission_id")]
-        public int PermissionId { get; set; }
+        public Guid PermissionId { get; set; }
 
         [ForeignKey("PermissionId")]
         [InverseProperty("RolePermission")]

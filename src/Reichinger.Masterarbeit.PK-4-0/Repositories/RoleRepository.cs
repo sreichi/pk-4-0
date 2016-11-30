@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -24,7 +25,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             });
         }
 
-        public RoleDto GetRoleById(int roleId)
+        public RoleDto GetRoleById(Guid roleId)
         {
             return _applicationDbContext.Role.Select(entry => new RoleDto()
             {

@@ -1,14 +1,65 @@
-﻿using System;
+﻿
+
+using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
     public static class DataSeeder
     {
+        static Guid _role1Id;
+        static Guid _role2Id;
+        static Guid _user1Id;
+        static Guid _user2Id;
+        static Guid _application1Id;
+        static Guid _application2Id;
+        static Guid _form1Id;
+        static Guid _form2Id;
+        static Guid _conference1Id;
+        static Guid _conference2Id;
+        static Guid _status1Id;
+        static Guid _status2Id;
+        static Guid _field1Id;
+        static Guid _field2Id;
+        static Guid _field3Id;
+        static Guid _field4Id;
+        static Guid _field5Id;
+        static Guid _fieldType1Id;
+        static Guid _fieldType2Id;
+        static Guid _fieldType3Id;
+        static Guid _fieldType4Id;
+        static Guid _comment1Id;
+        static Guid _comment2Id;
+        static Guid _comment3Id;
+
         public static void SeedData(this IApplicationBuilder applicationBuilder)
         {
+            _role1Id = Guid.NewGuid();
+            _role2Id = Guid.NewGuid();
+            _user1Id = Guid.NewGuid();
+            _user2Id = Guid.NewGuid();
+            _application1Id = Guid.NewGuid();
+            _application2Id = Guid.NewGuid();
+            _form1Id = Guid.NewGuid();
+            _form2Id = Guid.NewGuid();
+            _conference1Id = Guid.NewGuid();
+            _conference2Id = Guid.NewGuid();
+            _status1Id = Guid.NewGuid();
+            _status2Id = Guid.NewGuid();
+            _field1Id = Guid.NewGuid();
+            _field2Id = Guid.NewGuid();
+            _field3Id = Guid.NewGuid();
+            _field4Id = Guid.NewGuid();
+            _field5Id = Guid.NewGuid();
+            _fieldType1Id = Guid.NewGuid();
+            _fieldType2Id = Guid.NewGuid();
+            _fieldType3Id = Guid.NewGuid();
+            _fieldType4Id = Guid.NewGuid();
+            _comment1Id = Guid.NewGuid();
+            _comment2Id = Guid.NewGuid();
+            _comment3Id = Guid.NewGuid();
+
             var db =
                 applicationBuilder.ApplicationServices.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
             CreateTestData(db);
@@ -25,7 +76,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateStatuses(dbContext);
             CreateConferences(dbContext);
             CreateApplications(dbContext);
-            CreateAsignees(dbContext);
+            CreateAssignments(dbContext);
             CreateComments(dbContext);
             CreateFieldTypes(dbContext);
             CreateFields(dbContext);
@@ -34,22 +85,39 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.SaveChanges();
         }
 
+
+        private static void CreateRoles(ApplicationDbContext dbContext)
+        {
+            dbContext.Role.Add(
+                new Role
+                {
+                    Id = _role1Id,
+                    Name = "Admin"
+                });
+            dbContext.Role.Add(
+                new Role
+                {
+                    Id = _role2Id,
+                    Name = "User"
+                });
+        }
+
         private static void CreateUserHasRole(ApplicationDbContext dbContext)
         {
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                RoleId = 1,
-                UserId = 1
+                RoleId = _role1Id,
+                UserId = _user1Id
             });
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                RoleId = 2,
-                UserId = 1
+                RoleId = _role2Id,
+                UserId = _user1Id
             });
             dbContext.UserHasRole.Add(new UserHasRole
             {
-                RoleId = 2,
-                UserId = 2
+                RoleId = _role1Id,
+                UserId = _user2Id
             });
         }
 
@@ -57,23 +125,23 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.FormHasField.Add(new FormHasField
             {
-                FormId = 1,
-                FieldId = 1
+                FormId = _form1Id,
+                FieldId = _field1Id
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                FormId = 1,
-                FieldId = 2
+                FormId = _form1Id,
+                FieldId = _field2Id
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                FormId = 1,
-                FieldId = 3
+                FormId = _form1Id,
+                FieldId = _field3Id
             });
             dbContext.FormHasField.Add(new FormHasField
             {
-                FormId = 1,
-                FieldId = 4
+                FormId = _form1Id,
+                FieldId = _field4Id
             });
         }
 
@@ -81,32 +149,32 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.Field.Add(new Field
             {
-                Id = 1,
-                FieldType = 1,
+                Id = _field1Id,
+                FieldType = _fieldType1Id,
                 Name = "Firstname"
             });
             dbContext.Field.Add(new Field
             {
-                Id = 2,
-                FieldType = 1,
+                Id = _field2Id,
+                FieldType = _fieldType1Id,
                 Name = "Lastname"
             });
             dbContext.Field.Add(new Field
             {
-                Id = 3,
-                FieldType = 3,
+                Id = _field3Id,
+                FieldType = _fieldType3Id,
                 Name = "Gender"
             });
             dbContext.Field.Add(new Field
             {
-                Id = 4,
-                FieldType = 2,
+                Id = _field4Id,
+                FieldType = _fieldType2Id,
                 Name = "Active"
             });
             dbContext.Field.Add(new Field
             {
-                Id = 5,
-                FieldType = 4,
+                Id = _field5Id,
+                FieldType = _fieldType4Id,
                 Name = "Beschreibung"
             });
         }
@@ -115,25 +183,25 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.FieldType.Add(new FieldType
             {
-                Id = 1,
+                Id = _fieldType1Id,
                 Description = "INPUT",
                 Name = "input"
             });
             dbContext.FieldType.Add(new FieldType
             {
-                Id = 2,
+                Id = _fieldType2Id,
                 Description = "CHECKBOX",
                 Name = "checkbox"
             });
             dbContext.FieldType.Add(new FieldType
             {
-                Id = 3,
+                Id = _fieldType3Id,
                 Description = "RADIO",
                 Name = "radio"
             });
             dbContext.FieldType.Add(new FieldType
             {
-                Id = 4,
+                Id = _fieldType4Id,
                 Description = "TEXTAREA",
                 Name = "textarea"
             });
@@ -143,28 +211,28 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.Comment.Add(new Comment
             {
-                Id = 1,
-                ApplicationId = 1,
+                Id = _comment1Id,
+                ApplicationId = _application1Id,
                 Created = DateTime.Parse("2016-11-18T13:15:08+00:00"),
-                UserId = 1,
+                UserId = _user1Id,
                 Text = "Da fehlt noch was",
                 IsPrivate = false
             });
             dbContext.Comment.Add(new Comment
             {
-                Id = 2,
-                ApplicationId = 1,
+                Id = _comment2Id,
+                ApplicationId = _application1Id,
                 Created = DateTime.Parse("2016-10-18T13:15:08+00:00"),
-                UserId = 2,
+                UserId = _user2Id,
                 Text = "Ja das Änder ich noch schnell",
                 IsPrivate = false
             });
             dbContext.Comment.Add(new Comment
             {
-                Id = 3,
-                ApplicationId = 2,
+                Id = _comment3Id,
+                ApplicationId = _application2Id,
                 Created = DateTime.Parse("2016-11-18T15:15:08+00:00"),
-                UserId = 1,
+                UserId = _user1Id,
                 Text = "Jetzt passt alles",
                 IsPrivate = false
             });
@@ -174,39 +242,39 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             dbContext.Conference.Add(new Conference
             {
-                Id = 1,
+                Id = _conference1Id,
                 DateOfEvent = DateTime.Now,
                 Description = "Hauptsitzung der PK"
             });
             dbContext.Conference.Add(new Conference
             {
-                Id = 2,
+                Id = _conference2Id,
                 DateOfEvent = DateTime.Now,
                 Description = "Spontansitzung der Informatik"
             });
         }
 
-        private static void CreateAsignees(ApplicationDbContext dbContext)
+        private static void CreateAssignments(ApplicationDbContext dbContext)
         {
-            dbContext.Asignee.Add(new Asignee
+            dbContext.Assignment.Add(new Assignment
             {
-                ApplicationId = 1,
-                UserId = 1
+                ApplicationId = _application1Id,
+                UserId = _user1Id
             });
-            dbContext.Asignee.Add(new Asignee
+            dbContext.Assignment.Add(new Assignment
             {
-                ApplicationId = 1,
-                UserId = 2
+                ApplicationId = _application1Id,
+                UserId = _user2Id
             });
-            dbContext.Asignee.Add(new Asignee
+            dbContext.Assignment.Add(new Assignment
             {
-                ApplicationId = 2,
-                UserId = 1
+                ApplicationId = _application2Id,
+                UserId = _user1Id
             });
-            dbContext.Asignee.Add(new Asignee
+            dbContext.Assignment.Add(new Assignment
             {
-                ApplicationId = 2,
-                UserId = 2
+                ApplicationId = _application2Id,
+                UserId = _user2Id
             });
         }
 
@@ -215,13 +283,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Status.Add(
                 new Status
                 {
-                    Id = 1,
+                    Id = _status1Id,
                     Name = "Active"
                 });
             dbContext.Status.Add(
                 new Status
                 {
-                    Id = 2,
+                    Id = _status2Id,
                     Name = "Updated"
                 });
         }
@@ -232,13 +300,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Form.Add(
                 new Form
                 {
-                    Id = 1,
+                    Id = _form1Id,
                     Name = "Masterarbeit"
                 });
             dbContext.Add(
                 new Form
                 {
-                    Id = 2,
+                    Id = _form2Id,
                     Name = "Notenanerkennung"
                 });
         }
@@ -248,30 +316,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Application.Add(
                 new Application
                 {
-                    Id = 1,
+                    Id = _application1Id,
                     Created = DateTime.Now,
                     LastModified = DateTime.Now,
                     Version = 1,
                     IsCurrent = false,
-                    PreviousVersion = 1,
-                    UserId = 1,
-                    StatusId = 2,
-                    FormId = 1,
-                    ConferenceId = 1
+                    PreviousVersion = null,
+                    UserId = _user1Id,
+                    StatusId = _status2Id,
+                    FormId = _form1Id,
+                    ConferenceId = _conference1Id
                 });
             dbContext.Add(
                 new Application
                 {
-                    Id = 2,
+                    Id = _application2Id,
                     Created = DateTime.Now,
                     LastModified = DateTime.Now,
                     Version = 2,
                     IsCurrent = true,
-                    PreviousVersion = 1,
-                    UserId = 1,
-                    StatusId = 1,
-                    FormId = 1,
-                    ConferenceId = 1
+                    PreviousVersion = _application1Id,
+                    UserId = _user1Id,
+                    StatusId = _status1Id,
+                    FormId = _form1Id,
+                    ConferenceId = _conference1Id
                 });
         }
 
@@ -280,7 +348,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.AppUser.Add(
                 new AppUser
                 {
-                    Id = 1,
+                    Id = _user1Id,
                     Firstname = "Stephan",
                     Lastname = "Reichinger",
                     Email = "stephan.reichinger@hs-augsburg.de",
@@ -296,7 +364,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.AppUser.Add(
                 new AppUser
                 {
-                    Id = 2,
+                    Id = _user2Id,
                     Firstname = "Patrick",
                     Lastname = "Schröter",
                     Email = "patrick.schroeter@hs-augsburg.de",
@@ -309,22 +377,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     Created = DateTime.Now
                 }
             );
-        }
-
-        private static void CreateRoles(ApplicationDbContext dbContext)
-        {
-            dbContext.Role.Add(
-                new Role
-                {
-                    Id = 1,
-                    Name = "Admin"
-                });
-            dbContext.Role.Add(
-                new Role
-                {
-                    Id = 2,
-                    Name = "User"
-                });
         }
     }
 }

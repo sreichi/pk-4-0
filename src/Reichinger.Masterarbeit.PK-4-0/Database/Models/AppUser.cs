@@ -11,13 +11,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public AppUser()
         {
             Application = new HashSet<Application>();
-            Asignee = new HashSet<Asignee>();
+            Assignment = new HashSet<Assignment>();
             Comment = new HashSet<Comment>();
             UserHasRole = new HashSet<UserHasRole>();
         }
 
         [Column("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [Column("firstname", TypeName = "varchar")]
         [MaxLength(50)]
@@ -50,7 +50,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [InverseProperty("User")]
         public virtual ICollection<Application> Application { get; set; }
         [InverseProperty("User")]
-        public virtual ICollection<Asignee> Asignee { get; set; }
+        public virtual ICollection<Assignment> Assignment { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Comment> Comment { get; set; }
         [InverseProperty("User")]

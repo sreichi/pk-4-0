@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -26,7 +27,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             });
         }
 
-        public ConferenceDto GetConferernceById(int conferenceId)
+        public ConferenceDto GetConferernceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference.Select(entry => new ConferenceDto()
             {
@@ -37,9 +38,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }).FirstOrDefault(entry => entry.Id == conferenceId);
         }
 
-        public IEnumerable<ConferenceDto> GetConferencesByUser(int userId)
+        public IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

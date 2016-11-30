@@ -12,17 +12,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool IsCurrent { get; set; }
 
-        public int? PreviousVersion { get; set; }
+        public Guid? PreviousVersion { get; set; }
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public int? ConferenceId { get; set; }
+        public Guid? ConferenceId { get; set; }
 
-        public int StatusId { get; set; }
+        public Guid StatusId { get; set; }
 
-        public int FormId { get; set; }
+        public Guid FormId { get; set; }
 
-        public virtual ICollection<Asignee> Asignee { get; set; }
+        public virtual ICollection<Assignment> Asignee { get; set; }
 
         public virtual ICollection<CommentDto> Comments { get; set; }
     }

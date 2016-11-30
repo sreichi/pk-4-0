@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class FieldHasValidation
     {
         [Column("field_id")]
-        public int FieldId { get; set; }
+        public Guid FieldId { get; set; }
         [Column("validation_id")]
-        public int ValidationId { get; set; }
+        public Guid ValidationId { get; set; }
 
         [ForeignKey("FieldId")]
         [InverseProperty("FieldHasValidation")]

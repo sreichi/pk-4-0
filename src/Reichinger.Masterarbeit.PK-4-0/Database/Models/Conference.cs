@@ -14,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         }
 
         [Column("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Column("description")]
         public string Description { get; set; }
         [Column("date_of_event")]

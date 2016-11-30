@@ -48,7 +48,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
         [ProducesResponseType(typeof(UserDto), 200)]
-        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]int userId)
+        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]Guid userId)
         {
             var user = _userRepository.GetUserById(userId);
             if (user == null)

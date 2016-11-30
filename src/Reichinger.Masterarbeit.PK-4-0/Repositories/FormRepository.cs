@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -25,7 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             });
         }
 
-        public FormDto GetFormById(int formId)
+        public FormDto GetFormById(Guid formId)
         {
             return _applicationDbContext.Form.Select(entry => new FormDto()
             {

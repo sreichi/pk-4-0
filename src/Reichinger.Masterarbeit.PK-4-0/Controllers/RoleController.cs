@@ -46,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/roles/{roleId}")]
         [SwaggerOperation("GetRoleById")]
         [ProducesResponseType(typeof(RoleDto), 200)]
-        public virtual IActionResult GetRoleById([FromHeader]long? token, [FromRoute]int roleId)
+        public virtual IActionResult GetRoleById([FromHeader]long? token, [FromRoute]Guid roleId)
         {
             var role = _roleRepository.GetRoleById(roleId);
             if (role == null)

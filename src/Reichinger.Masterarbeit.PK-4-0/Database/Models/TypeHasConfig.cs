@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class TypeHasConfig
     {
         [Column("config_id")]
-        public int ConfigId { get; set; }
+        public Guid ConfigId { get; set; }
         [Column("field_type_id")]
-        public int FieldTypeId { get; set; }
+        public Guid FieldTypeId { get; set; }
 
         [ForeignKey("ConfigId")]
         [InverseProperty("TypeHasConfig")]

@@ -23,7 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _applicationDbContext.Application.Select(entry => entry.ToDto());
         }
 
-        public ApplicationDto GetApplicationById(int applicationId)
+        public ApplicationDto GetApplicationById(Guid applicationId)
         {
             return _applicationDbContext.Application.Select(entry => entry.ToDto())
                 .FirstOrDefault(e => e.Id == applicationId);
@@ -33,30 +33,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             var newApplication = new Application()
             {
-                Id = applicationToCreate.Id,
-                Created = DateTime.Now,
-                LastModified = DateTime.Now,
-                Version = applicationToCreate.Version,
-                IsCurrent = applicationToCreate.IsCurrent,
-                PreviousVersion = applicationToCreate.PreviousVersion ?? null,
-                UserId = applicationToCreate.UserId,
-                ConferenceId = applicationToCreate.ConferenceId,
-                StatusId = applicationToCreate.StatusId,
-                FormId = applicationToCreate.FormId
+//                Id = applicationToCreate.Id,
+//                Created = DateTime.Now,
+//                LastModified = DateTime.Now,
+//                Version = applicationToCreate.Version,
+//                IsCurrent = applicationToCreate.IsCurrent,
+//                PreviousVersion = applicationToCreate.PreviousVersion ?? null,
+//                UserId = applicationToCreate.UserId,
+//                ConferenceId = applicationToCreate.ConferenceId,
+//                StatusId = applicationToCreate.StatusId,
+//                FormId = applicationToCreate.FormId
             };
 
             foreach (var entry in applicationToCreate.Assignments)
             {
-                newApplication.Asignee.Add(new Asignee()
-                {
-                    UserId = entry,
-                    ApplicationId = newApplication.Id
-                });
+//                newApplication.Asignee.Add(new Asignee()
+//                {
+//                    UserId = entry,
+//                    ApplicationId = newApplication.Id
+//                });
             }
 
             _applicationDbContext.Application.Add(newApplication);
 
-            return GetApplicationById(newApplication.Id);
+            return null;
         }
 
         public void Save()

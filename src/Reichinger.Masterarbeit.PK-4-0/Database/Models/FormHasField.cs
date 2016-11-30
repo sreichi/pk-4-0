@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class FormHasField
     {
         [Column("form_id")]
-        public int FormId { get; set; }
+        public Guid FormId { get; set; }
         [Column("field_id")]
-        public int FieldId { get; set; }
+        public Guid FieldId { get; set; }
 
         [ForeignKey("FieldId")]
         [InverseProperty("FormHasField")]

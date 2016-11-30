@@ -15,7 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         }
 
         [Column("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [Column("name", TypeName = "varchar")]
         [MaxLength(50)]
@@ -23,7 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("deprecated")]
         public bool Deprecated { get; set; }
         [Column("previous_version")]
-        public int? PreviousVersion { get; set; }
+        public Guid? PreviousVersion { get; set; }
         [Column("restricted_access")]
         public bool RestrictedAccess { get; set; }
         [Column("is_public")]

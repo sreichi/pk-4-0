@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     public partial class UserHasRole
     {
         [Column("role_id")]
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
         [Column("user_id")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [ForeignKey("RoleId")]
         [InverseProperty("UserHasRole")]

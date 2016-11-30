@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,13 +8,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     {
         public virtual DbSet<AppUser> AppUser { get; set; }
         public virtual DbSet<Application> Application { get; set; }
-        public virtual DbSet<Asignee> Asignee { get; set; }
+        public virtual DbSet<Assignment> Assignment { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Conference> Conference { get; set; }
         public virtual DbSet<Config> Config { get; set; }
         public virtual DbSet<EnumOptionsTable> EnumOptionsTable { get; set; }
         public virtual DbSet<Field> Field { get; set; }
-        public virtual IEnumerable<Style> FieldHasStyle { get; set; }
+        public virtual DbSet<FieldHasStyle> FieldHasStyle { get; set; }
         public virtual DbSet<FieldHasValidation> FieldHasValidation { get; set; }
         public virtual DbSet<FieldType> FieldType { get; set; }
         public virtual DbSet<Form> Form { get; set; }
@@ -34,6 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,17 +55,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.Property(e => e.Created).HasDefaultValueSql("('now'::text)::date");
             });
 
-            modelBuilder.Entity<Asignee>(entity =>
+            modelBuilder.Entity<Assignment>(entity =>
             {
-                entity.HasKey(e => new {e.ApplicationId, e.UserId})
-                    .HasName("PK_asignee");
+                entity.HasKey(e => new { e.ApplicationId, e.UserId })
+                    .HasName("PK_assignment");
 
                 entity.HasOne(asignee => asignee.User)
-                    .WithMany(user => user.Asignee)
+                    .WithMany(user => user.Assignment)
                     .HasForeignKey(asignee => asignee.UserId);
 
                 entity.HasOne(asignee => asignee.Application)
-                    .WithMany(application => application.Asignee)
+                    .WithMany(application => application.Assignment)
                     .HasForeignKey(asignee => asignee.ApplicationId);
             });
 
@@ -78,17 +78,29 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.Property(e => e.IsPrivate).HasDefaultValueSql("false");
             });
 
-            modelBuilder.Entity<Conference>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Conference>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<Config>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Config>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<EnumOptionsTable>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<EnumOptionsTable>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<Field>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Field>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
             modelBuilder.Entity<FieldHasStyle>(entity =>
             {
-                entity.HasKey(e => new {e.FieldId, e.StyleId})
+                entity.HasKey(e => new { e.FieldId, e.StyleId })
                     .HasName("PK_field_has_style");
 
                 entity.HasOne(fhs => fhs.Style)
@@ -102,7 +114,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             modelBuilder.Entity<FieldHasValidation>(entity =>
             {
-                entity.HasKey(e => new {e.FieldId, e.ValidationId})
+                entity.HasKey(e => new { e.FieldId, e.ValidationId })
                     .HasName("PK_field_has_validation");
 
                 entity.HasOne(fhv => fhv.Validation)
@@ -114,13 +126,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                     .HasForeignKey(fhv => fhv.FieldId);
             });
 
-            modelBuilder.Entity<FieldType>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<FieldType>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<Form>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Form>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
             modelBuilder.Entity<FormHasField>(entity =>
             {
-                entity.HasKey(e => new {e.FormId, e.FieldId})
+                entity.HasKey(e => new { e.FormId, e.FieldId })
                     .HasName("PK_form_has_field");
 
                 entity.HasOne(fhf => fhf.Form)
@@ -132,13 +150,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                     .HasForeignKey(fhf => fhf.FieldId);
             });
 
-            modelBuilder.Entity<Permission>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Permission>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<Role>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
             modelBuilder.Entity<RolePermission>(entity =>
             {
-                entity.HasKey(e => new {e.RoleId, e.PermissionId})
+                entity.HasKey(e => new { e.RoleId, e.PermissionId })
                     .HasName("PK_role_permission");
 
                 entity.HasOne(rp => rp.Role)
@@ -150,13 +174,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                     .HasForeignKey(rp => rp.PermissionId);
             });
 
-            modelBuilder.Entity<Status>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Status>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
-            modelBuilder.Entity<Style>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Style>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
 
             modelBuilder.Entity<TypeHasConfig>(entity =>
             {
-                entity.HasKey(e => new {e.ConfigId, e.FieldTypeId})
+                entity.HasKey(e => new { e.ConfigId, e.FieldTypeId })
                     .HasName("PK_type_has_config");
 
                 entity.HasOne(thc => thc.Config)
@@ -170,7 +200,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             modelBuilder.Entity<TypeHasStyle>(entity =>
             {
-                entity.HasKey(e => new {e.FieldTypeId, e.StyleId})
+                entity.HasKey(e => new { e.FieldTypeId, e.StyleId })
                     .HasName("PK_type_has_style");
 
                 entity.HasOne(ths => ths.Style)
@@ -184,7 +214,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             modelBuilder.Entity<TypeHasValidation>(entity =>
             {
-                entity.HasKey(e => new {e.FieldTypeId, e.ValidationId})
+                entity.HasKey(e => new { e.FieldTypeId, e.ValidationId })
                     .HasName("PK_type_has_validation");
 
                 entity.HasOne(thv => thv.Validation)
@@ -198,7 +228,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             modelBuilder.Entity<UserHasRole>(entity =>
             {
-                entity.HasKey(e => new {e.RoleId, e.UserId})
+                entity.HasKey(e => new { e.RoleId, e.UserId })
                     .HasName("PK_user_has_role");
 
                 entity.HasOne(uhr => uhr.Role)
@@ -210,7 +240,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                     .HasForeignKey(uhr => uhr.UserId);
             });
 
-            modelBuilder.Entity<Validation>(entity => { entity.Property(e => e.Id).ValueGeneratedNever(); });
+            modelBuilder.Entity<Validation>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
         }
     }
 }

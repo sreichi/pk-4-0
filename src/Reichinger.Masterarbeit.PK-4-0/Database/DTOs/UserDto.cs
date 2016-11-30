@@ -9,7 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
     public class UserDto
     {
         [Required]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Firstname { get; set; }

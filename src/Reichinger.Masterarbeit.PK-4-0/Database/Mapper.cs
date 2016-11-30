@@ -20,7 +20,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 ConferenceId = httpResponse.ConferenceId,
                 StatusId = httpResponse.StatusId,
                 FormId = httpResponse.FormId,
-                Assignments = httpResponse.Asignee.Select(asignee => asignee.UserId),
+                Assignments = httpResponse.Assignment.Select(asignee => asignee.UserId),
                 Comments = httpResponse.Comment.Select(comment => new CommentDto()
                 {
                     UserId = comment.UserId,
