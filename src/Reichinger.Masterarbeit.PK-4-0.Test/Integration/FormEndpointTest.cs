@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private DatabaseFixture _fixture;
         private const string UrlPath = "/forms/";
-        private const int FormId = 1;
+        private readonly Guid FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
         private const int InvalidFormId = 98765;
 
         public FormEndpointTest(DatabaseFixture fixture)

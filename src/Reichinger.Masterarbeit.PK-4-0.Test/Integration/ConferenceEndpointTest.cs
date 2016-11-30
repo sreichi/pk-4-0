@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Server.Kestrel.Internal.Http;
@@ -13,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private DatabaseFixture _fixture;
         private const string UrlPath = "/conferences/";
-        private const int ConferenceId = 1;
+        private readonly Guid ConferenceId = new Guid("74cf7b5c-1c7e-448b-ac5d-b9c63d466e1a");
         private const int InvalidConferenceId = 9876543;
 
         public ConferenceEndpointTest(DatabaseFixture fixture)

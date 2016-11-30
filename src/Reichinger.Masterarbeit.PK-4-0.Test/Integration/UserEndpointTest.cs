@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
@@ -13,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/users/";
-        private const int UserId = 1;
+        private Guid UserId = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61");
         private const int InvalidUserId = 98765;
 
         public UserEndpointTest(DatabaseFixture fixture)

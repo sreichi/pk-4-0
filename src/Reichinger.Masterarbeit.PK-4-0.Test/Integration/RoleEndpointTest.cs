@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json;
 using FluentAssertions;
@@ -12,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private DatabaseFixture _fixture;
         private const string UrlPath = "/roles/";
-        private const int RoleId = 1;
+        private Guid RoleId = new Guid("8fa4497d-bee4-411d-83ef-f195037cbb43");
         private const int InvalidRoleId = 987654;
 
         public RoleEndpointTest(DatabaseFixture fixture)

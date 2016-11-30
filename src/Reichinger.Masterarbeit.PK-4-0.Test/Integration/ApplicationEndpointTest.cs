@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -16,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/applications/";
-        private const int ApplicationId = 1;
+        private readonly Guid ApplicationId = new Guid("86c42368-ba33-4fca-a911-fa8d3758b01d");
         private const int InvalidApplicationId = 987654;
 
         public ApplicationEndpointTest(DatabaseFixture fixture)
