@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -20,7 +21,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         }
         public IEnumerable<ApplicationDto> GetAllApplications()
         {
-            return _applicationDbContext.Application.Select(entry => entry.ToDto());
+            return _applicationDbContext.Application
+                .Include(application => application.Comment)
+                .Include(application => application.Assignment)
+                .Select(entry => entry.ToDto());
         }
 
         public ApplicationDto GetApplicationById(Guid applicationId)

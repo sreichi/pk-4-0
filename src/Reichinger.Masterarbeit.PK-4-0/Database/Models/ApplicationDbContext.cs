@@ -60,13 +60,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.HasKey(e => new { e.ApplicationId, e.UserId })
                     .HasName("PK_assignment");
 
-                entity.HasOne(asignee => asignee.User)
+                entity.HasOne(assignment => assignment.User)
                     .WithMany(user => user.Assignment)
-                    .HasForeignKey(asignee => asignee.UserId);
+                    .HasForeignKey(assignment => assignment.UserId);
 
-                entity.HasOne(asignee => asignee.Application)
+                entity.HasOne(assignment => assignment.Application)
                     .WithMany(application => application.Assignment)
-                    .HasForeignKey(asignee => asignee.ApplicationId);
+                    .HasForeignKey(assignment => assignment.ApplicationId);
             });
 
             modelBuilder.Entity<Comment>(entity =>
