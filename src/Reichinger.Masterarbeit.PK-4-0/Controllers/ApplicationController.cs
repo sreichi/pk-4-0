@@ -33,7 +33,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
         [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
+        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader] long? token, [FromQuery] string filter,
+            [FromQuery] string sort)
         {
             return _applicationRepository.GetAllApplications();
         }
@@ -51,7 +52,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
         [ProducesResponseType(typeof(Application), 200)]
-        public virtual IActionResult GetApplicationById([FromHeader]long? token, [FromRoute]Guid applicationId)
+        public virtual IActionResult GetApplicationById([FromHeader] long? token, [FromRoute] Guid applicationId)
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
             if (application == null)
@@ -75,7 +76,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
         [ProducesResponseType(typeof(ApplicationDto), 201)]
-        public virtual IActionResult CreateApplication([FromHeader]long? token, [FromBody]ApplicationCreateDto application)
+        public virtual IActionResult CreateApplication([FromHeader] long? token,
+            [FromBody] ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +105,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
         [ProducesResponseType(typeof(CommentDto), 200)]
-        public virtual IActionResult AddCommentToApplication([FromHeader]long? token, [FromRoute]Guid applicationId, [FromBody]CommentCreateDto comment)
+        public virtual IActionResult AddCommentToApplication([FromHeader] long? token, [FromRoute] Guid applicationId,
+            [FromBody] CommentCreateDto comment)
         {
             if (!ModelState.IsValid)
             {
@@ -124,12 +127,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application deleted</response>
+        /// <response code="404">Application not found</response>
+        /// <response code="400">Bad Request</response>
         [HttpDelete]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationById")]
-        public virtual void DeleteApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId)
+        public virtual IActionResult DeleteApplicationById([FromHeader] long? token, [FromRoute] Guid applicationId)
         {
-            throw new NotImplementedException();
+            var result = _applicationRepository.DeleteApplicationById(applicationId);
+            _applicationRepository.Save();
+            return result;
+
         }
 
 
@@ -145,7 +153,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
         [ProducesResponseType(typeof(Application),200)]
-        public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromBody]Application application)
+        public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]Guid? applicationId, [FromBody]Application application)
         {
             string exampleJson = null;
 

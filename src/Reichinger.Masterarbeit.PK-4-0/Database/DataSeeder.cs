@@ -10,25 +10,33 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
     {
         static Guid _role1Id = new Guid("8fa4497d-bee4-411d-83ef-f195037cbb43");
         static Guid _role2Id = new Guid("c18ac352-9efc-4d64-8555-3379336309c8");
+
         static Guid _user1Id = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61");
         static Guid _user2Id = new Guid("ee632373-432e-40f0-9f33-8cc6b684e673");
+
         static Guid _application1Id = new Guid("86c42368-ba33-4fca-a911-fa8d3758b01d");
         static Guid _application2Id = new Guid("b630df84-32bd-42b5-a957-7f94a9ee503e");
+
         static Guid _form1Id = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
         static Guid _form2Id = new Guid("e5253303-5f6e-474e-812b-d655afce5edb");
+
         static Guid _conference1Id = new Guid("74cf7b5c-1c7e-448b-ac5d-b9c63d466e1a");
         static Guid _conference2Id = new Guid("866ad5a9-64a4-4058-9751-b0dd27ef4d0e");
+
         static Guid _status1Id = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80");
         static Guid _status2Id = new Guid("ba72b0fb-9969-4942-801e-685b86059421");
+
         static Guid _field1Id = new Guid("3eeecb10-c634-444d-8619-e924df38cd3c");
         static Guid _field2Id = new Guid("7ac9cb82-f717-46e6-85e1-03e8783312a8");
         static Guid _field3Id = new Guid("1cf6b5ef-a891-4d56-8212-e04450616543");
         static Guid _field4Id = new Guid("5c46387f-613d-4f0d-bfec-52e9f7051cb0");
         static Guid _field5Id = new Guid("e1a7e22b-c482-41a5-806b-f9bc9d20891b");
+
         static Guid _fieldType1Id = new Guid("5c3914e9-a1ea-4c21-914a-39c2b5faa90c");
         static Guid _fieldType2Id = new Guid("77c630ab-8298-4847-a1f0-7cccc4172ea4");
         static Guid _fieldType3Id = new Guid("8abb2070-3abb-47b7-b50d-54b0d9b3db5d");
         static Guid _fieldType4Id = new Guid("3bd87eea-6b12-45c1-b3ec-0cb89f2f7115");
+
         static Guid _comment1Id = new Guid("df8452a4-de1d-4013-888c-4b486da7f269");
         static Guid _comment2Id = new Guid("4f8cd9b9-eb6a-4f56-b481-f35a1fd83493");
         static Guid _comment3Id = new Guid("ec243020-2158-4c26-87be-f3a83042fec1");
