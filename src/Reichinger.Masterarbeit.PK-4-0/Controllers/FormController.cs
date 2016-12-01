@@ -66,15 +66,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/forms")]
         [SwaggerOperation("AddForm")]
-        [ProducesResponseType(typeof(Form), 200)]
-        public virtual IActionResult AddForm([FromHeader] long? token, [FromBody] Form form)
+        [ProducesResponseType(typeof(FormDto), 200)]
+        public virtual IActionResult AddForm([FromHeader] long? token, [FromBody] FormCreateDto form)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Form>(exampleJson)
-                : default(Form);
-            return new ObjectResult(example);
+            var newForm = _formRepository.CreateNewForm(form);
+            _formRepository.Save();
+
+            var location = "/forms/" + newForm.Id;
+            return Created(location, newForm);
         }
 
 

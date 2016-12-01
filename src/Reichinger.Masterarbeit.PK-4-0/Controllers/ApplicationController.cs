@@ -115,6 +115,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             var newComment = _applicationRepository.AddCommentToApplication(applicationId, comment);
             _applicationRepository.Save();
 
+            //TODO this the wrong location but there is no route to get one single comment.
             var location = "comment";
             return Created(location, newComment);
         }

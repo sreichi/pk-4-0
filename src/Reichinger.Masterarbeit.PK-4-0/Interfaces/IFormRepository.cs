@@ -8,5 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     {
         IEnumerable<FormDto> GetAllForms();
         FormDto GetFormById(Guid formId);
+        FormDto CreateNewForm(FormCreateDto formToCreate);
+        void Save();
     }
 }

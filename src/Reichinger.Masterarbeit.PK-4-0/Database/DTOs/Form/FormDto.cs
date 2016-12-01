@@ -12,6 +12,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         [Required]
         public string Name { get; set; }
 
+        public bool Deprecated { get; set; }
+
+        public bool RestrictedAccess { get; set; }
+
+        public bool IsPublic { get; set; }
+
         public virtual IEnumerable<Guid> Application { get; set; }
 
         public virtual IEnumerable<Guid> FormHasField { get; set; }

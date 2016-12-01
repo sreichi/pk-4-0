@@ -41,6 +41,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         static Guid _comment2Id = new Guid("4f8cd9b9-eb6a-4f56-b481-f35a1fd83493");
         static Guid _comment3Id = new Guid("ec243020-2158-4c26-87be-f3a83042fec1");
 
+        static Guid _style1Id = new Guid("2674979f-3f39-40bf-a301-6a548f7bde15");
+        static Guid _style2Id = new Guid("78540ab7-51e0-4d67-82bc-8efb1d679d03");
+
+        static Guid _validation2Id = new Guid("640dae4d-8cfe-4aec-a98c-9ec23dc842d6");
+        static Guid _validation1Id = new Guid("55f37c8b-56aa-4b4f-8f14-b500854e11a9");
+
         public static void SeedData(this IApplicationBuilder applicationBuilder)
         {
             var db =
@@ -63,9 +69,81 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateComments(dbContext);
             CreateFieldTypes(dbContext);
             CreateFields(dbContext);
+            CreateStyles(dbContext);
+            CreateValidations(dbContext);
             CreateFormHasField(dbContext);
+            CreateFieldHasStyle(dbContext);
+            CreaFieldHasValidation(dbContext);
             CreateUserHasRole(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreaFieldHasValidation(ApplicationDbContext dbContext)
+        {
+            dbContext.FieldHasValidation.Add(new FieldHasValidation()
+            {
+                FieldId = _field1Id,
+                ValidationId = _validation1Id
+            });
+
+            dbContext.FieldHasValidation.Add(new FieldHasValidation()
+            {
+                FieldId = _field1Id,
+                ValidationId = _validation2Id
+            });
+
+            dbContext.FieldHasValidation.Add(new FieldHasValidation()
+            {
+                FieldId = _field2Id,
+                ValidationId = _validation1Id
+            });
+        }
+
+        private static void CreateFieldHasStyle(ApplicationDbContext dbContext)
+        {
+            dbContext.FieldHasStyle.Add(new FieldHasStyle()
+            {
+                FieldId = _field1Id,
+                StyleId = _style1Id,
+            });
+            dbContext.FieldHasStyle.Add(new FieldHasStyle()
+            {
+                FieldId = _field2Id,
+                StyleId = _style1Id,
+            });
+            dbContext.FieldHasStyle.Add(new FieldHasStyle()
+            {
+                FieldId = _field2Id,
+                StyleId = _style2Id,
+            });
+        }
+
+        private static void CreateValidations(ApplicationDbContext dbContext)
+        {
+            dbContext.Validation.Add(new Validation()
+            {
+                Id = _validation1Id,
+                ValidationString = "max-lenght-20"
+            });
+            dbContext.Validation.Add(new Validation()
+            {
+                Id = _validation2Id,
+                ValidationString = "min-length-8"
+            });
+        }
+
+        private static void CreateStyles(ApplicationDbContext dbContext)
+        {
+            dbContext.Style.Add(new Style()
+            {
+                Id = _style1Id,
+                StyleString = "small"
+            });
+            dbContext.Style.Add(new Style()
+            {
+                Id = _style2Id,
+                StyleString = "alligned"
+            });
         }
 
 

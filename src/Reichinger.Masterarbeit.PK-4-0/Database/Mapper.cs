@@ -60,5 +60,51 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 UserId = response.UserId
             };
         }
+
+        public static Field ToModel(this FieldCreateDto response, Guid )
+        {
+            return new FormHasField()
+            {
+                FormId = newForm.Id,
+                Field = new Field()
+                {
+                    Id = newFormFieldÍd,
+                    Name = field.Name,
+                    FieldType = field.FieldType,
+                    Label = field.Label ?? null,
+                    MultipleSelect = field.MultipleSelect ?? null,
+                    Required = field.Required ?? null,
+                    Placeholder = field.Placeholder ?? null,
+                    ContentType = field.ContentType,
+                    Value = field.Value ?? null,
+                    Options = field.Options ?? null,
+                    EnumOptionsTableId = field.EnumOptionsTableId ?? null
+                }
+            }
+        }
+
+        public static FormDto ToDto(this Form response)
+        {
+            return new FormDto()
+            {
+                Id =  response.Id,
+                Name = response.Name,
+                Application = response.Application.Select(e => e.Id),
+                FormHasField = response.FormHasField.Select(field => field.FieldId)
+            };
+        }
+
+        public static Form ToModel(this FormCreateDto response)
+        {
+            return new Form()
+            {
+                Id = Guid.NewGuid(),
+                Name = response.Name,
+                Deprecated = false,
+                IsPublic = response.IsPublic,
+                RestrictedAccess = response.RestrictedAccess,
+                PreviousVersion = null
+            };
+        }
     }
 }
