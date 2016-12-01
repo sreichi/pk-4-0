@@ -61,27 +61,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static Field ToModel(this FieldCreateDto response, Guid )
-        {
-            return new FormHasField()
-            {
-                FormId = newForm.Id,
-                Field = new Field()
-                {
-                    Id = newFormFieldÍd,
-                    Name = field.Name,
-                    FieldType = field.FieldType,
-                    Label = field.Label ?? null,
-                    MultipleSelect = field.MultipleSelect ?? null,
-                    Required = field.Required ?? null,
-                    Placeholder = field.Placeholder ?? null,
-                    ContentType = field.ContentType,
-                    Value = field.Value ?? null,
-                    Options = field.Options ?? null,
-                    EnumOptionsTableId = field.EnumOptionsTableId ?? null
-                }
-            }
-        }
 
         public static FormDto ToDto(this Form response)
         {
