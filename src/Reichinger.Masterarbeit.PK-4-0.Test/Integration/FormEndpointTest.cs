@@ -37,18 +37,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var forms = JsonConvert.DeserializeObject<List<FormsDto>>(result.Content.ReadAsStringAsync().Result);
             forms.ForEach(form => form.Should().BeOfType<FormsDto>());
-            forms.Count.Should().Be(2);
         }
 
         [Fact]
-        public async void GetFormByIdShouldReturnOneFormDto()
+        public async void GetFormByIdShouldReturnSingleFormDto()
         {
             var result = await _fixture.GetHttpResult(UrlPath + FormId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var form = JsonConvert.DeserializeObject<FormsDto>(result.Content.ReadAsStringAsync().Result);
-            form.Should().BeOfType<FormsDto>();
+            var form = JsonConvert.DeserializeObject<SingleFormDto>(result.Content.ReadAsStringAsync().Result);
+            form.Should().BeOfType<SingleFormDto>();
         }
 
         [Fact]
