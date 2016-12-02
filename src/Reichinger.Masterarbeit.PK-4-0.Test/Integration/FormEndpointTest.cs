@@ -17,6 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private DatabaseFixture _fixture;
         private const string UrlPath = "/forms/";
         private readonly Guid FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
+        private readonly Guid FormToDeleteId = new Guid("e5253303-5f6e-474e-812b-d655afce5edb");
         private const int InvalidFormId = 98765;
 
         private IEnumerable<FieldCreateDto> fields = new List<FieldCreateDto>();
@@ -120,5 +121,44 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             newNumberOfForms.Should().Be(currentNumberOfForms + 1);
         }
 
+        [Fact]
+        public async void CreateNewFormWithInvalidModelStateShouldReturnBadRequest()
+        {
+            fields.Append(new FieldCreateDto()
+            {
+                Name = "TestField",
+                Options = "{\"id\":42 , \"name\":\"Rolando\"}",
+                FieldType = new Guid("5c3914e9-a1ea-4c21-914a-39c2b5faa90c"),
+            });
+
+            var newForm = new FormCreateDto()
+            {
+                IsPublic = true,
+                RestrictedAccess = false,
+                FormHasField = fields
+            };
+
+            var serializedForm = JsonConvert.SerializeObject(newForm);
+            var result = await _fixture.PostHttpResult(UrlPath, serializedForm);
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async void DeleteFormShouldReturnOkAndDeleteOneEntity()
+        {
+            var result = await _fixture.DeleteHttpResult(UrlPath + FormToDeleteId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void DeleteFormWithApplicationsShouldReturnBadRequest()
+        {
+            var result = await _fixture.DeleteHttpResult(UrlPath + FormId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }

@@ -34,6 +34,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             return await _client.PostAsync(urlPath, new StringContent(json, Encoding.UTF8, "application/json"));
         }
 
+        public async Task<HttpResponseMessage> DeleteHttpResult(string urlPath)
+        {
+            return await _client.DeleteAsync(urlPath);
+        }
+
         public IConfigurationRoot Configuration { get; set; }
 
         public void Dispose()

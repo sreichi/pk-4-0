@@ -94,7 +94,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IActionResult DeleteFormById(Guid formId)
         {
             var formToDelete =
-                _applicationDbContext.Form.Include(form => form.FormHasField)
+                _applicationDbContext.Form.Include(form => form.Application)
+                    .Include(form => form.FormHasField)
                     .ThenInclude(fields => fields.Field)
                     .FirstOrDefault(form => form.Id == formId);
 
@@ -137,7 +138,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         private void DeleteField(Field fieldToRemove)
         {
-            _applicationDbContext.Field.Remove(fieldToRemove);
+            if (fieldToRemove != null)
+            {
+                _applicationDbContext.Field.Remove(fieldToRemove);
+            }
         }
     }
 }
