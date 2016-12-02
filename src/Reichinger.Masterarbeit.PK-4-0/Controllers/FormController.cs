@@ -91,9 +91,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/forms/{formId}")]
         [SwaggerOperation("DeleteFormById")]
-        public virtual void DeleteFormById([FromHeader] long? token, [FromRoute] decimal? formId)
+        public virtual IActionResult DeleteFormById([FromHeader] long? token, [FromRoute] Guid formId)
         {
-            throw new NotImplementedException();
+            var result = _formRepository.DeleteFormById(formId);
+            _formRepository.Save();
+            return result;
         }
 
 
