@@ -59,22 +59,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                         EnumOptionsTableId = field.EnumOptionsTableId ?? null
                     }
                 });
-                foreach (var styleId in field.FieldHasStyle)
+
+                if (field.FieldHasStyle != null)
                 {
-                    _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
+                    foreach (var styleId in field.FieldHasStyle)
                     {
-                        FieldId = newFormFieldÍd,
-                        StyleId = styleId
-                    });
+                        _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
+                        {
+                            FieldId = newFormFieldÍd,
+                            StyleId = styleId
+                        });
+                    }
+
                 }
 
-                foreach (var validationId in field.FieldHasValidation)
+                if (field.FieldHasValidation != null)
                 {
-                    _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
+                    foreach (var validationId in field.FieldHasValidation)
                     {
-                        FieldId = newFormFieldÍd,
-                        ValidationId = validationId
-                    });
+                        _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
+                        {
+                            FieldId = newFormFieldÍd,
+                            ValidationId = validationId
+                        });
+                    }
                 }
             }
             _applicationDbContext.Form.Add(newForm);
