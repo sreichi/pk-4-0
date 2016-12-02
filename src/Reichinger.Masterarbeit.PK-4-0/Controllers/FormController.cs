@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var newForm = _formRepository.CreateNewForm(form);

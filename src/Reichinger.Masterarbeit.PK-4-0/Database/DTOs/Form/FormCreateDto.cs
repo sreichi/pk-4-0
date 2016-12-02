@@ -9,9 +9,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
     {
         [Required]
         public string Name { get; set; }
-
+        [Required]
         public bool RestrictedAccess { get; set; }
-
+        [Required]
         public bool IsPublic { get; set; }
 
         public virtual IEnumerable<FieldCreateDto> FormHasField { get; set; }
