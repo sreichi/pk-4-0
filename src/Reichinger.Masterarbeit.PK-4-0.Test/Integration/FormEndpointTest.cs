@@ -35,8 +35,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var forms = JsonConvert.DeserializeObject<List<FormDto>>(result.Content.ReadAsStringAsync().Result);
-            forms.ForEach(form => form.Should().BeOfType<FormDto>());
+            var forms = JsonConvert.DeserializeObject<List<FormsDto>>(result.Content.ReadAsStringAsync().Result);
+            forms.ForEach(form => form.Should().BeOfType<FormsDto>());
             forms.Count.Should().Be(2);
         }
 
@@ -47,8 +47,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var form = JsonConvert.DeserializeObject<FormDto>(result.Content.ReadAsStringAsync().Result);
-            form.Should().BeOfType<FormDto>();
+            var form = JsonConvert.DeserializeObject<FormsDto>(result.Content.ReadAsStringAsync().Result);
+            form.Should().BeOfType<FormsDto>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var allForms = await _fixture.GetHttpResult(UrlPath);
             var currentNumberOfForms =
-                JsonConvert.DeserializeObject<List<FormDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
+                JsonConvert.DeserializeObject<List<FormsDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
 
             styles.Add(new Guid("2674979f-3f39-40bf-a301-6a548f7bde15"));
             validations.Add(new Guid("640dae4d-8cfe-4aec-a98c-9ec23dc842d6"));
@@ -116,7 +116,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
 
             allForms = await _fixture.GetHttpResult(UrlPath);
-            var newNumberOfForms = JsonConvert.DeserializeObject<List<FormDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
+            var newNumberOfForms = JsonConvert.DeserializeObject<List<FormsDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
 
             newNumberOfForms.Should().Be(currentNumberOfForms + 1);
         }

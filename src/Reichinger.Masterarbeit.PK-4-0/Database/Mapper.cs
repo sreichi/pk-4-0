@@ -2,6 +2,7 @@
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
@@ -22,15 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StatusId = response.StatusId,
                 FormId = response.FormId,
                 Assignments = response.Assignment.Select(asignee => asignee.UserId),
-                Comments = response.Comment.Select(comment => new CommentDto()
-                {
-                    UserId = comment.UserId,
-                    ApplicationId = comment.ApplicationId,
-                    Created = comment.Created,
-                    IsPrivate = comment.IsPrivate,
-                    RequiresChanges = comment.RequiresChanges,
-                    Text = comment.Text
-                }).OrderBy(dto => dto.Created)
+                Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created)
             };
         }
 
@@ -62,14 +55,45 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         }
 
 
-        public static FormDto ToDto(this Form response)
+        public static FieldDto ToDto(this Field response)
         {
-            return new FormDto()
+            return new FieldDto()
+            {
+                Name = response.Name,
+                Label = response.Label,
+                ContentType = response.ContentType,
+                FieldType = response.FieldType,
+                Placeholder = response.Placeholder,
+                Value = response.Value,
+                Required = response.Required,
+                Options = response.Options,
+                MultipleSelect = response.MultipleSelect,
+                EnumOptionsTableId = response.EnumOptionsTableId,
+
+                FieldHasStyle = response.FieldHasStyle.Select(style => style.Style.StyleString),
+                FieldHasValidation = response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
+            };
+        }
+
+        public static FormsDto ToDto(this Form response)
+        {
+            return new FormsDto()
             {
                 Id =  response.Id,
                 Name = response.Name,
                 Application = response.Application.Select(e => e.Id),
                 FormHasField = response.FormHasField.Select(field => field.FieldId)
+            };
+        }
+
+        public static SingleFormDto ToSingleFormDto(this Form response)
+        {
+            return new SingleFormDto()
+            {
+                Id =  response.Id,
+                Name = response.Name,
+                Application = response.Application.Select(e => e.Id),
+                FormHasField = response.FormHasField.Select(field => field.Field.ToDto())
             };
         }
 

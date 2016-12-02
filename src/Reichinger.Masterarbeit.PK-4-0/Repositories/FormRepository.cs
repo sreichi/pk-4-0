@@ -18,7 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<FormDto> GetAllForms()
+        public IEnumerable<FormsDto> GetAllForms()
         {
             return
                 _applicationDbContext.Form.Include(form => form.Application)
@@ -26,16 +26,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     .Select(entry => entry.ToDto());
         }
 
-        public FormDto GetFormById(Guid formId)
+        public SingleFormDto GetFormById(Guid formId)
         {
             return
                 _applicationDbContext.Form.Include(form => form.Application)
                     .Include(form => form.FormHasField)
-                    .Select(entry => entry.ToDto())
+                    .ThenInclude(formField => formField.Field)
+                    .Select(entry => entry.ToSingleFormDto())
                     .FirstOrDefault(entry => entry.Id == formId);
         }
 
-        public FormDto CreateNewForm(FormCreateDto formToCreate)
+        public FormsDto CreateNewForm(FormCreateDto formToCreate)
         {
             var newForm = formToCreate.ToModel();
             foreach (var field in formToCreate.FormHasField)

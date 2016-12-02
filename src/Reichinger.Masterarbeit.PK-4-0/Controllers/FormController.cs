@@ -28,8 +28,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/forms")]
         [SwaggerOperation("GetForms")]
-        [ProducesResponseType(typeof(List<FormDto>), 200)]
-        public virtual IEnumerable<FormDto> GetForms([FromHeader] long? token)
+        [ProducesResponseType(typeof(List<FormsDto>), 200)]
+        public virtual IEnumerable<FormsDto> GetForms([FromHeader] long? token)
         {
             return _formRepository.GetAllForms();
         }
@@ -45,7 +45,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/forms/{formId}")]
         [SwaggerOperation("GetFormById")]
-        [ProducesResponseType(typeof(FormDto), 200)]
+        [ProducesResponseType(typeof(SingleFormDto), 200)]
         public virtual IActionResult GetFormById([FromHeader] long? token, [FromRoute] Guid formId)
         {
             var form = _formRepository.GetFormById(formId);
@@ -66,7 +66,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/forms")]
         [SwaggerOperation("AddForm")]
-        [ProducesResponseType(typeof(FormDto), 200)]
+        [ProducesResponseType(typeof(FormsDto), 200)]
         public virtual IActionResult AddForm([FromHeader] long? token, [FromBody] FormCreateDto form)
         {
             if (!ModelState.IsValid)

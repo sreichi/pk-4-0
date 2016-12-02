@@ -6,9 +6,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface IFormRepository
     {
-        IEnumerable<FormDto> GetAllForms();
-        FormDto GetFormById(Guid formId);
-        FormDto CreateNewForm(FormCreateDto formToCreate);
+        IEnumerable<FormsDto> GetAllForms();
+        SingleFormDto GetFormById(Guid formId);
+        FormsDto CreateNewForm(FormCreateDto formToCreate);
         void Save();
     }
 }

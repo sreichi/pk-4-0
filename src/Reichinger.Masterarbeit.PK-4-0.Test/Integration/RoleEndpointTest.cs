@@ -28,9 +28,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var applications = JsonConvert.DeserializeObject<List<FormDto>>(result.Content.ReadAsStringAsync().Result);
+            var applications = JsonConvert.DeserializeObject<List<FormsDto>>(result.Content.ReadAsStringAsync().Result);
             applications.Count.Should().Be(2);
-            applications.ForEach(dto => dto.Should().BeOfType<FormDto>());
+            applications.ForEach(dto => dto.Should().BeOfType<FormsDto>());
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var application = JsonConvert.DeserializeObject<FormDto>(result.Content.ReadAsStringAsync().Result);
-            application.Should().BeOfType<FormDto>();
+            var application = JsonConvert.DeserializeObject<FormsDto>(result.Content.ReadAsStringAsync().Result);
+            application.Should().BeOfType<FormsDto>();
         }
 
         [Fact]
