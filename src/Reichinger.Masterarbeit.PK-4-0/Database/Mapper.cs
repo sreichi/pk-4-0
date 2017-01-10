@@ -54,6 +54,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static ConferenceDto ToDto(this Conference response)
+        {
+            return new ConferenceDto();
+        }
+
 
         public static FieldDto ToDto(this Field response)
         {

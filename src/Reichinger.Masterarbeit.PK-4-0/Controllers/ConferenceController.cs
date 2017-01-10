@@ -69,15 +69,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("GetApplicationsByConference")]
-        [ProducesResponseType(typeof(List<Application>), 200)]
-        public virtual IActionResult GetApplicationsByConference([FromHeader]long? token, [FromRoute]decimal? conferenceId)
+        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
+        public virtual IEnumerable<ApplicationDto> GetApplicationsByConference([FromHeader]long? token, [FromRoute]Guid conferenceId)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<List<Application>>(exampleJson)
-                : default(List<Application>);
-            return new ObjectResult(example);
+            return _conferenceRepository.GetApplicationsOfConferenceById(conferenceId);
         }
 
 

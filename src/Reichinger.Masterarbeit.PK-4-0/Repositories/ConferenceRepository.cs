@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -41,6 +42,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
+        {
+            var result = _applicationDbContext.Conference
+                .Include(c => c.Application)
+                .SingleOrDefault(c => c.Id == conferenceId)
+                .Application.Select(i=>i.ToDto());
+            return result;
         }
     }
 }

@@ -13,12 +13,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class ApplicationRepository : IApplicationRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<Application> _dpApplications;
 
         public ApplicationRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dpApplications = _applicationDbContext.Application;
         }
 
         public IEnumerable<ApplicationDto> GetAllApplications()

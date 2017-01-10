@@ -11,5 +11,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IEnumerable<ConferenceDto> GetAllConferences();
         ConferenceDto GetConferernceById(Guid conferenceId);
         IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId);
+        IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId);
     }
 }
