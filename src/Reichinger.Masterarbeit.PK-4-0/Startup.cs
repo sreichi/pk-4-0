@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -48,7 +49,16 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
 
-            services.AddCors();
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", corsBuilder.Build());
+            });
 
             // Add framework services.
             services.AddMvc();
@@ -80,13 +90,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseCors(builder =>
-            {
-                builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-            });
+            app.UseCors("AllowAll");
 
             app.UseMvc();
 
