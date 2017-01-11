@@ -48,9 +48,11 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
 
+            services.AddCors();
 
             // Add framework services.
             services.AddMvc();
+
 
             services.AddSwaggerGen(options =>
             {
@@ -77,6 +79,14 @@ namespace Reichinger.Masterarbeit.PK_4_0
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
 
             app.UseMvc();
 
