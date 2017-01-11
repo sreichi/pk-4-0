@@ -89,7 +89,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             app.UseSwaggerUi();
 
-            if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
+            if (_environment.IsEnvironment("Development"))
             {
                 app.SeedData();
             }
