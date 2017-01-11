@@ -51,5 +51,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async void GetApplicationsOfConferenceShouldReturnListOfApplicationsDtos()
+        {
+            var result = await _fixture.GetHttpResult($"{UrlPath}{ConferenceId}/applications");
+            result.Should().NotBeNull();
+            var applications =
+                JsonConvert.DeserializeObject<List<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
+            applications.ForEach(application => application.Should().BeOfType<ApplicationDto>());
+        }
     }
 }
