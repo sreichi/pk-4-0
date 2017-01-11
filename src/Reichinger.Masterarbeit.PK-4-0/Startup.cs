@@ -49,16 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
 
-            var corsBuilder = new CorsPolicyBuilder();
-            corsBuilder.AllowAnyHeader();
-            corsBuilder.AllowAnyMethod();
-            corsBuilder.AllowAnyOrigin();
-            corsBuilder.AllowCredentials();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", corsBuilder.Build());
-            });
+            services.AddCors();
 
             // Add framework services.
             services.AddMvc();
@@ -90,7 +81,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseCors("AllowAll");
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseMvc();
 
