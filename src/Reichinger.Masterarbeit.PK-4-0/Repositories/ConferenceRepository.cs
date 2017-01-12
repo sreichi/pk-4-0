@@ -19,24 +19,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         }
         public IEnumerable<ConferenceDto> GetAllConferences()
         {
-            return _applicationDbContext.Conference.Select(entry => new ConferenceDto()
-            {
-                Id = entry.Id,
-                Description =  entry.Description,
-                DateOfEvent = entry.DateOfEvent,
-                Application = entry.Application.Select(e => e.Id)
-            });
+            return _applicationDbContext.Conference
+                .Include(conference => conference.Application)
+                .Select(entry => entry.ToDto());
         }
 
         public ConferenceDto GetConferernceById(Guid conferenceId)
         {
-            return _applicationDbContext.Conference.Select(entry => new ConferenceDto()
-            {
-                Id = entry.Id,
-                Description =  entry.Description,
-                DateOfEvent = entry.DateOfEvent,
-                Application = entry.Application.Select(e => e.Id)
-            }).FirstOrDefault(entry => entry.Id == conferenceId);
+            return _applicationDbContext.Conference
+                .Select(entry => entry.ToDto())
+                .SingleOrDefault(entry => entry.Id == conferenceId);
         }
 
         public IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId)
@@ -47,9 +39,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             var result = _applicationDbContext.Conference
-                .Include(c => c.Application)
-                .SingleOrDefault(c => c.Id == conferenceId)
-                .Application.Select(i=>i.ToDto());
+                .Include(conference => conference.Application)
+                .SingleOrDefault(conference => conference.Id == conferenceId)
+                .Application.Select(application => application.ToDto());
             return result;
         }
 

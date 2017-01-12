@@ -60,7 +60,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
-                Description = response.Description
+                Description = response.Description,
+                Application = response.Application.Select(application => application.Id)
             };
         }
 
