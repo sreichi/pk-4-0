@@ -21,13 +21,11 @@ services:
 
 
     application:
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
         container_name: coreapp
         image: coreapp
         build:
             context: .
-            dockerfile: application.dockerfile
+            dockerfile: application.development.dockerfile
         ports:
             - "8000:8000"
         networks:
