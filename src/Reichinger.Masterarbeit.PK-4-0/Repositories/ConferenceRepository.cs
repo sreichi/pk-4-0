@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -57,6 +58,25 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.Conference.Add(newConference);
 
             return newConference.ToDto();
+        }
+
+        public IActionResult DeleteConferenceById(Guid conferenceId)
+        {
+            var conferenceToDelete =
+                _applicationDbContext.Conference.FirstOrDefault(conference => conference.Id == conferenceId);
+
+            if (conferenceToDelete == null)
+            {
+                return new NotFoundResult();
+            }
+
+            if (!conferenceToDelete.Application.Any())
+            {
+
+            }
+
+            _applicationDbContext.Conference.Remove(conferenceToDelete);
+            return new OkResult();
         }
 
         public void Save()

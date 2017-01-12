@@ -9,7 +9,7 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
-    public class ConferenceController: Controller
+    public class ConferenceController : Controller
     {
         private readonly IConferenceRepository _conferenceRepository;
 
@@ -31,7 +31,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences")]
         [SwaggerOperation("GetConferences")]
         [ProducesResponseType(typeof(List<ConferenceDto>), 200)]
-        public virtual IEnumerable<ConferenceDto> GetConferences([FromHeader]long? token, [FromQuery]string filter, [FromQuery]string sort)
+        public virtual IEnumerable<ConferenceDto> GetConferences([FromHeader] long? token, [FromQuery] string filter,
+            [FromQuery] string sort)
         {
             return _conferenceRepository.GetAllConferences();
         }
@@ -49,7 +50,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
         [ProducesResponseType(typeof(ConferenceDto), 200)]
-        public virtual IActionResult GetConferenceById([FromHeader]long? token, [FromRoute]Guid conferenceId)
+        public virtual IActionResult GetConferenceById([FromHeader] long? token, [FromRoute] Guid conferenceId)
         {
             var conference = _conferenceRepository.GetConferernceById(conferenceId);
             if (conference == null)
@@ -70,7 +71,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("GetApplicationsByConference")]
         [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplicationsByConference([FromHeader]long? token, [FromRoute]Guid conferenceId)
+        public virtual IEnumerable<ApplicationDto> GetApplicationsByConference([FromHeader] long? token,
+            [FromRoute] Guid conferenceId)
         {
             return _conferenceRepository.GetApplicationsOfConferenceById(conferenceId);
         }
@@ -88,7 +90,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("AddApplicationToConference")]
         [ProducesResponseType(typeof(Conference), 200)]
-        public virtual IActionResult AddApplicationToConference([FromHeader]long? token, [FromRoute]decimal? conferenceId, [FromBody]decimal? application)
+        public virtual IActionResult AddApplicationToConference([FromHeader] long? token,
+            [FromRoute] decimal? conferenceId, [FromBody] decimal? application)
         {
             string exampleJson = null;
 
@@ -110,7 +113,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences")]
         [SwaggerOperation("AddConference")]
         [ProducesResponseType(typeof(ConferenceCreateDto), 200)]
-        public virtual IActionResult AddConference([FromHeader]long? token, [FromBody]ConferenceCreateDto conference)
+        public virtual IActionResult AddConference([FromHeader] long? token, [FromBody] ConferenceCreateDto conference)
         {
             if (!ModelState.IsValid)
             {
@@ -137,7 +140,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("DeleteApplicationOfConference")]
         [ProducesResponseType(typeof(Conference), 200)]
-        public virtual IActionResult DeleteApplicationOfConference([FromHeader]long? token, [FromRoute]decimal? conferenceId, [FromBody]decimal? application)
+        public virtual IActionResult DeleteApplicationOfConference([FromHeader] long? token,
+            [FromRoute] decimal? conferenceId, [FromBody] decimal? application)
         {
             string exampleJson = null;
 
@@ -158,9 +162,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("DeleteConferenceById")]
-        public virtual void DeleteConferenceById([FromHeader]long? token, [FromRoute]decimal? conferenceId)
+        public virtual IActionResult DeleteConferenceById([FromHeader] long? token, [FromRoute] Guid conferenceId)
         {
-            throw new NotImplementedException();
+            var result = _conferenceRepository.DeleteConferenceById(conferenceId);
+            try
+            {
+                _conferenceRepository.Save();
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.InnerException.Message);
+            }
         }
 
 

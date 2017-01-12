@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
@@ -13,6 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId);
         IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId);
         ConferenceDto CreateConference(ConferenceCreateDto conference);
+        IActionResult DeleteConferenceById(Guid conferenceId);
         void Save();
     }
 }
