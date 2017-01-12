@@ -109,15 +109,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/conferences")]
         [SwaggerOperation("AddConference")]
-        [ProducesResponseType(typeof(Conference), 200)]
-        public virtual IActionResult AddConference([FromHeader]long? token, [FromBody]Conference conference)
+        [ProducesResponseType(typeof(ConferenceCreateDto), 200)]
+        public virtual IActionResult AddConference([FromHeader]long? token, [FromBody]ConferenceCreateDto conference)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Conference>(exampleJson)
-                : default(Conference);
-            return new ObjectResult(example);
+            var newConference = _conferenceRepository.CreateConference(conference);
+            _conferenceRepository.Save();
+
+            var location = "/conferences/" + newConference.Id;
+            return Created(location, newConference);
         }
 
 

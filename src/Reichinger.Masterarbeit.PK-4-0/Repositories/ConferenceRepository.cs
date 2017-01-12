@@ -52,5 +52,24 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Application.Select(i=>i.ToDto());
             return result;
         }
+
+        public ConferenceDto CreateConference(ConferenceCreateDto conference)
+        {
+            var newConference = new Conference()
+            {
+                Id = Guid.NewGuid(),
+                Description = conference.Description,
+                DateOfEvent = conference.DateOfEvent
+            };
+
+            _applicationDbContext.Conference.Add(newConference);
+
+            return newConference.ToDto();
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
+        }
     }
 }

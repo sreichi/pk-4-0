@@ -24,7 +24,6 @@ namespace Reichinger.Masterarbeit.PK_4_0
         public Startup(IHostingEnvironment environment)
         {
             _environment = environment;
-            Console.WriteLine(_environment.EnvironmentName);
             var builder = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

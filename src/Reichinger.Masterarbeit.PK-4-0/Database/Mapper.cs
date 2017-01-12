@@ -56,7 +56,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         public static ConferenceDto ToDto(this Conference response)
         {
-            return new ConferenceDto();
+            return new ConferenceDto()
+            {
+                Id = response.Id,
+                DateOfEvent = response.DateOfEvent,
+                Description = response.Description
+            };
         }
 
 
