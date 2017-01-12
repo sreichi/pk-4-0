@@ -43,6 +43,6 @@
   },
   "buildOptions": {
       "debugType": "portable",
-      "copyToOutput": { "includeFiles": [ "appsettings.json", "appsettings.Development.json", "appsettings.Production.json" ] }
+      "copyToOutput": { "includeFiles": [ "appsettings.json", "appsettings.Development.json", "appsettings.Production.json", "appsettings.Travis.json" ] }
   }
 }
