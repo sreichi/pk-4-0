@@ -30,8 +30,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences")]
         [SwaggerOperation("GetConferences")]
-        [ProducesResponseType(typeof(List<ConferenceDto>), 200)]
-        public virtual IEnumerable<ConferenceDto> GetConferences([FromHeader] long? token, [FromQuery] string filter,
+        [ProducesResponseType(typeof(List<ConferenceDto<Guid>>), 200)]
+        public virtual IEnumerable<ConferenceDto<Guid>> GetConferences([FromHeader] long? token, [FromQuery] string filter,
             [FromQuery] string sort)
         {
             return _conferenceRepository.GetAllConferences();
@@ -49,7 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
-        [ProducesResponseType(typeof(ConferenceDto), 200)]
+        [ProducesResponseType(typeof(ConferenceDto<ApplicationDto>), 200)]
         public virtual IActionResult GetConferenceById([FromHeader] long? token, [FromRoute] Guid conferenceId)
         {
             var conference = _conferenceRepository.GetConferernceById(conferenceId);

@@ -65,7 +65,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newComment = new CommentCreateDto()
             {
-                ApplicationId = _applicationId,
                 IsPrivate = false,
                 RequiresChanges = true,
                 Text = "Test Kommentar",
@@ -97,7 +96,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newComment = new CommentCreateDto()
             {
-                ApplicationId = _applicationId,
                 IsPrivate = false,
                 RequiresChanges = true,
                 Text = "",

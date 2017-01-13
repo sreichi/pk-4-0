@@ -31,8 +31,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var conferences = JsonConvert.DeserializeObject<List<ConferenceDto>>(result.Content.ReadAsStringAsync().Result);
-            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto>());
+            var conferences = JsonConvert.DeserializeObject<List<ConferenceDto<Guid>>>(result.Content.ReadAsStringAsync().Result);
+            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto<Guid>>());
         }
 
         [Fact]
@@ -42,8 +42,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var confernce = JsonConvert.DeserializeObject<ConferenceDto>(result.Content.ReadAsStringAsync().Result);
-            confernce.Should().BeOfType<ConferenceDto>();
+            var confernce = JsonConvert.DeserializeObject<ConferenceDto<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
+            confernce.Should().BeOfType<ConferenceDto<ApplicationDto>>();
         }
 
         [Fact]

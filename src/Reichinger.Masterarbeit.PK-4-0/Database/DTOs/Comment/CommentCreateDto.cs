@@ -14,7 +14,5 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public bool RequiresChanges { get; set; }
         [NonEmptyGuid]
         public Guid UserId { get; set; }
-        [NonEmptyGuid]
-        public Guid ApplicationId { get; set; }
     }
 }

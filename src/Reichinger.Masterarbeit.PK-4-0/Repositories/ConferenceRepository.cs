@@ -18,23 +18,20 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
-        public IEnumerable<ConferenceDto> GetAllConferences()
+        public IEnumerable<ConferenceDto<Guid>> GetAllConferences()
         {
             return _applicationDbContext.Conference
                 .Include(conference => conference.Application)
-                .Select(entry => entry.ToDto());
+                .Select(entry => entry.ToGuidDto());
         }
 
-        public ConferenceDto GetConferernceById(Guid conferenceId)
+        public ConferenceDto<ApplicationDto> GetConferernceById(Guid conferenceId)
         {
+
             return _applicationDbContext.Conference
-                .Select(entry => entry.ToDto())
+                .Include(conference => conference.Application)
+                .Select(entry => entry.ToFullDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
-        }
-
-        public IEnumerable<ConferenceDto> GetConferencesByUser(Guid userId)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
@@ -46,12 +43,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return result;
         }
 
-        public ConferenceDto CreateConference(ConferenceCreateDto conference)
+        public ConferenceDto<ApplicationDto> CreateConference(ConferenceCreateDto conference)
         {
             var newConference = conference.ToModel();
             _applicationDbContext.Conference.Add(newConference);
 
-            return newConference.ToDto();
+            return newConference.ToFullDto();
         }
 
         public IActionResult DeleteConferenceById(Guid conferenceId)
@@ -66,7 +63,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             if (!conferenceToDelete.Application.Any())
             {
-                // TODO soon!!
+                return new BadRequestObjectResult("Object still contains Applications, so it can't be deleted");
             }
 
             _applicationDbContext.Conference.Remove(conferenceToDelete);

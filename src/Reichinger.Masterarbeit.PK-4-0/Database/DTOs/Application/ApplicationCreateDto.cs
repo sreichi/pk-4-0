@@ -15,7 +15,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public bool IsCurrent { get; set; }
 
         public Guid? PreviousVersion { get; set; }
-
         [NonEmptyGuid]
         public Guid UserId { get; set; }
 

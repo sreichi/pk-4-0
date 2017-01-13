@@ -57,6 +57,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment)
         {
             var newComment = comment.ToModel();
+            newComment.ApplicationId = applicationId;
+
             _applicationDbContext.Comment.Add(newComment);
 
             return newComment.ToDto();

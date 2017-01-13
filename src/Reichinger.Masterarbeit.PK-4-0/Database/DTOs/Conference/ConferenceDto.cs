@@ -5,11 +5,11 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
-    public class ConferenceDto
+    public class ConferenceDto<T>
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
         public DateTime DateOfEvent { get; set; }
-        public virtual IEnumerable<Guid> Application { get; set; }
+        public virtual ICollection<T> Application { get; set; }
     }
 }

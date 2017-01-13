@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -55,7 +58,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,
                 Text = response.Text,
-                ApplicationId = response.ApplicationId,
                 UserId = response.UserId
             };
         }
@@ -73,14 +75,31 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static ConferenceDto ToDto(this Conference response)
+        public static ConferenceDto<Guid> ToGuidDto(this Conference response)
         {
-            return new ConferenceDto()
+            var applications = new List<ApplicationDto>();
+            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
+
+            return new ConferenceDto<Guid>()
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
                 Description = response.Description,
-                Application = response.Application.Select(application => application.Id)
+                Application = applications.Select(application => application.Id).ToImmutableList()
+            };
+        }
+
+        public static ConferenceDto<ApplicationDto> ToFullDto(this Conference response)
+        {
+            var applications = new List<ApplicationDto>();
+            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
+
+            return new ConferenceDto<ApplicationDto>()
+            {
+                Id = response.Id,
+                DateOfEvent = response.DateOfEvent,
+                Description = response.Description,
+                Application = applications
             };
         }
 
@@ -88,7 +107,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             return new Conference()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 DateOfEvent = response.DateOfEvent,
                 Description = response.Description
             };
