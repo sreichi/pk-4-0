@@ -61,7 +61,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 return new NotFoundResult();
             }
 
-            if (!conferenceToDelete.Application.Any())
+            if (conferenceToDelete.Application.Any())
             {
                 return new BadRequestObjectResult("Object still contains Applications, so it can't be deleted");
             }
