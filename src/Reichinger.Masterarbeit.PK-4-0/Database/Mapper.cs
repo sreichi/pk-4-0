@@ -18,12 +18,31 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Version = response.Version,
                 IsCurrent = response.IsCurrent,
                 PreviousVersion = response.PreviousVersion ?? null,
+                FilledForm = response.FilledForm,
                 UserId = response.UserId,
                 ConferenceId = response.ConferenceId,
                 StatusId = response.StatusId,
                 FormId = response.FormId,
                 Assignments = response.Assignment.Select(asignee => asignee.UserId),
                 Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created)
+            };
+        }
+
+        public static Application ToModel(this ApplicationCreateDto response)
+        {
+            return new Application()
+            {
+                Id = Guid.NewGuid(),
+                Created = DateTime.Now,
+                LastModified = DateTime.Now,
+                Version = response.Version,
+                IsCurrent = response.IsCurrent,
+                FilledForm = response.FilledForm,
+                PreviousVersion = response.PreviousVersion ?? null,
+                UserId = response.UserId,
+                ConferenceId = response.ConferenceId,
+                StatusId = response.StatusId,
+                FormId = response.FormId
             };
         }
 

@@ -37,28 +37,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate)
         {
-            var newApplication = new Application()
-            {
-                Id = Guid.NewGuid(),
-                Created = DateTime.Now,
-                LastModified = DateTime.Now,
-                Version = applicationToCreate.Version,
-                IsCurrent = applicationToCreate.IsCurrent,
-                PreviousVersion = applicationToCreate.PreviousVersion ?? null,
-                UserId = applicationToCreate.UserId,
-                ConferenceId = applicationToCreate.ConferenceId,
-                StatusId = applicationToCreate.StatusId,
-                FormId = applicationToCreate.FormId
-            };
+            var newApplication = applicationToCreate.ToModel();
 
-            foreach (var entry in applicationToCreate.Assignments)
-            {
-                newApplication.Assignment.Add(new Assignment()
+            applicationToCreate.Assignments?.ToList()
+                .ForEach(guid =>
                 {
-                    UserId = entry,
-                    ApplicationId = newApplication.Id
+                    newApplication.Assignment.Add(new Assignment()
+                    {
+                        UserId = guid,
+                        ApplicationId = newApplication.Id
+                    });
                 });
-            }
 
             _applicationDbContext.Application.Add(newApplication);
 

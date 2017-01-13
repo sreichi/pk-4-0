@@ -81,7 +81,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var newApplication = _applicationRepository.CreateApplication(application);

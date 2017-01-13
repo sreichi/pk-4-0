@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Reichinger.Masterarbeit.PK_4_0.Infrastructure;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
@@ -11,9 +12,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public bool IsPrivate { get; set; }
         [Required]
         public bool RequiresChanges { get; set; }
-        [Required]
+        [NonEmptyGuid]
         public Guid UserId { get; set; }
-        [Required]
+        [NonEmptyGuid]
         public Guid ApplicationId { get; set; }
     }
 }

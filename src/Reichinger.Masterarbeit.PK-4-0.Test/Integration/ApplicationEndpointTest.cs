@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Novell.Directory.Ldap.Utilclass;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Xunit;
 
@@ -117,6 +118,52 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                     .Comments.Count();
             newNumberOfComments.Should().Be(currentNumberOfComments);
+        }
+
+        [Fact]
+        public async void CreateApplicationShouldReturnCreated()
+        {
+
+            var assignments = new List<Guid>();
+            assignments.Add(new Guid("ee632373-432e-40f0-9f33-8cc6b684e673"));
+            assignments.Add(new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61"));
+
+            var newApplication = new ApplicationCreateDto()
+            {
+                FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3"),
+                IsCurrent = true,
+                StatusId = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80"),
+                UserId = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61"),
+                Version = 0,
+                FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
+                Assignments = assignments
+            };
+
+            var serializedApplication = JsonConvert.SerializeObject(newApplication);
+            var result = await _fixture.PostHttpResult(UrlPath, serializedApplication);
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public async void CreateApplicationWithInvalidModelStateShouldReturnBadRequest()
+        {
+
+            var newApplication = new ApplicationCreateDto()
+            {
+                FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3"),
+                IsCurrent = true,
+                StatusId = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80"),
+                Version = 0,
+                FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
+            };
+
+            var serializedApplication = JsonConvert.SerializeObject(newApplication);
+            var result = await _fixture.PostHttpResult(UrlPath, serializedApplication);
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
