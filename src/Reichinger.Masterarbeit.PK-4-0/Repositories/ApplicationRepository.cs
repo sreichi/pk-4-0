@@ -32,7 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _applicationDbContext.Application.Include(application => application.Comment)
                 .Include(application => application.Assignment)
                 .Select(entry => entry.ToDto())
-                .FirstOrDefault(e => e.Id == applicationId);
+                .SingleOrDefault(e => e.Id == applicationId);
         }
 
         public ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate)
