@@ -48,13 +48,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public ConferenceDto CreateConference(ConferenceCreateDto conference)
         {
-            var newConference = new Conference()
-            {
-                Id = Guid.NewGuid(),
-                Description = conference.Description,
-                DateOfEvent = conference.DateOfEvent
-            };
-
+            var newConference = conference.ToModel();
             _applicationDbContext.Conference.Add(newConference);
 
             return newConference.ToDto();
@@ -72,7 +66,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             if (!conferenceToDelete.Application.Any())
             {
-
+                // TODO soon!!
             }
 
             _applicationDbContext.Conference.Remove(conferenceToDelete);

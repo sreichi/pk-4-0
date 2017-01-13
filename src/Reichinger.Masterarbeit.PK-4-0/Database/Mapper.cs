@@ -65,6 +65,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static Conference ToModel(this ConferenceCreateDto response)
+        {
+            return new Conference()
+            {
+                Id = new Guid(),
+                DateOfEvent = response.DateOfEvent,
+                Description = response.Description
+            };
+        }
 
         public static FieldDto ToDto(this Field response)
         {
