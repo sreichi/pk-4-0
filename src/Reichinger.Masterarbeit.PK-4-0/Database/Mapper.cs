@@ -66,6 +66,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             return new CommentDto()
             {
+                Id = response.Id,
                 Created = response.Created,
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,

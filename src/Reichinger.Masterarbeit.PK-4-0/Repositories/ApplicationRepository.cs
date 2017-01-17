@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
@@ -85,9 +88,78 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
+        /*
+        * This update function creates a new entry for the application because of versioning.
+        */
+        public ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
+        {
+            var currentApplication = _applicationDbContext.Application
+                .Include(application => application.Comment)
+                .SingleOrDefault(app => app.Id == applicationId);
+            currentApplication.IsCurrent = false;
+
+            var updatedApplication = CreateApplication(new ApplicationCreateDto()
+            {
+                ConferenceId = newApplication.ConferenceId ?? null,
+                FilledForm = newApplication.FilledForm,
+                FormId = newApplication.FormId,
+                StatusId = newApplication.StatusId,
+                IsCurrent = newApplication.IsCurrent,
+                PreviousVersion = currentApplication.Id,
+                UserId = newApplication.UserId,
+                Version = currentApplication.Version + 1,
+                Assignments = newApplication.Assignments
+            });
+
+            /**
+            * Copies the comment to the new application
+            **/
+            currentApplication.Comment?.ToList().ForEach(comment =>
+            {
+                var copyOfComment = new Comment()
+                {
+                    Id = Guid.NewGuid(),
+                    ApplicationId = updatedApplication.Id,
+                    Created = DateTime.UtcNow,
+                    IsPrivate = comment.IsPrivate,
+                    RequiresChanges = comment.RequiresChanges,
+                    Text = comment.Text,
+                    UserId = comment.UserId
+                };
+                _applicationDbContext.Comment.Add(copyOfComment);
+            });
+            return updatedApplication;
+        }
+
+        public IEnumerable<ApplicationDto> GetHistoryOfApplication(Guid applicationId)
+        {
+
+            var requestedApplication = GetApplicationById(applicationId);
+
+            var history = GenerateHistoryOfApplication(requestedApplication);
+
+            return history;
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();
+        }
+
+        private IEnumerable<ApplicationDto> GenerateHistoryOfApplication(ApplicationDto requestedApplication)
+        {
+            var previousVersion = requestedApplication.PreviousVersion;
+            var history = new List<ApplicationDto>();
+
+            history.Add(requestedApplication);
+
+            while (previousVersion != null)
+            {
+                var applicationToAdd = GetApplicationById(previousVersion.Value);
+                history.Add(applicationToAdd);
+                previousVersion = applicationToAdd.PreviousVersion;
+            }
+            return history.OrderByDescending(dto => dto.Version);
         }
     }
 }

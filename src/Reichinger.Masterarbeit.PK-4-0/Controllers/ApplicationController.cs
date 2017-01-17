@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -37,6 +38,22 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             [FromQuery] string sort)
         {
             return _applicationRepository.GetAllApplications();
+        }
+
+        /// <summary>
+        /// GET history of Application
+        /// </summary>
+        /// <remarks>The Applications Endpoint returns the History of a application</remarks>
+        /// <param name="token">Accesstoken to authenticate with the API</param>
+        /// <response code="200">An array of Applications</response>
+        [HttpGet]
+        [Route("/applications/{applicationId}/history")]
+        [SwaggerOperation("GetHistoryOfApplication")]
+        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
+        public virtual IEnumerable<ApplicationDto> GetHistoryOfApplication([FromHeader] long? token,
+            [FromRoute] Guid applicationId)
+        {
+            return _applicationRepository.GetHistoryOfApplication(applicationId);
         }
 
 
@@ -153,15 +170,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
-        [ProducesResponseType(typeof(Application),200)]
-        public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]Guid? applicationId, [FromBody]Application application)
+        [ProducesResponseType(typeof(ApplicationDto),200)]
+        public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]Guid applicationId, [FromBody]ApplicationCreateDto application)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Application>(exampleJson)
-                : default(Application);
-            return new ObjectResult(example);
+            var updatedApplication = _applicationRepository.UpdateApplication(applicationId, application);
+
+            _applicationRepository.Save();
+
+            return Ok(updatedApplication);
         }
 
 
