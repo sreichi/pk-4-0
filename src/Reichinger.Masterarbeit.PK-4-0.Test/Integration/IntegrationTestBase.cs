@@ -10,8 +10,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
     public class IntegrationTestBase
     {
-        private TestServer _server;
-        private HttpClient _client;
+        private readonly TestServer _server;
+        private readonly HttpClient _client;
 
         public IntegrationTestBase()
         {

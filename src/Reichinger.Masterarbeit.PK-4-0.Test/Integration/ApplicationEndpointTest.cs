@@ -5,6 +5,7 @@ using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Novell.Directory.Ldap.Utilclass;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/applications/";
-        private readonly Guid _applicationId = new Guid("86c42368-ba33-4fca-a911-fa8d3758b01d");
+        private readonly Guid _applicationId = DataSeeder.ApplicationId1;
         private const int InvalidApplicationId = 987654;
 
         public ApplicationEndpointTest(DatabaseFixture fixture)
@@ -123,15 +124,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         {
 
             var assignments = new List<Guid>();
-            assignments.Add(new Guid("ee632373-432e-40f0-9f33-8cc6b684e673"));
-            assignments.Add(new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61"));
+            assignments.Add(DataSeeder.UserId2);
+            assignments.Add(DataSeeder.UserId1);
 
             var newApplication = new ApplicationCreateDto()
             {
-                FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3"),
+                FormId = DataSeeder.FormId1,
                 IsCurrent = true,
-                StatusId = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80"),
-                UserId = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61"),
+                StatusId = DataSeeder.StatusId1,
+                UserId = DataSeeder.UserId1,
                 Version = 0,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
                 Assignments = assignments
@@ -150,9 +151,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newApplication = new ApplicationCreateDto()
             {
-                FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3"),
+                FormId = DataSeeder.FormId1,
                 IsCurrent = true,
-                StatusId = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80"),
+                StatusId = DataSeeder.StatusId1,
                 Version = 0,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             };
@@ -162,6 +163,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        public async void UpdateApplicationShouldReturnNewApplicationDto()
+        {
+
         }
     }
 }

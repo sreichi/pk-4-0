@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Xunit;
@@ -14,15 +15,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     [Collection("Database collection")]
     public class FormEndpointTest
     {
-        private DatabaseFixture _fixture;
+        private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/forms/";
-        private readonly Guid FormId = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
-        private readonly Guid FormToDeleteId = new Guid("e5253303-5f6e-474e-812b-d655afce5edb");
+        private readonly Guid _formId = DataSeeder.FormId1;
+        private readonly Guid _formToDeleteId = DataSeeder.FormId2;
         private const int InvalidFormId = 98765;
 
-        private IEnumerable<FieldCreateDto> fields = new List<FieldCreateDto>();
-        private ICollection<Guid> styles = new List<Guid>();
-        private ICollection<Guid> validations = new List<Guid>();
+        private readonly IEnumerable<FieldCreateDto> _fields = new List<FieldCreateDto>();
+        private readonly ICollection<Guid> _styles = new List<Guid>();
+        private readonly ICollection<Guid> _validations = new List<Guid>();
 
         public FormEndpointTest(DatabaseFixture fixture)
         {
@@ -43,7 +44,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetFormByIdShouldReturnSingleFormDto()
         {
-            var result = await _fixture.GetHttpResult(UrlPath + FormId);
+            var result = await _fixture.GetHttpResult(UrlPath + _formId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -68,10 +69,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var currentNumberOfForms =
                 JsonConvert.DeserializeObject<List<FormsDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
 
-            styles.Add(new Guid("2674979f-3f39-40bf-a301-6a548f7bde15"));
-            validations.Add(new Guid("640dae4d-8cfe-4aec-a98c-9ec23dc842d6"));
+            _styles.Add(DataSeeder.StyleId1);
+            _validations.Add(DataSeeder.ValidationId1);
 
-            fields.Append(new FieldCreateDto()
+            _fields.Append(new FieldCreateDto()
             {
                 Name = "TestField",
                 ContentType = "string",
@@ -80,13 +81,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Value = "value",
                 Required = true,
                 Options = "{\"id\":42 , \"name\":\"Rolando\"}",
-                FieldType = new Guid("5c3914e9-a1ea-4c21-914a-39c2b5faa90c"),
-                FieldHasStyle = styles,
-                FieldHasValidation = validations
+                FieldType = DataSeeder.FieldTypeId1,
+                FieldHasStyle = _styles,
+                FieldHasValidation = _validations
 
             });
 
-            fields.Append(new FieldCreateDto()
+            _fields.Append(new FieldCreateDto()
             {
                 Name = "FieldTest",
                 ContentType = "integer",
@@ -95,8 +96,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Value = "Wert",
                 Required = false,
                 Options = "{\"id\":69 , \"name\":\"Messi\"}",
-                FieldType = new Guid("5c3914e9-a1ea-4c21-914a-39c2b5faa90c"),
-                FieldHasValidation = validations
+                FieldType = DataSeeder.FieldTypeId1,
+                FieldHasValidation = _validations
             });
 
             var newForm = new FormCreateDto()
@@ -104,7 +105,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Name = "NewTest Form",
                 IsPublic = true,
                 RestrictedAccess = false,
-                FormHasField = fields
+                FormHasField = _fields
             };
 
             var serializedForm = JsonConvert.SerializeObject(newForm);
@@ -124,18 +125,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void CreateNewFormWithInvalidModelStateShouldReturnBadRequest()
         {
-            fields.Append(new FieldCreateDto()
+            _fields.Append(new FieldCreateDto()
             {
                 Name = "TestField",
                 Options = "{\"id\":42 , \"name\":\"Rolando\"}",
-                FieldType = new Guid("5c3914e9-a1ea-4c21-914a-39c2b5faa90c"),
+                FieldType = DataSeeder.FieldTypeId1,
             });
 
             var newForm = new FormCreateDto()
             {
                 IsPublic = true,
                 RestrictedAccess = false,
-                FormHasField = fields
+                FormHasField = _fields
             };
 
             var serializedForm = JsonConvert.SerializeObject(newForm);
@@ -148,7 +149,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void DeleteFormShouldReturnOkAndDeleteOneEntity()
         {
-            var result = await _fixture.DeleteHttpResult(UrlPath + FormToDeleteId);
+            var result = await _fixture.DeleteHttpResult(UrlPath + _formToDeleteId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -156,7 +157,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void DeleteFormWithApplicationsShouldReturnBadRequest()
         {
-            var result = await _fixture.DeleteHttpResult(UrlPath + FormId);
+            var result = await _fixture.DeleteHttpResult(UrlPath + _formId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

@@ -12,11 +12,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     [Collection("Database collection")]
     public class ConferenceEndpointTest
     {
-        private DatabaseFixture _fixture;
+        private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/conferences/";
-        private readonly Guid ConferenceId = new Guid("74cf7b5c-1c7e-448b-ac5d-b9c63d466e1a");
+        private readonly Guid _conferenceId = DataSeeder.ConferenceId1;
         private const int InvalidConferenceId = 9876543;
-        private readonly Guid ConferenceToDeleteId = new Guid("866ad5a9-64a4-4058-9751-b0dd27ef4d0e");
+        private readonly Guid _conferenceToDeleteId = DataSeeder.ConferenceId2;
 
         public ConferenceEndpointTest(DatabaseFixture fixture)
         {
@@ -37,7 +37,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetConferenceByIdShouldReturnOneConferenceDto()
         {
-            var result = await _fixture.GetHttpResult(UrlPath + ConferenceId);
+            var result = await _fixture.GetHttpResult(UrlPath + _conferenceId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -56,7 +56,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetApplicationsOfConferenceShouldReturnListOfApplicationsDtos()
         {
-            var result = await _fixture.GetHttpResult($"{UrlPath}{ConferenceId}/applications");
+            var result = await _fixture.GetHttpResult($"{UrlPath}{_conferenceId}/applications");
             result.Should().NotBeNull();
             var applications =
                 JsonConvert.DeserializeObject<List<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
@@ -98,15 +98,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void DeleteConferenceByIdShouldReturnOkAndDeleteOneConference()
         {
-            var httpResponse = await _fixture.GetHttpResult(UrlPath + ConferenceToDeleteId);
+            var httpResponse = await _fixture.GetHttpResult(UrlPath + _conferenceToDeleteId);
             httpResponse.Should().NotBeNull();
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await _fixture.DeleteHttpResult(UrlPath + ConferenceToDeleteId);
+            var result = await _fixture.DeleteHttpResult(UrlPath + _conferenceToDeleteId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var httpResponseOfDeletedConference = await _fixture.GetHttpResult(UrlPath + ConferenceToDeleteId);
+            var httpResponseOfDeletedConference = await _fixture.GetHttpResult(UrlPath + _conferenceToDeleteId);
             httpResponseOfDeletedConference.Should().NotBeNull();
             httpResponseOfDeletedConference.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

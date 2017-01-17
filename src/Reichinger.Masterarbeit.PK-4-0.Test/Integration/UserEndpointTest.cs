@@ -5,6 +5,7 @@ using System.Net;
 using FluentAssertions;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Newtonsoft.Json;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
@@ -14,7 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/users/";
-        private Guid UserId = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61");
+        private readonly Guid UserId = DataSeeder.UserId1;
         private const int InvalidUserId = 98765;
 
         public UserEndpointTest(DatabaseFixture fixture)
@@ -42,7 +43,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var user = JsonConvert.DeserializeObject<UserDto>(result.Content.ReadAsStringAsync().Result);
             user.Should().BeOfType<UserDto>();
-            user.Firstname.Should().Be("Stephan");
         }
 
         [Fact]
