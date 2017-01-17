@@ -81,6 +81,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return conferenceToEdit.ToFullDto();
         }
 
+        public IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId)
+        {
+            var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
+
+            if (application.ConferenceId != conferenceId) return new BadRequestResult();
+
+            application.ConferenceId = null;
+            application.LastModified = DateTime.UtcNow;
+            return new OkResult();
+        }
+
+        public IActionResult AddApplicationFromConference(Guid conferenceId, Guid applicationId)
+        {
+            var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
+            var conference = _applicationDbContext.Conference.SingleOrDefault(conf => conf.Id == conferenceId);
+
+            if (application.ConferenceId != null) return new BadRequestObjectResult("Application is allready assigned to a conference");
+            if (conference == null) return new BadRequestObjectResult("Conference does not exist");
+
+            application.ConferenceId = conferenceId;
+            application.LastModified = DateTime.UtcNow;
+            return new OkResult();
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();

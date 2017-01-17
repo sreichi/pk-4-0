@@ -84,21 +84,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
-        /// <param name="application">The Application ID</param>
+        /// <param name="applicationId">The Application ID</param>
         /// <response code="200">Updated Conference with new Application</response>
-        [HttpPost]
-        [Route("/conferences/{conferenceId}/applications")]
+        [HttpPut]
+        [Route("/conferences/{conferenceId}/applications/{applicationId}")]
         [SwaggerOperation("AddApplicationToConference")]
-        [ProducesResponseType(typeof(Conference), 200)]
         public virtual IActionResult AddApplicationToConference([FromHeader] long? token,
-            [FromRoute] decimal? conferenceId, [FromBody] decimal? application)
+            [FromRoute] Guid conferenceId, [FromRoute] Guid applicationId)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Conference>(exampleJson)
-                : default(Conference);
-            return new ObjectResult(example);
+            var result = _conferenceRepository.AddApplicationFromConference(conferenceId, applicationId);
+            _conferenceRepository.Save();
+            return result;
         }
 
 
@@ -134,21 +130,24 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
-        /// <param name="application">The Application ID</param>
-        /// <response code="200">Updated Conference without new Application</response>
+        /// <param name="applicationId">The Application ID</param>
+        /// <response code="200">Application Removed From Conference</response>
         [HttpDelete]
-        [Route("/conferences/{conferenceId}/applications")]
+        [Route("/conferences/{conferenceId}/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationOfConference")]
-        [ProducesResponseType(typeof(Conference), 200)]
-        public virtual IActionResult DeleteApplicationOfConference([FromHeader] long? token,
-            [FromRoute] decimal? conferenceId, [FromBody] decimal? application)
+        public virtual IActionResult RemoveApplicationFromConference([FromHeader] long? token,
+            [FromRoute]Guid conferenceId, [FromRoute]Guid applicationId)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Conference>(exampleJson)
-                : default(Conference);
-            return new ObjectResult(example);
+            var result = _conferenceRepository.RemoveApplicationFromConference(conferenceId, applicationId);
+            try
+            {
+                _conferenceRepository.Save();
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.InnerException.Message);
+            }
         }
 
 
