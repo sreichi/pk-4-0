@@ -70,6 +70,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkResult();
         }
 
+        public ConferenceDto<ApplicationDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
+        {
+            var conferenceToEdit = _applicationDbContext.Conference
+                .SingleOrDefault(conference => conference.Id == conferenceId);
+
+            conferenceToEdit.DateOfEvent = modifiedConference.DateOfEvent;
+            conferenceToEdit.Description = modifiedConference.Description;
+
+            return conferenceToEdit.ToFullDto();
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();

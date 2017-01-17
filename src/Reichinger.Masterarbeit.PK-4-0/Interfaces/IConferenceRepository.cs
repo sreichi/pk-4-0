@@ -14,6 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId);
         ConferenceDto<ApplicationDto> CreateConference(ConferenceCreateDto conference);
         IActionResult DeleteConferenceById(Guid conferenceId);
+        ConferenceDto<ApplicationDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference);
         void Save();
     }
 }

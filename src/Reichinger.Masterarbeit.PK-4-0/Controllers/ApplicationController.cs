@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.SwaggerGen.Annotations;
 
