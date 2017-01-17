@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using FluentAssertions;
+using FluentAssertions.Primitives;
 using Newtonsoft.Json;
 using Novell.Directory.Ldap.Utilclass;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
+using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
@@ -17,6 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/applications/";
         private readonly Guid _applicationId = DataSeeder.ApplicationId1;
+        private readonly Guid _applicationToUpdateId = DataSeeder.ApplicationId2;
         private const int InvalidApplicationId = 987654;
 
         public ApplicationEndpointTest(DatabaseFixture fixture)
@@ -165,9 +168,44 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Fact]
         public async void UpdateApplicationShouldReturnNewApplicationDto()
         {
+            var result = await _fixture.GetHttpResult(UrlPath + _applicationToUpdateId);
+            var applicationToUpdate = JsonConvert.DeserializeObject<ApplicationDto>(result.Content.ReadAsStringAsync().Result);
 
+            var newCreateDto = new ApplicationCreateDto()
+            {
+                ConferenceId = applicationToUpdate.ConferenceId ?? null,
+                FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
+                FormId = applicationToUpdate.FormId,
+                StatusId = applicationToUpdate.StatusId,
+                IsCurrent = applicationToUpdate.IsCurrent,
+                PreviousVersion = applicationToUpdate.Id,
+                UserId = applicationToUpdate.UserId,
+                Version = applicationToUpdate.Version + 1,
+                Assignments = applicationToUpdate.Assignments.ToList(),
+                Comments = applicationToUpdate.Comments.Select(dto => dto.Id).ToList()
+            };
+
+            var serializedApplication = JsonConvert.SerializeObject(newCreateDto);
+            var response = await _fixture.PutHttpResult($"{UrlPath}{_applicationToUpdateId}", serializedApplication);
+
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var deserializedResponse = JsonConvert.DeserializeObject<ApplicationDto>(response.Content.ReadAsStringAsync().Result);
+            deserializedResponse.Version.Should().Be(applicationToUpdate.Version + 1);
+
+            deserializedResponse.PreviousVersion.Should().Be(applicationToUpdate.Id);
+
+            deserializedResponse.Comments.Count().Should().Be(applicationToUpdate.Comments.Count());
+
+            deserializedResponse.Assignments.Count().Should().Be(applicationToUpdate.Assignments.Count());
+            deserializedResponse.Assignments.ToList().ForEach(guid =>
+            {
+                applicationToUpdate.Assignments.Contains(guid).Should().Be(true);
+            });
         }
     }
 }
