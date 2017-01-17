@@ -196,17 +196,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="comment">Updated Comment</param>
         /// <response code="200">The updated Comment Object</response>
         [HttpPut]
-        [Route("/applications/{applicationId}/comments/{comment_id}")]
+        [Route("/applications/{applicationId}/comments/{commentId}")]
         [SwaggerOperation("UpdateApplicationCommentById")]
-        [ProducesResponseType(typeof(Comment), 200)]
-        public virtual IActionResult UpdateApplicationCommentById([FromHeader]long? token, [FromRoute]decimal? applicationId, [FromRoute]decimal? commentId, [FromBody]Comment comment)
+        [ProducesResponseType(typeof(CommentDto), 200)]
+        public virtual IActionResult UpdateApplicationCommentById([FromHeader]long? token, [FromRoute]Guid applicationId, [FromRoute]Guid commentId, [FromBody]CommentCreateDto comment)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Comment>(exampleJson)
-                : default(Comment);
-            return new ObjectResult(example);
+            var updatedComment = _applicationRepository.UpdateCommentOfApplication(applicationId, commentId, comment);
+
+            _applicationRepository.Save();
+
+            return Ok(updatedComment);
         }
 
     }

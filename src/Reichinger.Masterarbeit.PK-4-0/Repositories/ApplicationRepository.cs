@@ -141,11 +141,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history;
         }
 
-        public void Save()
-        {
-            _applicationDbContext.SaveChanges();
-        }
-
         private IEnumerable<ApplicationDto> GenerateHistoryOfApplication(ApplicationDto requestedApplication)
         {
             var previousVersion = requestedApplication.PreviousVersion;
@@ -160,6 +155,24 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 previousVersion = applicationToAdd.PreviousVersion;
             }
             return history.OrderByDescending(dto => dto.Version);
+        }
+
+        public CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto modifiedComment)
+        {
+            var commentToEdit = _applicationDbContext.Comment
+                .SingleOrDefault(comment => comment.Id == commentId);
+
+            commentToEdit.RequiresChanges = modifiedComment.RequiresChanges;
+            commentToEdit.IsPrivate = modifiedComment.IsPrivate;
+            commentToEdit.Text = modifiedComment.Text;
+            commentToEdit.UserId = modifiedComment.UserId;
+
+            return commentToEdit.ToDto();
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
         }
     }
 }

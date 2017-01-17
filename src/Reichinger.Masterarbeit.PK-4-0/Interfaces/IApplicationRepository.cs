@@ -16,6 +16,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
          IActionResult DeleteApplicationById(Guid applicationId);
          ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto applicationPatch);
          IEnumerable<ApplicationDto> GetHistoryOfApplication(Guid applicationId);
+         CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto comment);
          void Save();
      }
  }
