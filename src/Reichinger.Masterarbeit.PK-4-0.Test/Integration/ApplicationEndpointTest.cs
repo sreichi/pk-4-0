@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using FluentAssertions;
-using FluentAssertions.Primitives;
 using Newtonsoft.Json;
-using Novell.Directory.Ldap.Utilclass;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
@@ -169,7 +166,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         }
 
         [Fact]
-        public async void UpdateApplicationShouldReturnNewApplicationDto()
+        public async void UpdateApplicationShouldCreateNewApplicationWithUpdatedVersion()
         {
             var result = await _fixture.GetHttpResult(UrlPath + _applicationToUpdateId);
             var applicationToUpdate = JsonConvert.DeserializeObject<ApplicationDto>(result.Content.ReadAsStringAsync().Result);
