@@ -28,6 +28,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public string Label { get; set; }
         [Column("required")]
         public bool? Required { get; set; }
+        [Column("disabled")]
+        public bool? disabled { get; set; }
         [Column("multiple_select")]
         public bool? MultipleSelect { get; set; }
         [Column("value", TypeName = "varchar")]

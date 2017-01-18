@@ -12,7 +12,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Guid Id { get; set; }
         [Required]
         [Column("text")]
-        public string Text { get; set; }
+        public string Message { get; set; }
         [Column("created")]
         public DateTime Created { get; set; }
         [Column("is_private")]

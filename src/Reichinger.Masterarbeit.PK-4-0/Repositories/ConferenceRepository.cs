@@ -21,14 +21,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ConferenceDto<Guid>> GetAllConferences()
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Applications)
                 .Select(entry => entry.ToGuidDto());
         }
 
         public ConferenceDto<ApplicationDto> GetConferernceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Applications)
                 .Select(entry => entry.ToFullDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
         }
@@ -36,9 +36,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             var result = _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Applications)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
-                .Application.Select(application => application.ToDto());
+                .Applications.Select(application => application.ToDto());
             return result;
         }
 
@@ -60,7 +60,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 return new NotFoundResult();
             }
 
-            if (conferenceToDelete.Application.Any())
+            if (conferenceToDelete.Applications.Any())
             {
                 return new BadRequestObjectResult("Object still contains Applications, so it can't be deleted");
             }

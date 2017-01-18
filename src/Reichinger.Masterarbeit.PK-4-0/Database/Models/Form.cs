@@ -19,7 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Required]
         [Column("name", TypeName = "varchar")]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string Title { get; set; }
         [Column("deprecated")]
         public bool Deprecated { get; set; }
         [Column("previous_version")]

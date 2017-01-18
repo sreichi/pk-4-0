@@ -25,14 +25,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationDto> GetAllApplications()
         {
             return _applicationDbContext.Application
-                .Include(application => application.Comment)
+                .Include(application => application.Comments)
                 .Include(application => application.Assignment)
                 .Select(entry => entry.ToDto());
         }
 
         public ApplicationDto GetApplicationById(Guid applicationId)
         {
-            return _applicationDbContext.Application.Include(application => application.Comment)
+            return _applicationDbContext.Application.Include(application => application.Comments)
                 .Include(application => application.Assignment)
                 .Select(entry => entry.ToDto())
                 .SingleOrDefault(e => e.Id == applicationId);
@@ -94,7 +94,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
         {
             var currentApplication = _applicationDbContext.Application
-                .Include(application => application.Comment)
+                .Include(application => application.Comments)
                 .SingleOrDefault(app => app.Id == applicationId);
             currentApplication.IsCurrent = false;
 
@@ -114,7 +114,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             /**
             * Copies the comment to the new application
             **/
-            currentApplication.Comment?.ToList().ForEach(comment =>
+            currentApplication.Comments?.ToList().ForEach(comment =>
             {
                 var copyOfComment = new Comment()
                 {
@@ -123,7 +123,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     Created = DateTime.UtcNow,
                     IsPrivate = comment.IsPrivate,
                     RequiresChanges = comment.RequiresChanges,
-                    Text = comment.Text,
+                    Message = comment.Message,
                     UserId = comment.UserId
                 };
                 _applicationDbContext.Comment.Add(copyOfComment);
@@ -164,7 +164,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             commentToEdit.RequiresChanges = modifiedComment.RequiresChanges;
             commentToEdit.IsPrivate = modifiedComment.IsPrivate;
-            commentToEdit.Text = modifiedComment.Text;
+            commentToEdit.Message = modifiedComment.Text;
             commentToEdit.UserId = modifiedComment.UserId;
 
             return commentToEdit.ToDto();

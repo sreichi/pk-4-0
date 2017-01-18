@@ -276,7 +276,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 ApplicationId = ApplicationId1,
                 Created = DateTime.Parse("2016-11-18T13:15:08+00:00"),
                 UserId = UserId1,
-                Text = "Da fehlt noch was",
+                Message = "Da fehlt noch was",
                 IsPrivate = false
             });
             dbContext.Comment.Add(new Comment
@@ -285,7 +285,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 ApplicationId = ApplicationId1,
                 Created = DateTime.Parse("2016-10-18T13:15:08+00:00"),
                 UserId = UserId2,
-                Text = "Ja das Änder ich noch schnell",
+                Message = "Ja das Änder ich noch schnell",
                 IsPrivate = false
             });
             dbContext.Comment.Add(new Comment
@@ -294,7 +294,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 ApplicationId = ApplicationId2,
                 Created = DateTime.Parse("2016-11-18T15:15:08+00:00"),
                 UserId = UserId1,
-                Text = "Jetzt passt alles",
+                Message = "Jetzt passt alles",
                 IsPrivate = false
             });
         }
@@ -362,13 +362,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 new Form
                 {
                     Id = FormId1,
-                    Name = "Masterarbeit"
+                    Title = "Masterarbeit"
                 });
             dbContext.Add(
                 new Form
                 {
                     Id = FormId2,
-                    Name = "Notenanerkennung"
+                    Title = "Notenanerkennung"
                 });
         }
 
