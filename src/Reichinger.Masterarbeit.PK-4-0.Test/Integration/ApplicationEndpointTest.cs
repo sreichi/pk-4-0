@@ -33,7 +33,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var applications =
                 JsonConvert.DeserializeObject<List<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
-            applications.Count.Should().Be(2);
             applications.ForEach(dto => dto.Should().BeOfType<ApplicationDto>());
         }
 

@@ -27,7 +27,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public ConferenceDto<ApplicationDto> GetConferernceById(Guid conferenceId)
         {
-
             return _applicationDbContext.Conference
                 .Include(conference => conference.Application)
                 .Select(entry => entry.ToFullDto())
