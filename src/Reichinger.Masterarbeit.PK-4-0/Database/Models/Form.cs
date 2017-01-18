@@ -17,7 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("id")]
         public Guid Id { get; set; }
         [Required]
-        [Column("name", TypeName = "varchar")]
+        [Column("title", TypeName = "varchar")]
         [MaxLength(50)]
         public string Title { get; set; }
         [Column("deprecated")]

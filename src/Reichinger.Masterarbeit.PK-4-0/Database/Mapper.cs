@@ -27,7 +27,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StatusId = response.StatusId,
                 FormId = response.FormId,
                 Assignments = response.Assignment.Select(asignee => asignee.UserId),
-                Comments = response.Comments.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created)
+                Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created)
             };
         }
 
@@ -79,7 +79,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         public static ConferenceDto<Guid> ToGuidDto(this Conference response)
         {
             var applications = new List<ApplicationDto>();
-            response.Applications.ToList().ForEach(application => applications.Add(application.ToDto()));
+            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
 
             return new ConferenceDto<Guid>()
             {
@@ -93,7 +93,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         public static ConferenceDto<ApplicationDto> ToFullDto(this Conference response)
         {
             var applications = new List<ApplicationDto>();
-            response.Applications.ToList().ForEach(application => applications.Add(application.ToDto()));
+            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
 
             return new ConferenceDto<ApplicationDto>()
             {

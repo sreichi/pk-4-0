@@ -25,14 +25,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationDto> GetAllApplications()
         {
             return _applicationDbContext.Application
-                .Include(application => application.Comments)
+                .Include(application => application.Comment)
                 .Include(application => application.Assignment)
                 .Select(entry => entry.ToDto());
         }
 
         public ApplicationDto GetApplicationById(Guid applicationId)
         {
-            return _applicationDbContext.Application.Include(application => application.Comments)
+            return _applicationDbContext.Application.Include(application => application.Comment)
                 .Include(application => application.Assignment)
                 .Select(entry => entry.ToDto())
                 .SingleOrDefault(e => e.Id == applicationId);
@@ -94,7 +94,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
         {
             var currentApplication = _applicationDbContext.Application
-                .Include(application => application.Comments)
+                .Include(application => application.Comment)
                 .SingleOrDefault(app => app.Id == applicationId);
             currentApplication.IsCurrent = false;
 
@@ -114,7 +114,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             /**
             * Copies the comment to the new application
             **/
-            currentApplication.Comments?.ToList().ForEach(comment =>
+            currentApplication.Comment?.ToList().ForEach(comment =>
             {
                 var copyOfComment = new Comment()
                 {

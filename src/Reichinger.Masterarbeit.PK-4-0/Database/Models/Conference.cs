@@ -10,7 +10,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
     {
         public Conference()
         {
-            Applications = new HashSet<Application>();
+            Application = new HashSet<Application>();
         }
 
         [Column("id")]
@@ -21,6 +21,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public DateTime DateOfEvent { get; set; }
 
         [InverseProperty("Conference")]
-        public virtual ICollection<Application> Applications { get; set; }
+        public virtual ICollection<Application> Application { get; set; }
     }
 }

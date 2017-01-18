@@ -11,7 +11,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Application()
         {
             Assignment = new HashSet<Assignment>();
-            Comments = new HashSet<Comment>();
+            Comment = new HashSet<Comment>();
         }
 
         [Column("id")]
@@ -40,7 +40,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [InverseProperty("Application")]
         public virtual ICollection<Assignment> Assignment { get; set; }
         [InverseProperty("Application")]
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
         [ForeignKey("ConferenceId")]
         [InverseProperty("Application")]
         public virtual Conference Conference { get; set; }
