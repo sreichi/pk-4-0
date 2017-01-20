@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Reichinger.Masterarbeit.PK_4_0.Database;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
@@ -14,12 +17,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public FieldTypeRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbFieldTypes = _applicationDbContext.FieldType;
         }
 
-        public IEnumerable<FieldType> GetAllFieldTypes()
+        public IEnumerable<FieldTypeDto> GetAllFieldTypes()
         {
-            return _dbFieldTypes.ToList();
+            return _applicationDbContext.FieldType
+                .Include(type => type.Field)
+                .Include(type => type.TypeHasConfig).ThenInclude(x=>x.Config)
+                .Include(type => type.TypeHasStyle).ThenInclude(style => style.Style)
+                .Include(type => type.TypeHasValidation).ThenInclude(validation => validation.Validation)
+                .Select(fieldType => fieldType.ToDto());
         }
 
         public FieldType GetFieldTypeById(Guid fieldTypeId)

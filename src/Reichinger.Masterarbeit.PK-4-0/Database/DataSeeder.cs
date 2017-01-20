@@ -48,6 +48,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         public static readonly Guid ValidationId1 = new Guid("640dae4d-8cfe-4aec-a98c-9ec23dc842d6");
         public static readonly Guid ValidationId2 = new Guid("55f37c8b-56aa-4b4f-8f14-b500854e11a9");
 
+        public static readonly Guid ConfigId1 = new Guid("8a2222b0-e603-44b9-aa20-f4b0086db429");
+        public static readonly Guid ConfigId2 = new Guid("42dcc7fc-c462-4684-8a6b-c55860708dea");
+
         public static void SeedData(this IApplicationBuilder applicationBuilder)
         {
             var db =
@@ -74,9 +77,131 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateValidations(dbContext);
             CreateFormHasField(dbContext);
             CreateFieldHasStyle(dbContext);
+            CreateConfigs(dbContext);
+            CreateFieldTypeHasStyle(dbContext);
+            CreateFieldTypeHasValidation(dbContext);
+            CreateFieldTypeHasConfig(dbContext);
             CreaFieldHasValidation(dbContext);
             CreateUserHasRole(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateFieldTypeHasConfig(ApplicationDbContext dbContext)
+        {
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId1,
+                ConfigId = ConfigId1
+            });
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId1,
+                ConfigId = ConfigId2
+            });
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId2,
+                ConfigId = ConfigId1
+            });
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId3,
+                ConfigId = ConfigId2
+            });
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId4,
+                ConfigId = ConfigId1
+            });
+            dbContext.TypeHasConfig.Add(new TypeHasConfig()
+            {
+                FieldTypeId = FieldTypeId4,
+                ConfigId = ConfigId2
+            });
+        }
+
+        private static void CreateFieldTypeHasValidation(ApplicationDbContext dbContext)
+        {
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId1,
+                ValidationId = ValidationId1,
+            });
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId1,
+                ValidationId = ValidationId2,
+            });
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId2,
+                ValidationId = ValidationId1,
+            });
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId3,
+                ValidationId = ValidationId2,
+            });
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId4,
+                ValidationId = ValidationId1,
+            });
+            dbContext.TypeHasValidation.Add(new TypeHasValidation()
+            {
+                FieldTypeId = FieldTypeId4,
+                ValidationId = ValidationId2,
+            });
+        }
+
+        private static void CreateFieldTypeHasStyle(ApplicationDbContext dbContext)
+        {
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId1,
+                StyleId = StyleId1
+            });
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId1,
+                StyleId = StyleId2
+            });
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId2,
+                StyleId = StyleId1
+            });
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId3,
+                StyleId = StyleId2
+            });
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId4,
+                StyleId = StyleId1
+            });
+            dbContext.TypeHasStyle.Add(new TypeHasStyle()
+            {
+                FieldTypeId = FieldTypeId4,
+                StyleId = StyleId2
+            });
+        }
+
+        private static void CreateConfigs(ApplicationDbContext dbContext)
+        {
+            dbContext.Config.Add(new Config()
+            {
+                Id = ConfigId1,
+                Name = "Name",
+                Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
+            });
+            dbContext.Config.Add(new Config()
+            {
+                Id = ConfigId2,
+                Name = "Name2",
+                Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
+            });
         }
 
         private static void CreaFieldHasValidation(ApplicationDbContext dbContext)

@@ -4,16 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 {
     public class ConfigurationController : Controller
     {
+        private readonly IFieldTypeRepository _fieldTypeRepository;
 
-        public ConfigurationController()
+        public ConfigurationController(IFieldTypeRepository fieldTypeRepository)
         {
-
+            _fieldTypeRepository = fieldTypeRepository;
         }
 
 
@@ -26,10 +28,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/config/fieldDefinitions")]
         [SwaggerOperation("GetFieldDefinitions")]
-        [ProducesResponseType(typeof(List<>), 200)]
-        public virtual IActionResult GetFieldDefinitions([FromHeader] long? token)
+        [ProducesResponseType(typeof(List<FieldTypeDto>), 200)]
+        public virtual IEnumerable<FieldTypeDto> GetFieldDefinitions([FromHeader] long? token)
         {
-            return null;
+            return _fieldTypeRepository.GetAllFieldTypes();
         }
 
 

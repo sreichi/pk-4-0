@@ -114,6 +114,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static ConfigDto ToDto(this Config response)
+        {
+            return new ConfigDto()
+            {
+                Id = response.Id,
+                Name = response.Name,
+                Value = response.Value
+            };
+        }
+
         public static FieldDto ToDto(this Field response)
         {
             return new FieldDto()
@@ -131,6 +141,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
                 FieldHasStyle = response.FieldHasStyle.Select(style => style.Style.StyleString),
                 FieldHasValidation = response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
+            };
+        }
+
+        public static FieldTypeDto ToDto(this FieldType response)
+        {
+            return new FieldTypeDto()
+            {
+                Id = response.Id,
+                Name = response.Value,
+                Description = response.Label,
+                TypeHasConfig = response.TypeHasConfig.Select(config => config.Config.ToDto()),
+                TypeHasStyle = response.TypeHasStyle.Select(style => style.Style.ToDto()),
+                TypeHasValidation = response.TypeHasValidation.Select(validation => validation.Validation.ToDto())
             };
         }
 
@@ -166,6 +189,27 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsPublic = response.IsPublic,
                 RestrictedAccess = response.RestrictedAccess,
                 PreviousVersion = null
+            };
+        }
+
+        public static StyleDto ToDto(this Style response)
+        {
+            return new StyleDto()
+            {
+                Id = response.Id,
+                Description = response.Description,
+                StyleString = response.StyleString
+            };
+        }
+
+        public static ValidationDto ToDto(this Validation response)
+        {
+            return new ValidationDto()
+            {
+                Id = response.Id,
+                Description = response.Description,
+                ValidationString = response.ValidationString
+
             };
         }
     }
