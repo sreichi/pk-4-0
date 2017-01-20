@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -9,16 +7,16 @@ using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 {
-    public class StatusRepository : IStatusRepository
+    public class ValidationRepository : IValidationRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        public StatusRepository(ApplicationDbContext applicationDbContext)
+        public ValidationRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }
-        public IEnumerable<StatusDto> GetAllStatuses()
+        public IEnumerable<ValidationDto> GetAllValidations()
         {
-            return _applicationDbContext.Status.Select(status => status.ToDto());
+            return _applicationDbContext.Validation.Select(validation => validation.ToDto());
         }
     }
 }

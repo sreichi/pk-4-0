@@ -140,7 +140,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 EnumOptionsTableId = response.EnumOptionsTableId,
 
                 FieldHasStyle = response.FieldHasStyle.Select(style => style.Style.StyleString),
-                FieldHasValidation = response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
+                FieldHasValidation =
+                    response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
             };
         }
 
@@ -161,7 +162,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             return new FormsDto()
             {
-                Id =  response.Id,
+                Id = response.Id,
                 Name = response.Title,
                 Application = response.Application.Select(e => e.Id),
                 FormHasField = response.FormHasField.Select(field => field.FieldId)
@@ -172,7 +173,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         {
             return new SingleFormDto()
             {
-                Id =  response.Id,
+                Id = response.Id,
                 Name = response.Title,
                 Application = response.Application.Select(e => e.Id),
                 FormHasField = response.FormHasField.Select(field => field.Field.ToDto())
@@ -189,6 +190,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsPublic = response.IsPublic,
                 RestrictedAccess = response.RestrictedAccess,
                 PreviousVersion = null
+            };
+        }
+
+        public static StatusDto ToDto(this Status response)
+        {
+            return new StatusDto()
+            {
+                Id = response.Id,
+                Name = response.Name
             };
         }
 
@@ -209,7 +219,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = response.Id,
                 Description = response.Description,
                 ValidationString = response.ValidationString
-
             };
         }
     }

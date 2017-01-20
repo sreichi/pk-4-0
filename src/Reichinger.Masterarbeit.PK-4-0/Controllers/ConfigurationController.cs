@@ -12,10 +12,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
     public class ConfigurationController : Controller
     {
         private readonly IFieldTypeRepository _fieldTypeRepository;
+        private readonly IStyleRepository _styleRepository;
+        private readonly IValidationRepository _validationRepository;
+        private readonly IStatusRepository _statusRepository;
 
-        public ConfigurationController(IFieldTypeRepository fieldTypeRepository)
+        public ConfigurationController(IFieldTypeRepository fieldTypeRepository, IStyleRepository styleRepository,
+            IValidationRepository validationRepository, IStatusRepository statusRepository)
         {
             _fieldTypeRepository = fieldTypeRepository;
+            _styleRepository = styleRepository;
+            _validationRepository = validationRepository;
+            _statusRepository = statusRepository;
         }
 
 
@@ -43,10 +50,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/config/status")]
         [SwaggerOperation("GetStatusValues")]
-        [ProducesResponseType(typeof(object), 200)]
-        public virtual IActionResult GetStatusValues([FromHeader] long? token)
+        [ProducesResponseType(typeof(List<StatusDto>), 200)]
+        public virtual IEnumerable<StatusDto> GetStatusValues([FromHeader] long? token)
         {
-            return null;
+            return _statusRepository.GetAllStatuses();
         }
 
         /// <summary>
@@ -57,10 +64,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/config/styles")]
         [SwaggerOperation("GetFieldStyles")]
-        [ProducesResponseType(typeof(object), 200)]
-        public virtual IActionResult GetFieldStyles([FromHeader] long? token)
+        [ProducesResponseType(typeof(List<StyleDto>), 200)]
+        public virtual IEnumerable<StyleDto> GetFieldStyles([FromHeader] long? token)
         {
-            return null;
+            return _styleRepository.GetAllStyles();
         }
 
         /// <summary>
@@ -71,10 +78,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/config/validations")]
         [SwaggerOperation("GetFieldValidations")]
-        [ProducesResponseType(typeof(object), 200)]
-        public virtual IActionResult GetFieldValidations([FromHeader] long? token)
+        [ProducesResponseType(typeof(List<ValidationDto>), 200)]
+        public virtual IEnumerable<ValidationDto> GetFieldValidations([FromHeader] long? token)
         {
-            return null;
+            return _validationRepository.GetAllValidations();
         }
     }
 }
