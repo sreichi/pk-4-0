@@ -2,6 +2,7 @@
 
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
@@ -57,7 +58,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         private static void CreateTestData(ApplicationDbContext dbContext)
         {
             dbContext.Database.EnsureDeleted();
-            dbContext.Database.EnsureCreated();
+            dbContext.Database.Migrate();
 
             CreateRoles(dbContext);
             CreateUsers(dbContext);
