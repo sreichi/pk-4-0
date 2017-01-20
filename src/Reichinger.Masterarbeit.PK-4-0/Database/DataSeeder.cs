@@ -193,13 +193,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId1,
-                Name = "Name",
+                Position = 1,
                 Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             });
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId2,
-                Name = "Name2",
+                Position = 2,
                 Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             });
         }

@@ -119,7 +119,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new ConfigDto()
             {
                 Id = response.Id,
-                Name = response.Name,
+                Position = response.Position,
                 Value = response.Value
             };
         }
