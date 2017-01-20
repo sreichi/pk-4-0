@@ -22,11 +22,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<FieldTypeDto> GetAllFieldTypes()
         {
             return _applicationDbContext.FieldType
-                .Include(type => type.Field)
-                .Include(type => type.TypeHasConfig).ThenInclude(x=>x.Config)
-                .Include(type => type.TypeHasStyle).ThenInclude(style => style.Style)
-                .Include(type => type.TypeHasValidation).ThenInclude(validation => validation.Validation)
-                .Select(fieldType => fieldType.ToDto());
+                .Include(type => type.TypeHasConfig)
+                .ThenInclude(x => x.Config)
+                .Include(type => type.TypeHasStyle)
+                .ThenInclude(style => style.Style)
+                .Include(type => type.TypeHasValidation)
+                .ThenInclude(validation => validation.Validation)
+                .Select(type => type.ToDto());
         }
 
         public FieldType GetFieldTypeById(Guid fieldTypeId)

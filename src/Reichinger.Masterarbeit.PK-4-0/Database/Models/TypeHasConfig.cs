@@ -12,6 +12,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Guid ConfigId { get; set; }
         [Column("field_type_id")]
         public Guid FieldTypeId { get; set; }
+        [Required]
+        [Column("position")]
+        public int Position { get; set; }
 
         [ForeignKey("ConfigId")]
         [InverseProperty("TypeHasConfig")]

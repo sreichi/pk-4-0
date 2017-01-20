@@ -91,31 +91,37 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId1,
+                Position = 1,
                 ConfigId = ConfigId1
             });
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId1,
+                Position = 2,
                 ConfigId = ConfigId2
             });
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId2,
+                Position = 1,
                 ConfigId = ConfigId1
             });
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId3,
+                Position = 1,
                 ConfigId = ConfigId2
             });
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId4,
+                Position = 1,
                 ConfigId = ConfigId1
             });
             dbContext.TypeHasConfig.Add(new TypeHasConfig()
             {
                 FieldTypeId = FieldTypeId4,
+                Position = 2,
                 ConfigId = ConfigId2
             });
         }
@@ -193,13 +199,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId1,
-                Position = 1,
-                Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
+                Value = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}"
             });
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId2,
-                Position = 2,
                 Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             });
         }
