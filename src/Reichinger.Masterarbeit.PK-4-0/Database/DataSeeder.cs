@@ -123,12 +123,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Validation.Add(new Validation()
             {
                 Id = ValidationId2,
-                ValidationString = "max-lenght-20"
+                ValidationString = "max-lenght-20",
+                Description = "Max Length 20 Chars"
             });
             dbContext.Validation.Add(new Validation()
             {
                 Id = ValidationId1,
-                ValidationString = "min-length-8"
+                ValidationString = "min-length-8",
+                Description = "Min Length 8 Chars"
             });
         }
 
@@ -137,12 +139,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Style.Add(new Style()
             {
                 Id = StyleId1,
-                StyleString = "small"
+                StyleString = "small",
+                Description = "Small"
             });
             dbContext.Style.Add(new Style()
             {
                 Id = StyleId2,
-                StyleString = "alligned"
+                StyleString = "alligned",
+                Description = "Alligned"
             });
         }
 
@@ -245,26 +249,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.FieldType.Add(new FieldType
             {
                 Id = FieldTypeId1,
-                Description = "INPUT",
-                Name = "input"
+                Label = "INPUT",
+                Value = "input"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = FieldTypeId2,
-                Description = "CHECKBOX",
-                Name = "checkbox"
+                Label = "CHECKBOX",
+                Value = "checkbox"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = FieldTypeId3,
-                Description = "RADIO",
-                Name = "radio"
+                Label = "RADIO",
+                Value = "radio"
             });
             dbContext.FieldType.Add(new FieldType
             {
                 Id = FieldTypeId4,
-                Description = "TEXTAREA",
-                Name = "textarea"
+                Label = "TEXTAREA",
+                Value = "textarea"
             });
         }
 

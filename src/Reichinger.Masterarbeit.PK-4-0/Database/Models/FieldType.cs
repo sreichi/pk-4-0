@@ -19,13 +19,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("id")]
         public Guid Id { get; set; }
         [Required]
-        [Column("description", TypeName = "varchar")]
+        [Column("label", TypeName = "varchar")]
         [MaxLength(50)]
-        public string Description { get; set; }
+        public string Label { get; set; }
         [Required]
-        [Column("name", TypeName = "varchar")]
+        [Column("value", TypeName = "varchar")]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string Value { get; set; }
 
         [InverseProperty("FieldTypeNavigation")]
         public virtual ICollection<Field> Field { get; set; }

@@ -17,6 +17,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("id")]
         public Guid Id { get; set; }
         [Required]
+        [Column("description", TypeName = "varchar")]
+        [MaxLength(50)]
+        public string Description { get; set; }
+        [Required]
         [Column("validation_string", TypeName = "varchar")]
         [MaxLength(50)]
         public string ValidationString { get; set; }
