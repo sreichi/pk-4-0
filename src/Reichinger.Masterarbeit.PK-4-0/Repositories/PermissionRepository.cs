@@ -8,17 +8,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class PermissionRepository : IPermissionRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<Permission> _dbPermissions;
-
         public PermissionRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbPermissions = _applicationDbContext.Permission;
         }
         
         public IEnumerable<Permission> GetAllPermissions()
         {
-            return _dbPermissions.ToList();
+            return _applicationDbContext.Permission.ToList();
         }
     }
 }

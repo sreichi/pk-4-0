@@ -40,7 +40,6 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<IConferenceRepository, ConferenceRepository>();
             services.AddTransient<IFieldTypeRepository, FieldTypeRepository>();
-            services.AddTransient<IFieldRepository, FieldRepository>();
             services.AddTransient<IFormRepository, FormRepository>();
             services.AddTransient<IPermissionRepository, PermissionRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();

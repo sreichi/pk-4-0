@@ -219,6 +219,24 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static UserDto ToDto(this AppUser response)
+        {
+            return new UserDto()
+            {
+                Id = response.Id,
+                Firstname = response.Firstname,
+                Lastname = response.Lastname,
+                Created = response.Created,
+                Active = response.Active,
+                Email = response.Email,
+                LdapId = response.LdapId,
+                MatNr = response.MatNr,
+                Password = response.Password,
+                SaltString = response.SaltString,
+                UserHasRole = response.UserHasRole.Select(e => e.Role.Name)
+            };
+        }
+
         public static ValidationDto ToDto(this Validation response)
         {
             return new ValidationDto()
