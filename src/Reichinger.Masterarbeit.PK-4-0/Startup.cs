@@ -11,6 +11,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
 using Swashbuckle.Swagger.Model;
+using Config = Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity.Config;
 
 namespace Reichinger.Masterarbeit.PK_4_0
 {
@@ -50,6 +51,13 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             services.AddCors();
 
+            services.AddIdentityServer()
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddTestUsers(Config.GetUsers())
+                .AddTemporarySigningCredential();
+
             // Add framework services.
             services.AddMvc();
 
@@ -81,6 +89,8 @@ namespace Reichinger.Masterarbeit.PK_4_0
             loggerFactory.AddDebug();
 
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+            app.UseIdentityServer();
 
             app.UseMvc();
 
