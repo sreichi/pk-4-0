@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -20,38 +21,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IEnumerable<UserDto> GetAllUsers()
         {
-            return _applicationDbContext.AppUser.Select(entry => new UserDto()
-            {
-                Id = entry.Id,
-                Firstname = entry.Firstname,
-                Lastname = entry.Lastname,
-                Created = entry.Created,
-                Active = entry.Active,
-                Email = entry.Email,
-                LdapId = entry.LdapId,
-                MatNr = entry.MatNr,
-                Password = entry.Password,
-                SaltString = entry.SaltString,
-                UserHasRole = entry.UserHasRole.Select(e => e.Role.Name)
-            });
+            return _applicationDbContext.AppUser.Select(entry => entry.ToDto());
         }
 
         public UserDto GetUserById(Guid userId)
         {
-            return _applicationDbContext.AppUser.Select(entry => new UserDto()
-            {
-                Id = entry.Id,
-                Firstname = entry.Firstname,
-                Lastname = entry.Lastname,
-                Created = entry.Created,
-                Active = entry.Active,
-                Email = entry.Email,
-                LdapId = entry.LdapId,
-                MatNr = entry.MatNr,
-                Password = entry.Password,
-                SaltString = entry.SaltString,
-                UserHasRole = entry.UserHasRole.Select(e => e.Role.Name)
-            }).FirstOrDefault(e => e.Id == userId);
+            return _applicationDbContext.AppUser
+                .Select(entry => entry.ToDto())
+                .SingleOrDefault(e => e.Id == userId);
         }
     }
 }

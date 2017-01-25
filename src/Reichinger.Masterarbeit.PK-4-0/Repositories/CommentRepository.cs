@@ -9,23 +9,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class CommentRepository : ICommentRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<Comment> _dbComments;
 
         public CommentRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbComments = _applicationDbContext.Comment;
         }
 
         public IEnumerable<Comment> GetCommentsForApllication(Guid applicationId)
         {
-            return _dbComments.ToList();
-        }
-
-        public IEnumerable<Comment> GetCommentsForUser(Guid userId)
-        {
-            var comments = _dbComments.Where(entry => entry.UserId == userId).ToList();
-            return comments;
+            return _applicationDbContext.Comment.ToList();
         }
     }
 }
