@@ -6,14 +6,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
-        public IActionResult RegisterNewUser(string username, string password)
+        public IActionResult CheckUserInLdapAndReturnAttributes(string username, string password)
         {
-            var validCredentials = LdapAuthenticationHelper.CheckCredentials(username, password);
-            if (validCredentials)
-            {
-                return new OkObjectResult("Correct Credentials");
-            }
-            return new BadRequestObjectResult("Wrong credentials");
+            var validCredentials = LdapHelper.ValidateCredentials(username, password);
+            if (!validCredentials) return new BadRequestObjectResult("Wrong credentials");
+            var ldapUserAttributes = LdapHelper.GetLdapUser(username);
+            if (ldapUserAttributes == null) return new NotFoundObjectResult("User Not Found in LDAP");
+            return new OkObjectResult(ldapUserAttributes);
         }
     }
 }

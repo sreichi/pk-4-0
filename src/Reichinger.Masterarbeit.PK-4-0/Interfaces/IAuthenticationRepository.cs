@@ -4,6 +4,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface IAuthenticationRepository
     {
-        IActionResult RegisterNewUser(string username, string password);
+        IActionResult CheckUserInLdapAndReturnAttributes(string username, string password);
     }
 }

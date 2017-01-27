@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Controllers
@@ -12,11 +13,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             _authenticationRepository = authenticationRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("/users/register")]
-        public virtual IActionResult CheckUserOnLdap([FromHeader]long? token, [FromBody]string username, [FromBody] string password)
+        public virtual IActionResult CheckUserOnLdap([FromHeader]long? token, [FromHeader]string username, [FromHeader]string password)
         {
-            return _authenticationRepository.RegisterNewUser(username, password);
+            if (username == null || password == null)
+            {
+                return new BadRequestObjectResult("Username or Password not set");
+            }
+            return _authenticationRepository.CheckUserInLdapAndReturnAttributes(username, password);
         }
     }
 }
