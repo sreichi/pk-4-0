@@ -39,7 +39,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         {
             modelBuilder.Entity<AppUser>(entity =>
             {
-                entity.HasIndex(e => e.MatNr)
+                entity.HasIndex(e => e.RzName)
                     .HasName("app_user_mat_nr_key")
                     .IsUnique();
 

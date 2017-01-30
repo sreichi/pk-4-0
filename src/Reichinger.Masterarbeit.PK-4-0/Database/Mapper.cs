@@ -230,7 +230,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Active = response.Active,
                 Email = response.Email,
                 LdapId = response.LdapId,
-                MatNr = response.MatNr,
+                RzName = response.RzName,
                 Password = response.Password,
                 SaltString = response.SaltString,
                 UserHasRole = response.UserHasRole.Select(e => e.Role.Name)

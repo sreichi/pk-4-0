@@ -2,6 +2,7 @@
 
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
@@ -540,38 +541,33 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         private static void CreateUsers(ApplicationDbContext dbContext)
         {
-            dbContext.AppUser.Add(
-                new AppUser
-                {
-                    Id = UserId1,
-                    Firstname = "Stephan",
-                    Lastname = "Reichinger",
-                    Email = "stephan.reichinger@hs-augsburg.de",
-                    Password =
-                        "a336f671080fbf4f2a230f313560ddf0d0c12dfcf1741e49e8722a234673037dc493caa8d291d8025f71089d63cea809cc8ae53e5b17054806837dbe4099c4ca",
-                    SaltString = "soSalty",
-                    MatNr = 949223,
-                    LdapId = 12345,
-                    Active = true,
-                    Created = DateTime.Now
-                }
-            );
-            dbContext.AppUser.Add(
-                new AppUser
-                {
-                    Id = UserId2,
-                    Firstname = "Patrick",
-                    Lastname = "Schröter",
-                    Email = "patrick.schroeter@hs-augsburg.de",
-                    Password =
-                        "877a07cf4b7e1301aba8a5ce13caa61d06f4c2d3954f235c952797b44cccbc509e02a1c0482489ba76ec5ded767b1b010d34f05fc27f2fda115a35a9c023bbf3",
-                    SaltString = "notSoSalty",
-                    MatNr = 949225,
-                    LdapId = 98765,
-                    Active = false,
-                    Created = DateTime.Now
-                }
-            );
+            var newAppUser = new AppUser
+            {
+                Id = UserId1,
+                Firstname = "Stephan",
+                Lastname = "Reichinger",
+                Email = "stephan.reichinger@hs-augsburg.de",
+                RzName = "reichi",
+                LdapId = 12345,
+                Active = true,
+                Created = DateTime.Now
+            };
+            newAppUser.SetHashedPassword("password");
+            dbContext.AppUser.Add(newAppUser);
+
+            var newAppUser2 = new AppUser
+            {
+                Id = UserId2,
+                Firstname = "Patrick",
+                Lastname = "Schröter",
+                Email = "patrick.schroeter@hs-augsburg.de",
+                RzName = "schroeti",
+                LdapId = 98765,
+                Active = false,
+                Created = DateTime.Now
+            };
+            newAppUser2.SetHashedPassword("safePassword");
+            dbContext.AppUser.Add(newAppUser2);
         }
     }
 }

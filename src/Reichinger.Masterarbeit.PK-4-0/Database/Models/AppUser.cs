@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 {
@@ -33,13 +35,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Required]
         [Column("password", TypeName = "bpchar")]
         [MaxLength(128)]
-        public string Password { get; set; }
+        public string Password { get; private set; }
         [Required]
         [Column("salt_string", TypeName = "varchar")]
         [MaxLength(50)]
-        public string SaltString { get; set; }
-        [Column("mat_nr")]
-        public int MatNr { get; set; }
+        public string SaltString { get; private set; }
+        [Column("rz_name")]
+        public string RzName { get; set; }
         [Column("ldap_id")]
         public int LdapId { get; set; }
         [Column("active")]
@@ -55,5 +57,43 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual ICollection<Comment> Comment { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<UserHasRole> UserHasRole { get; set; }
+
+
+        public void SetHashedPassword(string passwordInClearText)
+        {
+            if (string.IsNullOrEmpty(passwordInClearText))
+                throw new ArgumentException("The password is not allowed to be null or empty.");
+
+            var salt = GenerateSalt();
+            Password = CreatePasswordHash(passwordInClearText, salt);
+            SaltString = Convert.ToBase64String(salt);
+        }
+
+        public string CreatePasswordHash(string unhashedPassword, byte[] salt)
+        {
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: unhashedPassword,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
+        }
+
+        private byte[] GenerateSalt()
+        {
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+
+            return salt;
+        }
+
+
+
     }
 }

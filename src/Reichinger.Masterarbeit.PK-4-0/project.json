@@ -1,6 +1,8 @@
 {
     "dependencies": {
         "Microsoft.AspNetCore.Cors": "1.1.0",
+        "Microsoft.AspNetCore.Cryptography.Internal": "1.1.0",
+        "Microsoft.AspNetCore.Cryptography.KeyDerivation": "1.1.0",
         "Microsoft.AspNetCore.Mvc": "1.1.0-preview1-final",
         "Microsoft.AspNetCore.Routing": "1.1.0-preview1-final",
         "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0-preview1-final",
@@ -15,7 +17,7 @@
         "Microsoft.Extensions.Logging": "1.1.0-preview1-final",
         "Microsoft.Extensions.Logging.Console": "1.1.0-preview1-final",
         "Microsoft.Extensions.Logging.Debug": "1.1.0-preview1-final",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0-preview1-final",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
         "Microsoft.NETCore.App": {
             "type": "platform",
             "version": "1.1.0-preview1-001100-00"

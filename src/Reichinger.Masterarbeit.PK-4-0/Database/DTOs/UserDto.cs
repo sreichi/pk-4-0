@@ -26,7 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         [Required]
         public string SaltString { get; set; }
 
-        public int MatNr { get; set; }
+        public string RzName { get; set; }
 
         public int LdapId { get; set; }
 
