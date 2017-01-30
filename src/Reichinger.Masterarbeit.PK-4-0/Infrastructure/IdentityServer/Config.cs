@@ -22,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "PK 4.0 API")
+                new ApiResource("api", "PK 4.0 API")
             };
         }
 
@@ -46,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api"
                     }
                 },
                 new Client

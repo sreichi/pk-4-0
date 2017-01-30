@@ -35,5 +35,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             return _applicationDbContext.AppUser.SingleOrDefault(e => e.Email == email);
         }
+
+        public UserDto CreateUser(UserCreateDto user)
+        {
+            var newUser = user.ToModel();
+            _applicationDbContext.AppUser.Add(newUser);
+            return newUser.ToDto();
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
+        }
     }
 }

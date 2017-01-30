@@ -70,32 +70,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/users")]
         [SwaggerOperation("AddUser")]
-        [ProducesResponseType(typeof(AppUser), 200)]
-        public virtual IActionResult AddUser([FromHeader]long? token, [FromBody]AppUser user)
+        [ProducesResponseType(typeof(UserDto), 200)]
+        public virtual IActionResult AddUser([FromHeader]long? token, [FromBody]UserCreateDto user)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
-                : default(AppUser);
-            return new ObjectResult(example);
-        }
+            var newUser = _userRepository.CreateUser(user);
+            _userRepository.Save();
 
-
-        /// <summary>
-        /// Reset the AppUser&#39;s Password
-        /// </summary>
-
-        /// <param name="token">Accesstoken to authenticate with the API</param>
-        /// <param name="userId">ID of AppUser</param>
-        /// <param name="email">The AppUser&#39;s E-Mail address</param>
-        /// <response code="200">Email to reset Password has been sent.</response>
-        [HttpPut]
-        [Route("/users/{userId}/reset")]
-        [SwaggerOperation("ResetUserPassword")]
-        public virtual void ResetUserPassword([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]string email)
-        {
-            throw new NotImplementedException();
+            var location = "/users/" + newUser.Id;
+            return Created(location, newUser);
         }
 
 
@@ -133,9 +120,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/users/{userId}/role")]
         [SwaggerOperation("UpdateUserRole")]
-        public virtual void UpdateUserRole([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]decimal? role)
+        public virtual IActionResult UpdateUserRole([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]decimal? role)
         {
-            throw new NotImplementedException();
+            string exampleJson = null;
+
+            var example = exampleJson != null
+                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
+                : default(AppUser);
+            return new ObjectResult(example);
         }
     }
 }
