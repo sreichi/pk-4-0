@@ -548,7 +548,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Lastname = "Reichinger",
                 Email = "stephan.reichinger@hs-augsburg.de",
                 RzName = "reichi",
-                LdapId = 12345,
+                LdapId = 15191,
                 Active = true,
                 Created = DateTime.Now
             };
