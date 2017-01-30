@@ -22,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api1", "PK 4.0 API")
             };
         }
 
@@ -35,33 +35,58 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             {
                 new Client
                 {
-                    ClientId = "client",
-                    ClientName = "Client",
+                    ClientId = "a2pkfrontend",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("frontendsecret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "testclient",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets =
+                    {
+                        new Secret("test".Sha256())
+                    },
+                    AllowedScopes =
+                    {
+                        "api"
+                    }
                 }
             };
         }
 
         public static List<TestUser> GetUsers()
         {
-            return new List<TestUser>
+            return new List<TestUser>()
             {
-                new TestUser
+                new TestUser()
                 {
                     SubjectId = "1",
-                    Username = "alice",
+                    Username = "Admin",
                     Password = "password",
-
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
+                        new Claim("name", "Testuser Admin")
+                    }
+                },
+                new TestUser()
+                {
+                    SubjectId = "2",
+                    Username = "Testuser",
+                    Password = "password",
+                    Claims = new List<Claim>
+                    {
+                        new Claim("name", "Testuser Agent")
                     }
                 }
             };

@@ -92,8 +92,5 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 
             return salt;
         }
-
-
-
     }
 }

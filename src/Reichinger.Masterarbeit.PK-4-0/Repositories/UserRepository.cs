@@ -30,5 +30,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToDto())
                 .SingleOrDefault(e => e.Id == userId);
         }
+
+        public AppUser GetUserByEmail(string email)
+        {
+            return _applicationDbContext.AppUser.SingleOrDefault(e => e.Email == email);
+        }
     }
 }
