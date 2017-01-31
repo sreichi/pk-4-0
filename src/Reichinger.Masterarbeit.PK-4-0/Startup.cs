@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using IdentityServer4.Services;
-using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
-using Reichinger.Masterarbeit.PK_4_0.Infrastructure;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
