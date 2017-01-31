@@ -22,7 +22,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Conferences
         /// </summary>
         /// <remarks>The Conferences Endpoint returns all Conferences</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="filter">Filter the Result</param>
         /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Conferences</response>
@@ -41,7 +40,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET one Conference by Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">Conference by id</response>
         /// <response code="404">Not Found</response>
@@ -64,7 +62,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET Applications of Conference with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">All Applications of the Conference</response>
         [Authorize]
@@ -82,7 +79,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Add a Application to the Conference
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="applicationId">The Application ID</param>
         /// <response code="200">Updated Conference with new Application</response>
@@ -102,7 +98,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Create new Conference
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conference">new Conference Object</param>
         /// <response code="200">The new Conference Object</response>
         [Authorize]
@@ -129,7 +124,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Delete Application of Conference
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="applicationId">The Application ID</param>
         /// <response code="200">Application Removed From Conference</response>
@@ -156,7 +150,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Delete Conference with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">Conference deleted</response>
         [Authorize]
@@ -182,7 +175,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update Conference with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="conference">Conference to Update</param>
         /// <response code="200">The updated Conference Object</response>

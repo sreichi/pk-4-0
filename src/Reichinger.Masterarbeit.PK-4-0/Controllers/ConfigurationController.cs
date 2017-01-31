@@ -28,7 +28,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Field Definitions
         /// </summary>
         /// <remarks>The config Endpoint returns all form relevant configs</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Field Definitions</response>
         [Authorize]
         [HttpGet]
@@ -44,7 +43,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET all possible Status
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of staus values</response>
         [Authorize]
         [HttpGet]
@@ -59,7 +57,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET all possible Styles
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Styling values</response>
         [Authorize]
         [HttpGet]
@@ -74,7 +71,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET all possible Validations
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Validation values</response>
         [Authorize]
         [HttpGet]

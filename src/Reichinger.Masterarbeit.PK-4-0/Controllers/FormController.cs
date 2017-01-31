@@ -24,7 +24,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Forms
         /// </summary>
         /// <remarks>The Forms Endpoint returns all Forms</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Forms</response>
         [Authorize]
         [HttpGet]
@@ -40,7 +39,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// GET one Form by Id
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <response code="200">Form by id</response>
         /// <response code="404">Not Found</response>
@@ -63,7 +61,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Create new Form
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="form">new Form</param>
         /// <response code="200">The new Form Object</response>
         [Authorize]
@@ -89,7 +86,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Delete Form with Id
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <response code="200">Form deleted</response>
         [Authorize]
@@ -106,7 +102,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Update Form with Id
         /// </summary>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="formId">ID of the Form</param>
         /// <param name="form">Updated Form</param>
         /// <response code="200">The updated Form</response>

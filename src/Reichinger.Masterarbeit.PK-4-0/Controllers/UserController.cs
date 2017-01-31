@@ -42,7 +42,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET one AppUser by Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="userId">ID of AppUser</param>
         /// <response code="200">AppUser by id</response>
         /// <response code="404">Not Found</response>
@@ -67,7 +66,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Create new AppUser from LDAP
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="user">The AppUser credentials</param>
         /// <response code="200">The new AppUser Object</response>
         [Authorize]
@@ -94,7 +92,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update AppUser with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="userId">ID of AppUser</param>
         /// <param name="user">Updated AppUser</param>
         /// <response code="200">The updated AppUser Object</response>
@@ -118,7 +115,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update the AppUser&#39;s Role
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="userId">ID of AppUser</param>
         /// <param name="role">The AppUser&#39;s new Role</param>
         /// <response code="200">Role has been changed.</response>

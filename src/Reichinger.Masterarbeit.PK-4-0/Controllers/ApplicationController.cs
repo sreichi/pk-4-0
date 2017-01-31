@@ -24,7 +24,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Applications
         /// </summary>
         /// <remarks>The Applications Endpoint returns all Applications</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="filter">Filter the Result</param>
         /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Applications</response>
@@ -43,7 +42,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET history of Application
         /// </summary>
         /// <remarks>The Applications Endpoint returns the History of a application</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Applications</response>
         [Authorize]
         [HttpGet]
@@ -60,7 +58,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET one Application by Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application by id</response>
         /// <response code="404">Not Found</response>
@@ -85,7 +82,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Create new Application
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="application">The new Application Object</param>
         /// <response code="200">The new Application Object</response>
         /// <response code="400">Bad Request</response>
@@ -113,7 +109,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Add comment to Application
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <param name="comment">New Comment</param>
         /// <response code="200">The new Comment Object</response>
@@ -143,7 +138,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Delete Application with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application deleted</response>
         /// <response code="404">Application not found</response>
@@ -165,7 +159,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update Application with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <param name="application">Application to Update</param>
         /// <response code="200">The updated Application</response>
@@ -193,7 +186,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update a comment with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="applicationId">ID of the Application</param>
         /// <param name="commentId">ID of the Comment</param>
         /// <param name="comment">Updated Comment</param>

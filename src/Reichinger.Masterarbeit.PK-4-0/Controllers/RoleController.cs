@@ -24,7 +24,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Roles
         /// </summary>
         /// <remarks>The Roles Endpoint returns all Roles</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Roles</response>
         [Authorize]
         [HttpGet]
@@ -41,7 +40,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET one Role by Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <response code="200">Role by Id</response>
         [Authorize]
@@ -63,7 +61,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Add Permission to Role
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <param name="permissionId">ID of Permission</param>
         /// <response code="200">Role added</response>
@@ -81,7 +78,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Create new Role
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="role">The new Role Object</param>
         /// <response code="200">The new Role Object</response>
         [Authorize]
@@ -104,7 +100,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Remove Permission of Role
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <param name="permissionId">ID of Permission</param>
         /// <response code="200">Permission deleted</response>
@@ -122,7 +117,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Delete Role with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <response code="200">Role deleted</response>
         [Authorize]
@@ -139,7 +133,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update Role with Id
         /// </summary>
 
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <param name="role">Updated Role</param>
         /// <response code="200">The updated Role Object</response>
