@@ -70,9 +70,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 options.SingleApiVersion(new Info
                 {
                     Version = "v1",
-                    Title = "PK-4.0 API",
-                    Description = "API for the PK-4.0",
-                    TermsOfService = "Some terms ..."
+                    Title = "API Schnittstelle für die Prüfungskommision der Hochschule Augsburg",
+                    Description = "Hier sind alle Routen aufgelistet die zur verfügung stehen. Zuvor muss jedoch ein JWT Token über"+
+                                  "den Authorize Button hinzufügen",
+                    TermsOfService = "Some Terms"
                 });
 
                 options.AddSecurityDefinition("Bearer", new ApiKeyScheme()
