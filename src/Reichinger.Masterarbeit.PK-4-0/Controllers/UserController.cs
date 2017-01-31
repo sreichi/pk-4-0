@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -26,6 +27,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <remarks>The Users Endpoint returns all Users</remarks>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Users</response>
+        [Authorize]
         [HttpGet]
         [Route("/users")]
         [SwaggerOperation("GetUsers")]

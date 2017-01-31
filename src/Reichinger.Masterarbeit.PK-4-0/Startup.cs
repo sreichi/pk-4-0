@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Infrastructure;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
@@ -77,9 +79,18 @@ namespace Reichinger.Masterarbeit.PK_4_0
                     TermsOfService = "Some terms ..."
                 });
 
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
                 var xmlPath = $"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_environment.ApplicationName}.xml";
                 options.IncludeXmlComments(xmlPath);
             });
+
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(
@@ -96,6 +107,13 @@ namespace Reichinger.Masterarbeit.PK_4_0
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseIdentityServer();
+
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            {
+                Authority = "http://localhost:8000",
+                RequireHttpsMetadata = false,
+                ApiName = "api"
+            });
 
             app.UseMvc();
 
