@@ -11,12 +11,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<AppUser> _dbUsers;
 
         public UserRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            _dbUsers = _applicationDbContext.AppUser;
         }
 
         public IEnumerable<UserDto> GetAllUsers()

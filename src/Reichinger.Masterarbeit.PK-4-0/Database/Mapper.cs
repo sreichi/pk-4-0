@@ -192,6 +192,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static RoleDto ToDto(this Role response)
+        {
+            return new RoleDto()
+            {
+                Id = response.Id,
+                Name = response.Name,
+                UserHasRole = response.UserHasRole.Select(role => role.UserId)
+            };
+        }
+
         public static StatusDto ToDto(this Status response)
         {
             return new StatusDto()

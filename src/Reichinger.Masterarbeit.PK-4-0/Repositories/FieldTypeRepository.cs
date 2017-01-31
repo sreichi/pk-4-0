@@ -12,7 +12,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
     public class FieldTypeRepository : IFieldTypeRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IQueryable<FieldType> _dbFieldTypes;
 
         public FieldTypeRepository(ApplicationDbContext applicationDbContext)
         {
@@ -33,7 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public FieldType GetFieldTypeById(Guid fieldTypeId)
         {
-            var fieldType = _dbFieldTypes.FirstOrDefault(entry => entry.Id == fieldTypeId);
+            var fieldType = _applicationDbContext.FieldType.FirstOrDefault(entry => entry.Id == fieldTypeId);
             return fieldType;
         }
     }
