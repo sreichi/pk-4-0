@@ -35,7 +35,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
         [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplications([FromHeader] long? token, [FromQuery] string filter,
+        public virtual IEnumerable<ApplicationDto> GetApplications([FromQuery] string filter,
             [FromQuery] string sort)
         {
             return _applicationRepository.GetAllApplications();
@@ -52,8 +52,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}/history")]
         [SwaggerOperation("GetHistoryOfApplication")]
         [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetHistoryOfApplication([FromHeader] long? token,
-            [FromRoute] Guid applicationId)
+        public virtual IEnumerable<ApplicationDto> GetHistoryOfApplication([FromRoute] Guid applicationId)
         {
             return _applicationRepository.GetHistoryOfApplication(applicationId);
         }
@@ -72,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
         [ProducesResponseType(typeof(ApplicationDto), 200)]
-        public virtual IActionResult GetApplicationById([FromHeader] long? token, [FromRoute] Guid applicationId)
+        public virtual IActionResult GetApplicationById([FromRoute] Guid applicationId)
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
             if (application == null)
@@ -97,8 +96,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
         [ProducesResponseType(typeof(ApplicationDto), 201)]
-        public virtual IActionResult CreateApplication([FromHeader] long? token,
-            [FromBody] ApplicationCreateDto application)
+        public virtual IActionResult CreateApplication([FromBody] ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
             {
@@ -127,7 +125,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
         [ProducesResponseType(typeof(CommentDto), 200)]
-        public virtual IActionResult AddCommentToApplication([FromHeader] long? token, [FromRoute] Guid applicationId,
+        public virtual IActionResult AddCommentToApplication([FromRoute] Guid applicationId,
             [FromBody] CommentCreateDto comment)
         {
             if (!ModelState.IsValid)
@@ -156,7 +154,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationById")]
-        public virtual IActionResult DeleteApplicationById([FromHeader] long? token, [FromRoute] Guid applicationId)
+        public virtual IActionResult DeleteApplicationById([FromRoute] Guid applicationId)
         {
             var result = _applicationRepository.DeleteApplicationById(applicationId);
             _applicationRepository.Save();
@@ -178,7 +176,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
         [ProducesResponseType(typeof(ApplicationDto),200)]
-        public virtual IActionResult UpdateApplicationById([FromHeader]long? token, [FromRoute]Guid applicationId, [FromBody]ApplicationCreateDto application)
+        public virtual IActionResult UpdateApplicationById([FromRoute]Guid applicationId, [FromBody]ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
             {
@@ -207,7 +205,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}/comments/{commentId}")]
         [SwaggerOperation("UpdateApplicationCommentById")]
         [ProducesResponseType(typeof(CommentDto), 200)]
-        public virtual IActionResult UpdateApplicationCommentById([FromHeader]long? token, [FromRoute]Guid applicationId, [FromRoute]Guid commentId, [FromBody]CommentCreateDto comment)
+        public virtual IActionResult UpdateApplicationCommentById([FromRoute]Guid applicationId, [FromRoute]Guid commentId, [FromBody]CommentCreateDto comment)
         {
             if (!ModelState.IsValid)
             {

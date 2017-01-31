@@ -16,7 +16,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("/users/register")]
-        public virtual IActionResult CheckUserOnLdap([FromHeader]long? token, [FromHeader]string username, [FromHeader]string password)
+        public virtual IActionResult CheckUserOnLdap([FromHeader]string username, [FromHeader]string password)
         {
             if (username == null || password == null)
             {

@@ -31,7 +31,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/roles")]
         [SwaggerOperation("GetRoles")]
         [ProducesResponseType(typeof(List<RoleDto>), 200)]
-        public virtual IEnumerable<RoleDto> GetRoles([FromHeader]long? token)
+        public virtual IEnumerable<RoleDto> GetRoles()
         {
             return _roleRepository.GetAllRoles();
         }
@@ -49,7 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/roles/{roleId}")]
         [SwaggerOperation("GetRoleById")]
         [ProducesResponseType(typeof(RoleDto), 200)]
-        public virtual IActionResult GetRoleById([FromHeader]long? token, [FromRoute]Guid roleId)
+        public virtual IActionResult GetRoleById([FromRoute]Guid roleId)
         {
             var role = _roleRepository.GetRoleById(roleId);
             if (role == null)
@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/roles/{roleId}/permissions/{permission_id}")]
         [SwaggerOperation("AddPermissionToRole")]
-        public virtual void AddPermissionToRole([FromHeader]long? token, [FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
+        public virtual void AddPermissionToRole([FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
         {
             throw new NotImplementedException();
         }
@@ -89,7 +89,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/roles")]
         [SwaggerOperation("AddRole")]
         [ProducesResponseType(typeof(Role), 200)]
-        public virtual IActionResult AddRole([FromHeader]long? token, [FromBody]Role role)
+        public virtual IActionResult AddRole([FromBody]Role role)
         {
             string exampleJson = null;
 
@@ -112,7 +112,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/roles/{roleId}/permissions/{permission_id}")]
         [SwaggerOperation("DeletePermissionOfRole")]
-        public virtual void DeletePermissionOfRole([FromHeader]long? token, [FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
+        public virtual void DeletePermissionOfRole([FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
         {
             throw new NotImplementedException();
         }
@@ -129,7 +129,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("DeleteRoleById")]
-        public virtual void DeleteRoleById([FromHeader]long? token, [FromRoute]decimal? roleId)
+        public virtual void DeleteRoleById([FromRoute]decimal? roleId)
         {
             throw new NotImplementedException();
         }
@@ -148,7 +148,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/roles/{roleId}")]
         [SwaggerOperation("UpdateRoleById")]
         [ProducesResponseType(typeof(Role), 200)]
-        public virtual IActionResult UpdateRoleById([FromHeader]long? token, [FromRoute]decimal? roleId, [FromBody]Role role)
+        public virtual IActionResult UpdateRoleById([FromRoute]decimal? roleId, [FromBody]Role role)
         {
             string exampleJson = null;
 

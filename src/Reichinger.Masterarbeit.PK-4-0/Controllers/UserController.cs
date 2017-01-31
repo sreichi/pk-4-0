@@ -51,7 +51,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
         [ProducesResponseType(typeof(UserDto), 200)]
-        public virtual IActionResult GetUserById([FromHeader]long? token, [FromRoute]Guid userId)
+        public virtual IActionResult GetUserById([FromRoute]Guid userId)
         {
             var user = _userRepository.GetUserById(userId);
             if (user == null)
@@ -75,7 +75,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users")]
         [SwaggerOperation("AddUser")]
         [ProducesResponseType(typeof(UserDto), 200)]
-        public virtual IActionResult AddUser([FromHeader]long? token, [FromBody]UserCreateDto user)
+        public virtual IActionResult AddUser([FromBody]UserCreateDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users/{userId}")]
         [SwaggerOperation("UpdateUserById")]
         [ProducesResponseType(typeof(AppUser), 200)]
-        public virtual IActionResult UpdateUserById([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]AppUser user)
+        public virtual IActionResult UpdateUserById([FromRoute]decimal? userId, [FromBody]AppUser user)
         {
             string exampleJson = null;
 
@@ -126,7 +126,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/users/{userId}/role")]
         [SwaggerOperation("UpdateUserRole")]
-        public virtual IActionResult UpdateUserRole([FromHeader]long? token, [FromRoute]decimal? userId, [FromBody]decimal? role)
+        public virtual IActionResult UpdateUserRole([FromRoute]decimal? userId, [FromBody]decimal? role)
         {
             string exampleJson = null;
 

@@ -38,7 +38,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/config/fieldDefinitions")]
         [SwaggerOperation("GetFieldDefinitions")]
         [ProducesResponseType(typeof(List<FieldTypeDto>), 200)]
-        public virtual IEnumerable<FieldTypeDto> GetFieldDefinitions([FromHeader] long? token)
+        public virtual IEnumerable<FieldTypeDto> GetFieldDefinitions()
         {
             return _fieldTypeRepository.GetAllFieldTypes();
         }
@@ -54,7 +54,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/config/status")]
         [SwaggerOperation("GetStatusValues")]
         [ProducesResponseType(typeof(List<StatusDto>), 200)]
-        public virtual IEnumerable<StatusDto> GetStatusValues([FromHeader] long? token)
+        public virtual IEnumerable<StatusDto> GetStatusValues()
         {
             return _statusRepository.GetAllStatuses();
         }
@@ -69,7 +69,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/config/styles")]
         [SwaggerOperation("GetFieldStyles")]
         [ProducesResponseType(typeof(List<StyleDto>), 200)]
-        public virtual IEnumerable<StyleDto> GetFieldStyles([FromHeader] long? token)
+        public virtual IEnumerable<StyleDto> GetFieldStyles()
         {
             return _styleRepository.GetAllStyles();
         }
@@ -84,7 +84,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/config/validations")]
         [SwaggerOperation("GetFieldValidations")]
         [ProducesResponseType(typeof(List<ValidationDto>), 200)]
-        public virtual IEnumerable<ValidationDto> GetFieldValidations([FromHeader] long? token)
+        public virtual IEnumerable<ValidationDto> GetFieldValidations()
         {
             return _validationRepository.GetAllValidations();
         }

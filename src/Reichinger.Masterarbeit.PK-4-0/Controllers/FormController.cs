@@ -31,7 +31,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms")]
         [SwaggerOperation("GetForms")]
         [ProducesResponseType(typeof(List<FormsDto>), 200)]
-        public virtual IEnumerable<FormsDto> GetForms([FromHeader] long? token)
+        public virtual IEnumerable<FormsDto> GetForms()
         {
             return _formRepository.GetAllForms();
         }
@@ -49,7 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms/{formId}")]
         [SwaggerOperation("GetFormById")]
         [ProducesResponseType(typeof(SingleFormDto), 200)]
-        public virtual IActionResult GetFormById([FromHeader] long? token, [FromRoute] Guid formId)
+        public virtual IActionResult GetFormById([FromRoute] Guid formId)
         {
             var form = _formRepository.GetFormById(formId);
             if (form == null)
@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms")]
         [SwaggerOperation("AddForm")]
         [ProducesResponseType(typeof(FormsDto), 200)]
-        public virtual IActionResult AddForm([FromHeader] long? token, [FromBody] FormCreateDto form)
+        public virtual IActionResult AddForm([FromBody] FormCreateDto form)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/forms/{formId}")]
         [SwaggerOperation("DeleteFormById")]
-        public virtual IActionResult DeleteFormById([FromHeader] long? token, [FromRoute] Guid formId)
+        public virtual IActionResult DeleteFormById([FromRoute] Guid formId)
         {
             var result = _formRepository.DeleteFormById(formId);
             _formRepository.Save();
@@ -115,7 +115,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms/{formId}")]
         [SwaggerOperation("UpdateFormById")]
         [ProducesResponseType(typeof(Form), 200)]
-        public virtual IActionResult UpdateFormById([FromHeader] long? token, [FromRoute] decimal? formId,
+        public virtual IActionResult UpdateFormById([FromRoute] decimal? formId,
             [FromBody] Form form)
         {
             string exampleJson = null;
