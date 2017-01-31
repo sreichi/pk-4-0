@@ -46,6 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="userId">ID of AppUser</param>
         /// <response code="200">AppUser by id</response>
         /// <response code="404">Not Found</response>
+        [Authorize]
         [HttpGet]
         [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
@@ -69,6 +70,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="user">The AppUser credentials</param>
         /// <response code="200">The new AppUser Object</response>
+        [Authorize]
         [HttpPost]
         [Route("/users")]
         [SwaggerOperation("AddUser")]
@@ -96,6 +98,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="userId">ID of AppUser</param>
         /// <param name="user">Updated AppUser</param>
         /// <response code="200">The updated AppUser Object</response>
+        [Authorize]
         [HttpPut]
         [Route("/users/{userId}")]
         [SwaggerOperation("UpdateUserById")]
@@ -119,6 +122,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="userId">ID of AppUser</param>
         /// <param name="role">The AppUser&#39;s new Role</param>
         /// <response code="200">Role has been changed.</response>
+        [Authorize]
         [HttpPut]
         [Route("/users/{userId}/role")]
         [SwaggerOperation("UpdateUserRole")]

@@ -30,6 +30,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="filter">Filter the Result</param>
         /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Applications</response>
+        [Authorize]
         [HttpGet]
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
@@ -46,6 +47,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <remarks>The Applications Endpoint returns the History of a application</remarks>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Applications</response>
+        [Authorize]
         [HttpGet]
         [Route("/applications/{applicationId}/history")]
         [SwaggerOperation("GetHistoryOfApplication")]
@@ -65,6 +67,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="applicationId">ID of the Application</param>
         /// <response code="200">Application by id</response>
         /// <response code="404">Not Found</response>
+        [Authorize]
         [HttpGet]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
@@ -89,6 +92,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="application">The new Application Object</param>
         /// <response code="200">The new Application Object</response>
         /// <response code="400">Bad Request</response>
+        [Authorize]
         [HttpPost]
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
@@ -118,6 +122,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="comment">New Comment</param>
         /// <response code="200">The new Comment Object</response>
         /// <response code="400">Bad Request - Invalid Model State</response>
+        [Authorize]
         [HttpPost]
         [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
@@ -147,6 +152,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="200">Application deleted</response>
         /// <response code="404">Application not found</response>
         /// <response code="400">Bad Request</response>
+        [Authorize]
         [HttpDelete]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationById")]
@@ -167,6 +173,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="applicationId">ID of the Application</param>
         /// <param name="application">Application to Update</param>
         /// <response code="200">The updated Application</response>
+        [Authorize]
         [HttpPut]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
@@ -195,6 +202,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="commentId">ID of the Comment</param>
         /// <param name="comment">Updated Comment</param>
         /// <response code="200">The updated Comment Object</response>
+        [Authorize]
         [HttpPut]
         [Route("/applications/{applicationId}/comments/{commentId}")]
         [SwaggerOperation("UpdateApplicationCommentById")]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -32,6 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <remarks>The config Endpoint returns all form relevant configs</remarks>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Field Definitions</response>
+        [Authorize]
         [HttpGet]
         [Route("/config/fieldDefinitions")]
         [SwaggerOperation("GetFieldDefinitions")]
@@ -47,6 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// </summary>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of staus values</response>
+        [Authorize]
         [HttpGet]
         [Route("/config/status")]
         [SwaggerOperation("GetStatusValues")]
@@ -61,6 +64,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// </summary>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Styling values</response>
+        [Authorize]
         [HttpGet]
         [Route("/config/styles")]
         [SwaggerOperation("GetFieldStyles")]
@@ -75,6 +79,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// </summary>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Validation values</response>
+        [Authorize]
         [HttpGet]
         [Route("/config/validations")]
         [SwaggerOperation("GetFieldValidations")]

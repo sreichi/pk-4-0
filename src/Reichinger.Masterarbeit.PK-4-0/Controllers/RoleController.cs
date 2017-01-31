@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -25,6 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <remarks>The Roles Endpoint returns all Roles</remarks>
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Roles</response>
+        [Authorize]
         [HttpGet]
         [Route("/roles")]
         [SwaggerOperation("GetRoles")]
@@ -42,6 +44,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <response code="200">Role by Id</response>
+        [Authorize]
         [HttpGet]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("GetRoleById")]
@@ -64,6 +67,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="roleId">ID of Role</param>
         /// <param name="permissionId">ID of Permission</param>
         /// <response code="200">Role added</response>
+        [Authorize]
         [HttpPost]
         [Route("/roles/{roleId}/permissions/{permission_id}")]
         [SwaggerOperation("AddPermissionToRole")]
@@ -80,6 +84,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="role">The new Role Object</param>
         /// <response code="200">The new Role Object</response>
+        [Authorize]
         [HttpPost]
         [Route("/roles")]
         [SwaggerOperation("AddRole")]
@@ -103,6 +108,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="roleId">ID of Role</param>
         /// <param name="permissionId">ID of Permission</param>
         /// <response code="200">Permission deleted</response>
+        [Authorize]
         [HttpDelete]
         [Route("/roles/{roleId}/permissions/{permission_id}")]
         [SwaggerOperation("DeletePermissionOfRole")]
@@ -119,6 +125,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="roleId">ID of Role</param>
         /// <response code="200">Role deleted</response>
+        [Authorize]
         [HttpDelete]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("DeleteRoleById")]
@@ -136,6 +143,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="roleId">ID of Role</param>
         /// <param name="role">Updated Role</param>
         /// <response code="200">The updated Role Object</response>
+        [Authorize]
         [HttpPut]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("UpdateRoleById")]

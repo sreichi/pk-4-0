@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -27,6 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="filter">Filter the Result</param>
         /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Conferences</response>
+        [Authorize]
         [HttpGet]
         [Route("/conferences")]
         [SwaggerOperation("GetConferences")]
@@ -46,6 +48,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">Conference by id</response>
         /// <response code="404">Not Found</response>
+        [Authorize]
         [HttpGet]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
@@ -67,6 +70,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">All Applications of the Conference</response>
+        [Authorize]
         [HttpGet]
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("GetApplicationsByConference")]
@@ -86,6 +90,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="applicationId">The Application ID</param>
         /// <response code="200">Updated Conference with new Application</response>
+        [Authorize]
         [HttpPut]
         [Route("/conferences/{conferenceId}/applications/{applicationId}")]
         [SwaggerOperation("AddApplicationToConference")]
@@ -105,6 +110,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conference">new Conference Object</param>
         /// <response code="200">The new Conference Object</response>
+        [Authorize]
         [HttpPost]
         [Route("/conferences")]
         [SwaggerOperation("AddConference")]
@@ -132,6 +138,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="applicationId">The Application ID</param>
         /// <response code="200">Application Removed From Conference</response>
+        [Authorize]
         [HttpDelete]
         [Route("/conferences/{conferenceId}/applications/{applicationId}")]
         [SwaggerOperation("DeleteApplicationOfConference")]
@@ -158,6 +165,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <param name="conferenceId">ID of the Conference</param>
         /// <response code="200">Conference deleted</response>
+        [Authorize]
         [HttpDelete]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("DeleteConferenceById")]
@@ -184,6 +192,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="conferenceId">ID of the Conference</param>
         /// <param name="conference">Conference to Update</param>
         /// <response code="200">The updated Conference Object</response>
+        [Authorize]
         [HttpPut]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("UpdateConferenceById")]
