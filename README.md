@@ -48,3 +48,13 @@ Create Migration in specific folder
 ```
 dotnet ef migrations add {migration-name} --output-dir {path}
 ```
+
+Create Migration for Identity Server PersistedGrant Tables
+```
+dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Database/Migrations/IdentityServer/PersistedGrantDb -e Production
+```
+
+Create Migration for Identity Server ConfigurationDb Tables
+```
+dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Database/Migrations/IdentityServer/ConfigurationDb -e Production
+```

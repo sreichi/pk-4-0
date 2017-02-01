@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+
             //add all repositories to the IoC container.
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
@@ -52,14 +57,25 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             services.AddCors();
 
-
-            services.AddIdentityServer()
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddTemporarySigningCredential()
-                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
-                .AddProfileService<ProfileService>();
+            if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
+            {
+                services.AddIdentityServer()
+                    .AddInMemoryApiResources(Config.GetApiResources())
+                    .AddInMemoryClients(Config.GetClients())
+                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                    .AddTemporarySigningCredential()
+                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+                    .AddProfileService<ProfileService>();
+            }
+            else
+            {
+                services.AddIdentityServer()
+                    .AddTemporarySigningCredential()
+                    .AddConfigurationStore(builder => builder.UseNpgsql(connectionString, options => options.MigrationsAssembly(migrationsAssembly)))
+                    .AddOperationalStore(builder => builder.UseNpgsql(connectionString, options => options.MigrationsAssembly(migrationsAssembly)))
+                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+                    .AddProfileService<ProfileService>();
+            }
 
             // Add framework services.
             services.AddMvc();
@@ -89,7 +105,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             });
 
 
-            var connectionString = Configuration["DbContextSettings:ConnectionString"];
+
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)
             );
