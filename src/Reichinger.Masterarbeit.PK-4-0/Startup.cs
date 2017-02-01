@@ -38,6 +38,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            var identitySrvConnectionString = Configuration["DbContextSettings:IdentitySrvConnectionString"];
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
 
@@ -57,25 +58,14 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             services.AddCors();
 
-            if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
-            {
-                services.AddIdentityServer()
-                    .AddInMemoryApiResources(Config.GetApiResources())
-                    .AddInMemoryClients(Config.GetClients())
-                    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                    .AddTemporarySigningCredential()
-                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
-                    .AddProfileService<ProfileService>();
-            }
-            else
-            {
-                services.AddIdentityServer()
-                    .AddTemporarySigningCredential()
-                    .AddConfigurationStore(builder => builder.UseNpgsql(connectionString, options => options.MigrationsAssembly(migrationsAssembly)))
-                    .AddOperationalStore(builder => builder.UseNpgsql(connectionString, options => options.MigrationsAssembly(migrationsAssembly)))
-                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
-                    .AddProfileService<ProfileService>();
-            }
+            services.AddIdentityServer()
+                .AddTemporarySigningCredential()
+                .AddConfigurationStore(builder => builder.UseNpgsql(identitySrvConnectionString,
+                    options => options.MigrationsAssembly(migrationsAssembly)))
+                .AddOperationalStore(builder => builder.UseNpgsql(identitySrvConnectionString,
+                    options => options.MigrationsAssembly(migrationsAssembly)))
+                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+                .AddProfileService<ProfileService>();
 
             // Add framework services.
             services.AddMvc();
@@ -87,23 +77,25 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 {
                     Version = "v1",
                     Title = "API Schnittstelle für die Prüfungskommision der Hochschule Augsburg",
-                    Description = "Hier sind alle Routen aufgelistet die zur verfügung stehen. Zuvor muss jedoch ein JWT Token über"+
-                                  "den Authorize Button hinzufügen",
+                    Description =
+                        "Hier sind alle Routen aufgelistet die zur verfügung stehen. Zuvor muss jedoch ein JWT Token über" +
+                        "den Authorize Button hinzufügen",
                     TermsOfService = "Some Terms"
                 });
 
                 options.AddSecurityDefinition("Bearer", new ApiKeyScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
                 });
 
-                var xmlPath = $"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_environment.ApplicationName}.xml";
+                var xmlPath =
+                    $"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_environment.ApplicationName}.xml";
                 options.IncludeXmlComments(xmlPath);
             });
-
 
 
             services.AddDbContext<ApplicationDbContext>(
@@ -128,6 +120,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                 ApiName = "api"
             });
 
+
             app.UseMvc();
 
             app.UseSwagger((httpRequest, swaggerDoc) => { swaggerDoc.Host = httpRequest.Host.Value; });
@@ -138,6 +131,8 @@ namespace Reichinger.Masterarbeit.PK_4_0
             {
                 app.SeedData();
             }
+
+            IdentityServerStorageSeed.InitializeIdentitySrvDatabase(app);
         }
     }
 }

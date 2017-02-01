@@ -23,13 +23,15 @@ RUN apt-get update && apt-get install -y python-software-properties software-pro
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
-# Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
-# then create a database `docker` owned by the ``docker`` role.
+# Create a PostgreSQL role named ``dbadmin`` with ``psqldocker`` as the password and
+# then create a database `pk-database` owned by the ``dbadmin`` role.
 # Note: here we use ``&&\`` to run commands one after the other - the ``\``
 #       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER dbadmin WITH SUPERUSER PASSWORD 'psqldocker';" &&\
-    createdb -O dbadmin pk-database
+    createdb -O dbadmin pk-database &&\
+    createdb -O dbadmin identity-srv-db
+
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
