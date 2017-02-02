@@ -1,26 +1,57 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test
 {
+    public class MyLoggingClientHandler : HttpClientHandler
+    {
+        private readonly HttpClient _client;
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Console.WriteLine(request.RequestUri.ToString());
+            HttpResponseMessage result = await base.SendAsync(request, cancellationToken);
+            Console.WriteLine(result.StatusCode);
+            return result;
+        }
+    }
     public class DatabaseFixture : IDisposable
     {
-
-        private TestServer _server;
+        private IWebHost _server;
         private HttpClient _client;
+        public IntegrationClient IClient { get; set; }
+
 
         public DatabaseFixture()
         {
-            Console.WriteLine("Start");
+            var builder = new WebHostBuilder()
+                .UseKestrel()
+                .UseUrls("http://localhost:8000")
+                .UseStartup<Startup>();
 
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            _client = _server.CreateClient();
+            _server = builder.Build();
 
+            try
+            {
+                Task.Run(() => _server.Run());
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            IClient = IntegrationClient.Create("testclient", "test", "api");
+            var tokeresponse = IClient.GetTokenResponseForClient().Result;
+
+            _client = new HttpClient()
+            {
+                BaseAddress = new Uri("http://localhost:8000"),
+            };
+            _client.SetBearerToken(tokeresponse.AccessToken);
         }
 
         public async Task<HttpResponseMessage> GetHttpResult(string path)
@@ -43,8 +74,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
         {
             return await _client.PutAsync(urlPath, new StringContent(json, Encoding.UTF8, "application/json"));
         }
-
-        public IConfigurationRoot Configuration { get; set; }
 
         public void Dispose()
         {

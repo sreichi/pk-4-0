@@ -13,7 +13,6 @@ using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
 using Swashbuckle.Swagger.Model;
-using Config = Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity.Config;
 
 namespace Reichinger.Masterarbeit.PK_4_0
 {
