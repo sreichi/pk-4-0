@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,12 +6,11 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("Database collection")]
+    [Collection("Test collection")]
     public class FormEndpointTest
     {
         private readonly DatabaseFixture _fixture;

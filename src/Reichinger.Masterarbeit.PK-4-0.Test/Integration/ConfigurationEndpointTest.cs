@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -8,7 +7,7 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("Database collection")]
+    [Collection("Test collection")]
     public class ConfigurationEndpointTest
     {
         private readonly DatabaseFixture _fixture;

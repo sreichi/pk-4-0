@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
@@ -10,7 +9,7 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("Database collection")]
+    [Collection("Test collection")]
     public class UserEndpointTest
     {
         private readonly DatabaseFixture _fixture;

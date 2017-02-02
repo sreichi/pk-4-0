@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("Database collection")]
+    [Collection("Test collection")]
     public class RoleEndpointTest
     {
         private readonly DatabaseFixture _fixture;
