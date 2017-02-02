@@ -6,7 +6,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
 {
     public class IntegrationClient
     {
-        private static readonly string IdentityServerBaseUri = "http://localhost:8000";
+        private static readonly string IdentityServerBaseUri = "http://localhost:8001";
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly string _scope;

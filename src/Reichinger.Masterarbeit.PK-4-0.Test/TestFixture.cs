@@ -9,8 +9,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
 {
     public class MyLoggingClientHandler : HttpClientHandler
     {
-        private readonly HttpClient _client;
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Console.WriteLine(request.RequestUri.ToString());
@@ -30,8 +28,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
         {
             var builder = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://localhost:8000")
-                .UseStartup<Startup>();
+                .UseUrls("http://localhost:8001")
+                .UseStartup<StartupTestEnvironment>();
 
             _server = builder.Build();
 
@@ -49,7 +47,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
 
             _client = new HttpClient()
             {
-                BaseAddress = new Uri("http://localhost:8000"),
+                BaseAddress = new Uri("http://localhost:8001"),
             };
             _client.SetBearerToken(tokeresponse.AccessToken);
         }
