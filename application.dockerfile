@@ -1,5 +1,7 @@
 FROM buildpack-deps:jessie-scm
 
+RUN echo 127.0.1.1 pk.multimedia.hs-augsburg.de pk > /etc/hosts;
+
 # Install .NET CLI dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -43,6 +45,8 @@ RUN mkdir warmup \
     && rm -rf warmup \
     && rm -rf /tmp/NuGetScratch
 
+
+HOSTNAME=pk
 
 COPY /src/ ./src
 
