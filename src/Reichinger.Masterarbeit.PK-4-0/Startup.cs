@@ -105,6 +105,8 @@ namespace Reichinger.Masterarbeit.PK_4_0
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var authorityUrl = Configuration["IdentityServer:AuthorityUrl"];
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -114,11 +116,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {
-                Authority = "http://localhost:8000",
+                Authority = authorityUrl,
                 RequireHttpsMetadata = false,
                 ApiName = "api"
             });
-
 
             app.UseMvc();
 

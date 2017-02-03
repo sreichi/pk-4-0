@@ -42,6 +42,11 @@ Docker compose with file reference
 cat [your_dump.sql] | docker exec -i [your-db-container] psql -U postgres
 ```
 
+Docker remove all untagged containers
+```
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+```
+
 ## Entity Framework Commands
 
 Apply all Migrations (needs to be at the same level as project.json)

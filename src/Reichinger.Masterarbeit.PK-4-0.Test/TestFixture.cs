@@ -21,6 +21,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
     {
         private IWebHost _server;
         private HttpClient _client;
+        private readonly string _baseUri = "http://localhost:8001";
         public IntegrationClient IClient { get; set; }
 
 
@@ -28,7 +29,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
         {
             var builder = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://localhost:8001")
+                .UseUrls(_baseUri)
                 .UseStartup<StartupTestEnvironment>();
 
             _server = builder.Build();
@@ -47,7 +48,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
 
             _client = new HttpClient()
             {
-                BaseAddress = new Uri("http://localhost:8001"),
+                BaseAddress = new Uri(_baseUri),
             };
             _client.SetBearerToken(tokeresponse.AccessToken);
         }
