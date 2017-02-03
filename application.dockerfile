@@ -46,7 +46,7 @@ RUN mkdir warmup \
     && rm -rf /tmp/NuGetScratch
 
 
-HOSTNAME=pk
+HOSTNAME pk
 
 COPY /src/ ./src
 
