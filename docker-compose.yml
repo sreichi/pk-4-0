@@ -28,8 +28,11 @@ services:
             dockerfile: application.dockerfile
         ports:
             - "8000:8000"
+        extra_hosts:
+            - "pk.multimedia.hs-augsburg.de pk:127.0.1.1"
         networks:
             - core-application-network
+        hostname: pk
 
 
     database-data:
