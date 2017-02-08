@@ -78,7 +78,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                     Title = "API Schnittstelle für die Prüfungskommision der Hochschule Augsburg",
                     Description =
                         "Hier sind alle Routen aufgelistet die zur verfügung stehen. Zuvor muss jedoch ein JWT Token über" +
-                        "den Authorize Button hinzufügen",
+                        "den Authorize Button hinzugefügt werden",
                     TermsOfService = "Some Terms"
                 });
 

@@ -14,6 +14,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool Deprecated { get; set; }
 
+        public DateTime Created { get; set; }
+
         public bool RestrictedAccess { get; set; }
 
         public bool IsPublic { get; set; }

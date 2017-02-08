@@ -9,6 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual DbSet<AppUser> AppUser { get; set; }
         public virtual DbSet<Application> Application { get; set; }
         public virtual DbSet<Assignment> Assignment { get; set; }
+        public virtual DbSet<Attendand> Attendand { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Conference> Conference { get; set; }
         public virtual DbSet<Config> Config { get; set; }
@@ -67,6 +68,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.HasOne(assignment => assignment.Application)
                     .WithMany(application => application.Assignment)
                     .HasForeignKey(assignment => assignment.ApplicationId);
+            });
+
+            modelBuilder.Entity<Attendand>(entity =>
+            {
+                entity.HasKey(e => new { e.ConferenceId, e.UserId })
+                    .HasName("PK_attendand");
             });
 
             modelBuilder.Entity<Comment>(entity =>

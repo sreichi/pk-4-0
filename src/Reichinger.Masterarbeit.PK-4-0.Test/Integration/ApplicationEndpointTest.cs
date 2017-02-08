@@ -68,9 +68,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 IsPrivate = false,
                 RequiresChanges = true,
                 Text = "Test Kommentar",
+                // TODO Look at that again!!!
                 UserId =
                     JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
-                        .UserId
+                        .User.Id
             };
 
             var serializedComment = JsonConvert.SerializeObject(newComment);
@@ -99,9 +100,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 IsPrivate = false,
                 RequiresChanges = true,
                 Text = "",
+                // TODO Look at that again!!!
                 UserId =
                     JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
-                        .UserId
+                        .User.Id
             };
 
             var serializedComment = JsonConvert.SerializeObject(newComment);
@@ -172,16 +174,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newCreateDto = new ApplicationCreateDto()
             {
+                // TODO Look at that again!!!
                 ConferenceId = applicationToUpdate.ConferenceId ?? null,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
                 FormId = applicationToUpdate.FormId,
-                StatusId = applicationToUpdate.StatusId,
+                StatusId = applicationToUpdate.Status.Id,
                 IsCurrent = applicationToUpdate.IsCurrent,
                 PreviousVersion = applicationToUpdate.Id,
-                UserId = applicationToUpdate.UserId,
+                UserId = applicationToUpdate.User.Id,
                 Version = applicationToUpdate.Version + 1,
-                Assignments = applicationToUpdate.Assignments.ToList(),
-                Comments = applicationToUpdate.Comments.Select(dto => dto.Id).ToList()
+                Assignments = applicationToUpdate.Assignments.ToList()
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newCreateDto);

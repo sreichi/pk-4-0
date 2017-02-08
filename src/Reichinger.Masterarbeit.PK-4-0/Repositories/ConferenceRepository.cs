@@ -18,17 +18,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
-        public IEnumerable<ConferenceDto<Guid>> GetAllConferences()
+        public IEnumerable<ConferenceDto<Guid, Guid>> GetAllConferences()
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Application).ThenInclude(application => application.User)
+                .Include(conference => conference.Application).ThenInclude(application => application.Status)
+                .Include(conference => conference.Attendand)
                 .Select(entry => entry.ToGuidDto());
         }
 
-        public ConferenceDto<ApplicationDto> GetConferernceById(Guid conferenceId)
+        public ConferenceDto<ApplicationDto, UserDto> GetConferernceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Application).ThenInclude(application => application.User)
+                .Include(conference => conference.Application).ThenInclude(application => application.Status)
+                .Include(conference => conference.Attendand).ThenInclude(attendand => attendand.User)
                 .Select(entry => entry.ToFullDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
         }
@@ -36,13 +40,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             var result = _applicationDbContext.Conference
-                .Include(conference => conference.Application)
+                .Include(conference => conference.Application).ThenInclude(application => application.User)
+                .Include(conference => conference.Application).ThenInclude(application => application.Status)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
                 .Application.Select(application => application.ToDto());
             return result;
         }
 
-        public ConferenceDto<ApplicationDto> CreateConference(ConferenceCreateDto conference)
+        public ConferenceDto<ApplicationDto, UserDto> CreateConference(ConferenceCreateDto conference)
         {
             var newConference = conference.ToModel();
             _applicationDbContext.Conference.Add(newConference);
@@ -69,7 +74,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkResult();
         }
 
-        public ConferenceDto<ApplicationDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
+        public ConferenceDto<ApplicationDto, UserDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
         {
             var conferenceToEdit = _applicationDbContext.Conference
                 .SingleOrDefault(conference => conference.Id == conferenceId);

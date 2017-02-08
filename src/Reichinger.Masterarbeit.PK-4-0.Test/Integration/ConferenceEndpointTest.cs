@@ -30,8 +30,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var conferences = JsonConvert.DeserializeObject<List<ConferenceDto<Guid>>>(result.Content.ReadAsStringAsync().Result);
-            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto<Guid>>());
+            var conferences = JsonConvert.DeserializeObject<List<ConferenceDto<Guid, Guid>>>(result.Content.ReadAsStringAsync().Result);
+            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto<Guid, Guid>>());
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var confernce = JsonConvert.DeserializeObject<ConferenceDto<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
-            confernce.Should().BeOfType<ConferenceDto<ApplicationDto>>();
+            var confernce = JsonConvert.DeserializeObject<ConferenceDto<ApplicationDto, UserDto>>(result.Content.ReadAsStringAsync().Result);
+            confernce.Should().BeOfType<ConferenceDto<ApplicationDto, UserDto>>();
         }
 
         [Fact]
@@ -69,7 +69,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var newConference = new ConferenceCreateDto()
             {
                 Description = "New Test Description For Conference",
-                DateOfEvent = DateTime.Now
+                DateOfEvent = DateTime.UtcNow,
+                StartOfEvent = DateTime.UtcNow,
+                EndOfEvent = DateTime.UtcNow,
+                RoomOfEvent = "A Room",
+                NumberOfConference = 42
             };
 
             var serializedConference = JsonConvert.SerializeObject(newConference);

@@ -24,6 +24,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _applicationDbContext.Application
                 .Include(application => application.Comment)
                 .Include(application => application.Assignment)
+                .Include(application => application.User)
+                .Include(application => application.Status)
                 .Select(entry => entry.ToDto());
         }
 
@@ -31,6 +33,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             return _applicationDbContext.Application.Include(application => application.Comment)
                 .Include(application => application.Assignment)
+                .Include(application => application.User)
+                .Include(application => application.Status)
                 .Select(entry => entry.ToDto())
                 .SingleOrDefault(e => e.Id == applicationId);
         }
@@ -51,7 +55,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             _applicationDbContext.Application.Add(newApplication);
 
-            return newApplication.ToDto();
+            Save();
+
+            return GetApplicationById(newApplication.Id);
         }
 
         public CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment)
@@ -125,7 +131,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 };
                 _applicationDbContext.Comment.Add(copyOfComment);
             });
-            return updatedApplication;
+
+            Save();
+
+            return GetApplicationById(updatedApplication.Id);
         }
 
         public IEnumerable<ApplicationDto> GetHistoryOfApplication(Guid applicationId)

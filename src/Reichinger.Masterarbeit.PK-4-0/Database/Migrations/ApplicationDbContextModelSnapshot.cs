@@ -13,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", b =>
                 {
@@ -137,11 +137,25 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasKey("ApplicationId", "UserId")
                         .HasName("PK_assignment");
 
-                    b.HasIndex("ApplicationId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("assignment");
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendand", b =>
+                {
+                    b.Property<Guid>("ConferenceId")
+                        .HasColumnName("conference_id");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("ConferenceId", "UserId")
+                        .HasName("PK_attendand");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("attendand");
                 });
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Comment", b =>
@@ -190,7 +204,23 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnName("date_of_event");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnName("description");
+
+                    b.Property<DateTime>("EndOfEvent")
+                        .HasColumnName("end_of_event");
+
+                    b.Property<int>("NumberOfConference")
+                        .HasColumnName("number_of_conference");
+
+                    b.Property<string>("RoomOfEvent")
+                        .IsRequired()
+                        .HasColumnName("room_of_event")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("StartOfEvent")
+                        .HasColumnName("start_of_event");
 
                     b.HasKey("Id");
 
@@ -305,8 +335,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasKey("FieldId", "StyleId")
                         .HasName("PK_field_has_style");
 
-                    b.HasIndex("FieldId");
-
                     b.HasIndex("StyleId");
 
                     b.ToTable("field_has_style");
@@ -322,8 +350,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasKey("FieldId", "ValidationId")
                         .HasName("PK_field_has_validation");
-
-                    b.HasIndex("FieldId");
 
                     b.HasIndex("ValidationId");
 
@@ -356,6 +382,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnName("id");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnName("created");
 
                     b.Property<bool>("Deprecated")
                         .HasColumnName("deprecated");
@@ -394,8 +423,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasName("PK_form_has_field");
 
                     b.HasIndex("FieldId");
-
-                    b.HasIndex("FormId");
 
                     b.ToTable("form_has_field");
                 });
@@ -444,8 +471,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasName("PK_role_permission");
 
                     b.HasIndex("PermissionId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("role_permission");
                 });
@@ -502,8 +527,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasKey("ConfigId", "FieldTypeId")
                         .HasName("PK_type_has_config");
 
-                    b.HasIndex("ConfigId");
-
                     b.HasIndex("FieldTypeId");
 
                     b.ToTable("type_has_config");
@@ -519,8 +542,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasKey("FieldTypeId", "StyleId")
                         .HasName("PK_type_has_style");
-
-                    b.HasIndex("FieldTypeId");
 
                     b.HasIndex("StyleId");
 
@@ -538,8 +559,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasKey("FieldTypeId", "ValidationId")
                         .HasName("PK_type_has_validation");
 
-                    b.HasIndex("FieldTypeId");
-
                     b.HasIndex("ValidationId");
 
                     b.ToTable("type_has_validation");
@@ -555,8 +574,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasKey("RoleId", "UserId")
                         .HasName("PK_user_has_role");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
 
@@ -620,6 +637,19 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.AppUser", "User")
                         .WithMany("Assignment")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendand", b =>
+                {
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Conference", "Conference")
+                        .WithMany("Attendand")
+                        .HasForeignKey("ConferenceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.AppUser", "User")
+                        .WithMany("Attendand")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

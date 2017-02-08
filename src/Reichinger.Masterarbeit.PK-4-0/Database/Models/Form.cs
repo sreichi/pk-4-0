@@ -20,6 +20,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("title", TypeName = "varchar")]
         [MaxLength(50)]
         public string Title { get; set; }
+        [Column("created")]
+        public DateTime Created { get; set; }
         [Column("deprecated")]
         public bool Deprecated { get; set; }
         [Column("previous_version")]

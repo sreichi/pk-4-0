@@ -20,11 +20,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public Guid? PreviousVersion { get; set; }
 
-        public Guid UserId { get; set; }
+        public UserDto User { get; set; }
 
         public Guid? ConferenceId { get; set; }
 
-        public Guid StatusId { get; set; }
+        public StatusDto Status { get; set; }
 
         public Guid FormId { get; set; }
 

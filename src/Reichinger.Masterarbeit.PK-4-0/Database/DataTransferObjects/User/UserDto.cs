@@ -20,12 +20,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         [Required]
         public string Email { get; set; }
 
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public string SaltString { get; set; }
-
         public string RzName { get; set; }
 
         public int LdapId { get; set; }

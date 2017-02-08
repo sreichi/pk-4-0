@@ -71,6 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateConferences(dbContext);
             CreateApplications(dbContext);
             CreateAssignments(dbContext);
+            CreateAttendands(dbContext);
             CreateComments(dbContext);
             CreateFieldTypes(dbContext);
             CreateFields(dbContext);
@@ -85,6 +86,20 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreaFieldHasValidation(dbContext);
             CreateUserHasRole(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateAttendands(ApplicationDbContext dbContext)
+        {
+            dbContext.Attendand.Add(new Attendand()
+            {
+                ConferenceId = ConferenceId1,
+                UserId = UserId2
+            });
+            dbContext.Attendand.Add(new Attendand()
+            {
+                ConferenceId = ConferenceId2,
+                UserId = UserId1
+            });
         }
 
         private static void CreateFieldTypeHasConfig(ApplicationDbContext dbContext)
@@ -440,13 +455,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = ConferenceId1,
                 DateOfEvent = DateTime.Now,
-                Description = "Hauptsitzung der PK"
+                Description = "Hauptsitzung der PK",
+                StartOfEvent = DateTime.Now + TimeSpan.FromHours(10),
+                EndOfEvent = DateTime.Now + TimeSpan.FromHours(12),
+                RoomOfEvent = "J 2.13",
+                NumberOfConference = 112
             });
             dbContext.Conference.Add(new Conference
             {
                 Id = ConferenceId2,
                 DateOfEvent = DateTime.Now,
-                Description = "Spontansitzung der Informatik"
+                Description = "Spontansitzung der Informatik",
+                StartOfEvent = DateTime.Now + TimeSpan.FromDays(10),
+                EndOfEvent = DateTime.Now + TimeSpan.FromDays(10) + TimeSpan.FromHours(2),
+                RoomOfEvent = "M 1.01",
+                NumberOfConference = 113
             });
         }
 

@@ -22,12 +22,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsCurrent = response.IsCurrent,
                 PreviousVersion = response.PreviousVersion ?? null,
                 FilledForm = response.FilledForm,
-                UserId = response.UserId,
+                User = response.User.ToDto(),
                 ConferenceId = response.ConferenceId,
-                StatusId = response.StatusId,
+                Status = response.Status.ToDto(),
                 FormId = response.FormId,
                 Assignments = response.Assignment.Select(asignee => asignee.UserId),
-                Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created)
+                Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
             };
         }
 
@@ -36,8 +36,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new Application()
             {
                 Id = Guid.NewGuid(),
-                Created = DateTime.Now,
-                LastModified = DateTime.Now,
+                Created = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
                 Version = response.Version,
                 IsCurrent = response.IsCurrent,
                 FilledForm = response.FilledForm,
@@ -54,7 +54,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new Comment()
             {
                 Id = Guid.NewGuid(),
-                Created = DateTime.Now,
+                Created = DateTime.UtcNow,
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,
                 Message = response.Text,
@@ -76,31 +76,41 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static ConferenceDto<Guid> ToGuidDto(this Conference response)
+        public static ConferenceDto<Guid, Guid> ToGuidDto(this Conference response)
         {
             var applications = new List<ApplicationDto>();
             response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
 
-            return new ConferenceDto<Guid>()
+            return new ConferenceDto<Guid, Guid>()
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
                 Description = response.Description,
-                Application = applications.Select(application => application.Id).ToImmutableList()
+                StartOfEvent = response.StartOfEvent,
+                EndOfEvent = response.EndOfEvent,
+                RoomOfEvent = response.RoomOfEvent,
+                NumberOfConference = response.NumberOfConference,
+                Application = applications.Select(application => application.Id).ToImmutableList(),
+                Attendand = response.Attendand.Select(attendand => attendand.UserId)
             };
         }
 
-        public static ConferenceDto<ApplicationDto> ToFullDto(this Conference response)
+        public static ConferenceDto<ApplicationDto, UserDto> ToFullDto(this Conference response)
         {
             var applications = new List<ApplicationDto>();
             response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
 
-            return new ConferenceDto<ApplicationDto>()
+            return new ConferenceDto<ApplicationDto, UserDto>()
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
                 Description = response.Description,
-                Application = applications
+                StartOfEvent = response.StartOfEvent,
+                EndOfEvent = response.EndOfEvent,
+                RoomOfEvent = response.RoomOfEvent,
+                NumberOfConference = response.NumberOfConference,
+                Application = applications,
+                Attendand = response.Attendand.Select(attendand => attendand.User.ToDto())
             };
         }
 
@@ -110,7 +120,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = Guid.NewGuid(),
                 DateOfEvent = response.DateOfEvent,
-                Description = response.Description
+                Description = response.Description,
+                StartOfEvent = response.StartOfEvent,
+                EndOfEvent = response.EndOfEvent,
+                RoomOfEvent = response.RoomOfEvent,
+                NumberOfConference = response.NumberOfConference
             };
         }
 
@@ -138,8 +152,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 MultipleSelect = response.MultipleSelect,
                 EnumOptionsTableId = response.EnumOptionsTableId,
 
-                FieldHasStyle = response.FieldHasStyle.Select(style => style.Style.StyleString),
-                FieldHasValidation =
+                Styles = response.FieldHasStyle.Select(style => style.Style.StyleString),
+                Validations =
                     response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
             };
         }
@@ -163,6 +177,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = response.Id,
                 Name = response.Title,
+                Created = response.Created,
                 Application = response.Application.Select(e => e.Id),
                 FormHasField = response.FormHasField.Select(field => field.FieldId)
             };
@@ -174,6 +189,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = response.Id,
                 Name = response.Title,
+                Created = response.Created,
                 Application = response.Application.Select(e => e.Id),
                 FormHasField = response.FormHasField.Select(field => field.Field.ToDto())
             };
@@ -185,6 +201,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             {
                 Id = Guid.NewGuid(),
                 Title = response.Name,
+                Created = DateTime.UtcNow,
                 Deprecated = false,
                 IsPublic = response.IsPublic,
                 RestrictedAccess = response.RestrictedAccess,
@@ -241,8 +258,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Email = response.Email,
                 LdapId = response.LdapId,
                 RzName = response.RzName,
-                Password = response.Password,
-                SaltString = response.SaltString,
                 UserHasRole = response.UserHasRole.Select(e => e.Role.Name)
             };
         }

@@ -17,7 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string Options { get; set; }
         public Guid? EnumOptionsTableId { get; set; }
 
-        public virtual IEnumerable<string> FieldHasStyle { get; set; }
-        public virtual IEnumerable<string> FieldHasValidation { get; set; }
+        public virtual IEnumerable<string> Styles { get; set; }
+        public virtual IEnumerable<string> Validations { get; set; }
     }
 }
