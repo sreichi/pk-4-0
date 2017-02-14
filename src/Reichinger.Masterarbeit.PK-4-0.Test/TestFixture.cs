@@ -76,9 +76,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
 
         public void Dispose()
         {
-            _server.Dispose();
-            _client.Dispose();
-
             Console.WriteLine("End");
         }
     }
