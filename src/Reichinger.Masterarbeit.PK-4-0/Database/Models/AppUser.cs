@@ -77,7 +77,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: unhashedPassword,
                 salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
+                prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
                 numBytesRequested: 256 / 8));
 
