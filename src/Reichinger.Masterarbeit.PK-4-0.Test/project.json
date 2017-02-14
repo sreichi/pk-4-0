@@ -5,7 +5,7 @@
   "dependencies": {
     "xunit": "2.2.0-beta2-build3300",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "FluentAssertions": "4.9.0",
+    "FluentAssertions": "4.19.0",
     "Microsoft.AspNetCore.TestHost": "1.1.0",
     "Microsoft.AspNetCore.Hosting": "1.1.0",
     "Microsoft.DotNet.InternalAbstractions": "1.0.0",
