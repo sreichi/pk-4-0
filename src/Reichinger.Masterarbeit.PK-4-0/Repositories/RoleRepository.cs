@@ -27,5 +27,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToDto())
                 .FirstOrDefault(entry => entry.Id == roleId);
         }
+
+        public RoleDto CreateRole(RoleDto role)
+        {
+            var newRole = role.ToModel();
+            _applicationDbContext.Role.Add(newRole);
+
+            return newRole.ToDto();
+        }
+
+        public void Save()
+        {
+            _applicationDbContext.SaveChanges();
+        }
     }
 }

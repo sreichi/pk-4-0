@@ -52,5 +52,22 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+        [Fact]
+        public async void CreateRoleShouldCreateAndReturnANewRole()
+        {
+            var newRole = new RoleDto()
+            {
+                Name = "TestRolle"
+            };
+
+            var serializedRole = JsonConvert.SerializeObject(newRole);
+            var result = await _fixture.PostHttpResult(UrlPath, serializedRole);
+
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
     }
+
+
 }

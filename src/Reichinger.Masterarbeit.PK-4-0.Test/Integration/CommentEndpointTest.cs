@@ -23,7 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         }
 
         [Fact]
-        public async void GetAllConferencesShouldReturnAListOfConferenceDtos()
+        public async void GetCommentByIdShouldReturnOneCommentDto()
         {
             var result = await _fixture.GetHttpResult(UrlPath + _commentId);
             result.Should().NotBeNull();

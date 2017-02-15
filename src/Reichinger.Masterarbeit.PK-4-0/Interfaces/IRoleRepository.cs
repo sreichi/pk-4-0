@@ -9,5 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     {
         IEnumerable<RoleDto> GetAllRoles();
         RoleDto GetRoleById(Guid roleId);
+        RoleDto CreateRole(RoleDto role);
+        void Save();
     }
 }

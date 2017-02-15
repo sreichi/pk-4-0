@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
-using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
@@ -230,6 +227,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new RoleDto()
             {
                 Id = response.Id,
+                Name = response.Name
+            };
+        }
+
+        public static Role ToModel(this RoleDto response)
+        {
+            return new Role()
+            {
+                Id = Guid.NewGuid(),
                 Name = response.Name
             };
         }

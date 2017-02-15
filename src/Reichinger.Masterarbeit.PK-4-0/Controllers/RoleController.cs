@@ -84,15 +84,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/roles")]
         [SwaggerOperation("AddRole")]
-        [ProducesResponseType(typeof(Role), 200)]
-        public virtual IActionResult AddRole([FromBody]Role role)
+        [ProducesResponseType(typeof(RoleDto), 200)]
+        public virtual IActionResult AddRole([FromBody]RoleDto role)
         {
-            string exampleJson = null;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Role>(exampleJson)
-                : default(Role);
-            return new ObjectResult(example);
+            var newRole = _roleRepository.CreateRole(role);
+            _roleRepository.Save();
+
+            var location = $"/role/{newRole.Id}";
+            return Created(location, newRole);
         }
 
 
