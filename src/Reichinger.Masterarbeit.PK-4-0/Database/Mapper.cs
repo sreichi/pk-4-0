@@ -158,6 +158,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Required = response.Required,
                 Options = response.Options,
                 MultipleSelect = response.MultipleSelect,
+                Disabled = response.Disabled,
                 EnumOptionsTableId = response.EnumOptionsTableId,
 
                 Styles = response.FieldHasStyle.Select(style => style.Style.StyleString),

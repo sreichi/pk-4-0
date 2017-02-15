@@ -285,6 +285,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
 
+                    b.Property<bool?>("Disabled")
+                        .HasColumnName("disbaled");
+
                     b.Property<Guid?>("EnumOptionsTableId")
                         .HasColumnName("enum_options_table_id");
 
@@ -321,9 +324,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnName("value")
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
-
-                    b.Property<bool?>("disabled")
-                        .HasColumnName("disabled");
 
                     b.HasKey("Id");
 

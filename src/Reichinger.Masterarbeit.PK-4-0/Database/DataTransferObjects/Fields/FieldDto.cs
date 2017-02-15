@@ -11,6 +11,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string Label { get; set; }
         public bool? Required { get; set; }
         public bool? MultipleSelect { get; set; }
+        public bool? Disabled { get; set; }
         public string Value { get; set; }
         public string ContentType { get; set; }
         public string Placeholder { get; set; }
