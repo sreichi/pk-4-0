@@ -24,10 +24,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public int LdapId { get; set; }
 
+        public string EmployeeType { get; set; }
+
         public bool? Active { get; set; }
 
         public DateTime Created { get; set; }
 
-        public virtual IEnumerable<string> UserHasRole { get; set; }
+        public virtual IEnumerable<RoleDto> UserHasRole { get; set; }
     }
 }

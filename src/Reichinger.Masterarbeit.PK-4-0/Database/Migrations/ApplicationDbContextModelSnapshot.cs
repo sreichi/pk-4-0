@@ -88,6 +88,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
 
+                    b.Property<string>("EmployeeType")
+                        .IsRequired()
+                        .HasColumnName("employee_type")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
+
                     b.Property<string>("Firstname")
                         .IsRequired()
                         .HasColumnName("firstname")
@@ -110,7 +116,10 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasMaxLength(128);
 
                     b.Property<string>("RzName")
-                        .HasColumnName("rz_name");
+                        .IsRequired()
+                        .HasColumnName("rz_name")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
 
                     b.Property<string>("SaltString")
                         .IsRequired()

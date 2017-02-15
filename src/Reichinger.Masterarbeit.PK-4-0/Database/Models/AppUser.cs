@@ -40,8 +40,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("salt_string", TypeName = "varchar")]
         [MaxLength(50)]
         public string SaltString { get; private set; }
-        [Column("rz_name")]
+        [Required]
+        [Column("rz_name", TypeName = "varchar")]
+        [MaxLength(50)]
         public string RzName { get; set; }
+        [Required]
+        [Column("employee_type", TypeName = "varchar")]
+        [MaxLength(50)]
+        public string EmployeeType { get; set; }
         [Column("ldap_id")]
         public int LdapId { get; set; }
         [Column("active")]

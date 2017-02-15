@@ -583,7 +583,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 RzName = "reichi",
                 LdapId = 15191,
                 Active = true,
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                EmployeeType = "Studenten"
             };
             newAppUser.SetHashedPassword("password");
             dbContext.AppUser.Add(newAppUser);
@@ -597,7 +598,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 RzName = "schroeti",
                 LdapId = 98765,
                 Active = false,
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                EmployeeType = "Studenten"
             };
             newAppUser2.SetHashedPassword("safePassword");
             dbContext.AppUser.Add(newAppUser2);
