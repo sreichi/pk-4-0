@@ -25,7 +25,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return
                 _applicationDbContext.Form.Include(form => form.Application)
                     .Include(form => form.FormHasField)
-                    .Select(entry => entry.ToDto());
+                    .Select(entry => entry.ToListDto());
         }
 
         public FormDetailDto GetFormById(Guid formId)
@@ -34,11 +34,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 _applicationDbContext.Form.Include(form => form.Application)
                     .Include(form => form.FormHasField)
                     .ThenInclude(formField => formField.Field)
-                    .Select(entry => entry.ToSingleFormDto())
+                    .Select(entry => entry.ToDetailDto())
                     .FirstOrDefault(entry => entry.Id == formId);
         }
 
-        public FormListDto CreateNewForm(FormCreateDto formToCreate)
+        public FormDetailDto CreateNewForm(FormCreateDto formToCreate)
         {
             var newForm = formToCreate.ToModel();
             foreach (var field in formToCreate.FormHasField)
@@ -88,7 +88,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 }
             }
             _applicationDbContext.Form.Add(newForm);
-            return newForm.ToDto();
+            return newForm.ToDetailDto();
         }
 
         public IActionResult DeleteFormById(Guid formId)

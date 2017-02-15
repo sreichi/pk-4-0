@@ -67,7 +67,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/forms")]
         [SwaggerOperation("AddForm")]
-        [ProducesResponseType(typeof(FormListDto), 200)]
+        [ProducesResponseType(typeof(FormDetailDto), 200)]
         public virtual IActionResult AddForm([FromBody] FormCreateDto form)
         {
             if (!ModelState.IsValid)

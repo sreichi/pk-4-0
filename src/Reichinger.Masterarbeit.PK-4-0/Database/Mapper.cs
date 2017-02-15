@@ -26,7 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 User = response.User?.ToDto(),
                 Conference = response.Conference?.ToListDto(),
                 Status = response.Status?.ToDto(),
-                Form = response.Form?.ToDto(),
+                Form = response.Form?.ToListDto(),
                 Assignments = response.Assignment?.Select(asignee => asignee.User.ToDto()),
                 Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
             };
@@ -43,7 +43,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 User = response.User.ToDto(),
                 Conference = response.Conference.ToListDto(),
                 Status = response.Status.ToDto(),
-                Form = response.Form.ToDto(),
+                Form = response.Form.ToListDto(),
             };
         }
 
@@ -182,7 +182,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static FormListDto ToDto(this Form response)
+        public static FormListDto ToListDto(this Form response)
         {
             return new FormListDto()
             {
@@ -196,7 +196,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static FormDetailDto ToSingleFormDto(this Form response)
+        public static FormDetailDto ToDetailDto(this Form response)
         {
             return new FormDetailDto()
             {

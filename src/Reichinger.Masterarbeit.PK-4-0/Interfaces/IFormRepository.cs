@@ -9,7 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     {
         IEnumerable<FormListDto> GetAllForms();
         FormDetailDto GetFormById(Guid formId);
-        FormListDto CreateNewForm(FormCreateDto formToCreate);
+        FormDetailDto CreateNewForm(FormCreateDto formToCreate);
         IActionResult DeleteFormById(Guid formId);
         void Save();
     }
