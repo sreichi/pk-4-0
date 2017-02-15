@@ -12,8 +12,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string Description { get; set; }
         public string Name { get; set; }
 
-        public virtual IEnumerable<TypeHasConfigDto> TypeHasConfig { get; set; }
-        public virtual IEnumerable<StyleDto> TypeHasStyle { get; set; }
-        public virtual IEnumerable<ValidationDto> TypeHasValidation { get; set; }
+        public virtual IEnumerable<string> Configs { get; set; }
+        public virtual IEnumerable<string> Styles { get; set; }
+        public virtual IEnumerable<string> Validations { get; set; }
     }
 }

@@ -176,9 +176,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = response.Id,
                 Name = response.Value,
                 Description = response.Label,
-                TypeHasConfig = response.TypeHasConfig.OrderBy(config => config.Position).Select(config => config.ToDto()),
-                TypeHasStyle = response.TypeHasStyle.Select(style => style.Style.ToDto()),
-                TypeHasValidation = response.TypeHasValidation.Select(validation => validation.Validation.ToDto())
+                Configs = response.TypeHasConfig.OrderBy(config => config.Position).Select(config => config.Config.Value),
+                Styles = response.TypeHasStyle.Select(style => style.Style.StyleString),
+                Validations = response.TypeHasValidation.Select(validation => validation.Validation.ValidationString)
             };
         }
 
@@ -251,14 +251,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = response.Id,
                 Description = response.Description,
                 StyleString = response.StyleString
-            };
-        }
-
-        public static TypeHasConfigDto ToDto(this TypeHasConfig response)
-        {
-            return new TypeHasConfigDto()
-            {
-                ConfigJSON = response.Config.Value
             };
         }
 
