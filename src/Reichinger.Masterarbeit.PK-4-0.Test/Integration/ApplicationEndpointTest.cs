@@ -32,8 +32,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var applications =
-                JsonConvert.DeserializeObject<List<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
-            applications.ForEach(dto => dto.Should().BeOfType<ApplicationDto>());
+                JsonConvert.DeserializeObject<List<ApplicationListDto>>(result.Content.ReadAsStringAsync().Result);
+            applications.ForEach(dto => dto.Should().BeOfType<ApplicationListDto>());
         }
 
         [Fact]
@@ -43,8 +43,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var application = JsonConvert.DeserializeObject<ApplicationDto>(result.Content.ReadAsStringAsync().Result);
-            application.Should().BeOfType<ApplicationDto>();
+            var application = JsonConvert.DeserializeObject<ApplicationDetailDto>(result.Content.ReadAsStringAsync().Result);
+            application.Should().BeOfType<ApplicationDetailDto>();
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         {
             var applicationToTest = await _fixture.GetHttpResult(UrlPath + _applicationId);
             var currentNumberOfComments =
-                JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+                JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                     .Comments.Count();
 
             var newComment = new CommentCreateDto()
@@ -70,7 +70,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Text = "Test Kommentar",
                 // TODO Look at that again!!!
                 UserId =
-                    JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+                    JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                         .User.Id
             };
 
@@ -81,7 +81,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.StatusCode.Should().Be(HttpStatusCode.Created);
 
             applicationToTest = await _fixture.GetHttpResult(UrlPath + _applicationId);
-            var newNumberOfComments = JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+            var newNumberOfComments = JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                     .Comments.Count();
 
             newNumberOfComments.Should().Be(currentNumberOfComments + 1);
@@ -92,7 +92,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         {
             var applicationToTest = await _fixture.GetHttpResult(UrlPath + _applicationId);
             var currentNumberOfComments =
-                JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+                JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                     .Comments.Count();
 
             var newComment = new CommentCreateDto()
@@ -102,7 +102,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Text = "",
                 // TODO Look at that again!!!
                 UserId =
-                    JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+                    JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                         .User.Id
             };
 
@@ -115,7 +115,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             applicationToTest = await _fixture.GetHttpResult(UrlPath + _applicationId);
 
             var newNumberOfComments =
-                JsonConvert.DeserializeObject<ApplicationDto>(applicationToTest.Content.ReadAsStringAsync().Result)
+                JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
                     .Comments.Count();
             newNumberOfComments.Should().Be(currentNumberOfComments);
         }
@@ -170,20 +170,20 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         public async void UpdateApplicationShouldCreateNewApplicationWithUpdatedVersion()
         {
             var result = await _fixture.GetHttpResult(UrlPath + _applicationToUpdateId);
-            var applicationToUpdate = JsonConvert.DeserializeObject<ApplicationDto>(result.Content.ReadAsStringAsync().Result);
+            var applicationToUpdate = JsonConvert.DeserializeObject<ApplicationDetailDto>(result.Content.ReadAsStringAsync().Result);
 
             var newCreateDto = new ApplicationCreateDto()
             {
                 // TODO Look at that again!!!
-                ConferenceId = applicationToUpdate.ConferenceId ?? null,
+                ConferenceId = applicationToUpdate.Conference?.Id,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
-                FormId = applicationToUpdate.FormId,
+                FormId = applicationToUpdate.Form.Id,
                 StatusId = applicationToUpdate.Status.Id,
                 IsCurrent = applicationToUpdate.IsCurrent,
                 PreviousVersion = applicationToUpdate.Id,
                 UserId = applicationToUpdate.User.Id,
                 Version = applicationToUpdate.Version + 1,
-                Assignments = applicationToUpdate.Assignments.ToList()
+                Assignments = applicationToUpdate.Assignments.Select(dto => dto.Id).ToList()
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newCreateDto);
@@ -192,7 +192,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var deserializedResponse = JsonConvert.DeserializeObject<ApplicationDto>(response.Content.ReadAsStringAsync().Result);
+            var deserializedResponse = JsonConvert.DeserializeObject<ApplicationDetailDto>(response.Content.ReadAsStringAsync().Result);
             deserializedResponse.Version.Should().Be(applicationToUpdate.Version + 1);
 
             deserializedResponse.PreviousVersion.Should().Be(applicationToUpdate.Id);
@@ -200,9 +200,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             deserializedResponse.Comments.Count().Should().Be(applicationToUpdate.Comments.Count());
 
             deserializedResponse.Assignments.Count().Should().Be(applicationToUpdate.Assignments.Count());
-            deserializedResponse.Assignments.ToList().ForEach(guid =>
+            deserializedResponse.Assignments.Select(userDto => userDto.Id).ToList().ForEach(guid =>
             {
-                applicationToUpdate.Assignments.Contains(guid).Should().Be(true);
+                applicationToUpdate.Assignments.Select(userDto => userDto.Id).Contains(guid).Should().Be(true);
             });
         }
     }

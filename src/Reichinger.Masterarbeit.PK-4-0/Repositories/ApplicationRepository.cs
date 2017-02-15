@@ -19,27 +19,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<ApplicationDto> GetAllApplications()
+        public IEnumerable<ApplicationListDto> GetAllApplications()
+        {
+            return _applicationDbContext.Application
+                .Include(application => application.Conference)
+                .Include(application => application.Form)
+                .Include(application => application.User)
+                .Include(application => application.Status)
+                .Select(entry => entry.ToListDto());
+        }
+
+        public ApplicationDetailDto GetApplicationById(Guid applicationId)
         {
             return _applicationDbContext.Application
                 .Include(application => application.Comment)
-                .Include(application => application.Assignment)
+                .Include(application => application.Assignment).ThenInclude(assignment => assignment.User)
                 .Include(application => application.User)
+                .Include(application => application.Conference)
+                .Include(application => application.Form)
                 .Include(application => application.Status)
-                .Select(entry => entry.ToDto());
-        }
-
-        public ApplicationDto GetApplicationById(Guid applicationId)
-        {
-            return _applicationDbContext.Application.Include(application => application.Comment)
-                .Include(application => application.Assignment)
-                .Include(application => application.User)
-                .Include(application => application.Status)
-                .Select(entry => entry.ToDto())
+                .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == applicationId);
         }
 
-        public ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate)
+        public ApplicationDetailDto CreateApplication(ApplicationCreateDto applicationToCreate)
         {
             var newApplication = applicationToCreate.ToModel();
 
@@ -94,7 +97,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         /*
         * This update function creates a new entry for the application because of versioning.
         */
-        public ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
+        public ApplicationDetailDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
         {
             var currentApplication = _applicationDbContext.Application
                 .Include(application => application.Comment)
@@ -137,7 +140,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return GetApplicationById(updatedApplication.Id);
         }
 
-        public IEnumerable<ApplicationDto> GetHistoryOfApplication(Guid applicationId)
+        public IEnumerable<ApplicationDetailDto> GetHistoryOfApplication(Guid applicationId)
         {
 
             var requestedApplication = GetApplicationById(applicationId);
@@ -147,10 +150,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history;
         }
 
-        private IEnumerable<ApplicationDto> GenerateHistoryOfApplication(ApplicationDto requestedApplication)
+        private IEnumerable<ApplicationDetailDto> GenerateHistoryOfApplication(ApplicationDetailDto requestedApplication)
         {
             var previousVersion = requestedApplication.PreviousVersion;
-            var history = new List<ApplicationDto>();
+            var history = new List<ApplicationDetailDto>();
 
             history.Add(requestedApplication);
 

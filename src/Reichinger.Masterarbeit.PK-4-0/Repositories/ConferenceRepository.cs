@@ -18,41 +18,42 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
-        public IEnumerable<ConferenceDto<Guid, Guid>> GetAllConferences()
+        public IEnumerable<ConferenceListDto> GetAllConferences()
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application).ThenInclude(application => application.User)
-                .Include(conference => conference.Application).ThenInclude(application => application.Status)
-                .Include(conference => conference.Attendand)
-                .Select(entry => entry.ToGuidDto());
+                .Select(entry => entry.ToListDto());
         }
 
-        public ConferenceDto<ApplicationDto, UserDto> GetConferernceById(Guid conferenceId)
+        public ConferenceDetailDto GetConferernceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
                 .Include(conference => conference.Application).ThenInclude(application => application.User)
                 .Include(conference => conference.Application).ThenInclude(application => application.Status)
+                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application).ThenInclude(application => application.Form)
                 .Include(conference => conference.Attendand).ThenInclude(attendand => attendand.User)
-                .Select(entry => entry.ToFullDto())
+                .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
         }
 
-        public IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId)
+        public IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             var result = _applicationDbContext.Conference
                 .Include(conference => conference.Application).ThenInclude(application => application.User)
                 .Include(conference => conference.Application).ThenInclude(application => application.Status)
+                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application).ThenInclude(application => application.Form)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
-                .Application.Select(application => application.ToDto());
+                .Application.Select(application => application.ToListDto());
             return result;
         }
 
-        public ConferenceDto<ApplicationDto, UserDto> CreateConference(ConferenceCreateDto conference)
+        public ConferenceDetailDto CreateConference(ConferenceCreateDto conference)
         {
             var newConference = conference.ToModel();
             _applicationDbContext.Conference.Add(newConference);
 
-            return newConference.ToFullDto();
+            return newConference.ToDetailDto();
         }
 
         public IActionResult DeleteConferenceById(Guid conferenceId)
@@ -74,7 +75,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkResult();
         }
 
-        public ConferenceDto<ApplicationDto, UserDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
+        public ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
         {
             var conferenceToEdit = _applicationDbContext.Conference
                 .SingleOrDefault(conference => conference.Id == conferenceId);
@@ -82,7 +83,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             conferenceToEdit.DateOfEvent = modifiedConference.DateOfEvent;
             conferenceToEdit.Description = modifiedConference.Description;
 
-            return conferenceToEdit.ToFullDto();
+            return conferenceToEdit.ToDetailDto();
         }
 
         public IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId)

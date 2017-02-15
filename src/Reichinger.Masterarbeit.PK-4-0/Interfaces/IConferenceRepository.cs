@@ -9,12 +9,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface IConferenceRepository
     {
-        IEnumerable<ConferenceDto<Guid, Guid>> GetAllConferences();
-        ConferenceDto<ApplicationDto, UserDto> GetConferernceById(Guid conferenceId);
-        IEnumerable<ApplicationDto> GetApplicationsOfConferenceById(Guid conferenceId);
-        ConferenceDto<ApplicationDto, UserDto> CreateConference(ConferenceCreateDto conference);
+        IEnumerable<ConferenceListDto> GetAllConferences();
+        ConferenceDetailDto GetConferernceById(Guid conferenceId);
+        IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId);
+        ConferenceDetailDto CreateConference(ConferenceCreateDto conference);
         IActionResult DeleteConferenceById(Guid conferenceId);
-        ConferenceDto<ApplicationDto, UserDto> UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference);
+        ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference);
         IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId);
         IActionResult AddApplicationFromConference(Guid conferenceId, Guid applicationId);
         void Save();

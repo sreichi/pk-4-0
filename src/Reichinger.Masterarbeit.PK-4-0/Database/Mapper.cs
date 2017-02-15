@@ -11,10 +11,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
     public static class Mapper
     {
-        public static ApplicationDto ToDto(this Application response)
+
+        public static ApplicationDetailDto ToDetailDto(this Application response)
         {
-            return new ApplicationDto()
-            {
+            return new ApplicationDetailDto()
+            { // TODO LOOK HERE AGAIN
                 Id = response.Id,
                 Created = response.Created,
                 LastModified = response.LastModified,
@@ -22,12 +23,27 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsCurrent = response.IsCurrent,
                 PreviousVersion = response.PreviousVersion ?? null,
                 FilledForm = response.FilledForm,
+                User = response.User?.ToDto(),
+                Conference = response.Conference?.ToListDto(),
+                Status = response.Status?.ToDto(),
+                Form = response.Form?.ToDto(),
+                Assignments = response.Assignment?.Select(asignee => asignee.User.ToDto()),
+                Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
+            };
+        }
+
+        public static ApplicationListDto ToListDto(this Application response)
+        {
+            return new ApplicationListDto()
+            {
+                Id = response.Id,
+                Created = response.Created,
+                LastModified = response.LastModified,
+                IsCurrent = response.IsCurrent,
                 User = response.User.ToDto(),
-                ConferenceId = response.ConferenceId,
+                Conference = response.Conference.ToListDto(),
                 Status = response.Status.ToDto(),
-                FormId = response.FormId,
-                Assignments = response.Assignment.Select(asignee => asignee.UserId),
-                Comments = response.Comment.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
+                Form = response.Form.ToDto(),
             };
         }
 
@@ -76,12 +92,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static ConferenceDto<Guid, Guid> ToGuidDto(this Conference response)
+        public static ConferenceListDto ToListDto(this Conference response)
         {
-            var applications = new List<ApplicationDto>();
-            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
-
-            return new ConferenceDto<Guid, Guid>()
+            return new ConferenceListDto()
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
@@ -89,18 +102,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StartOfEvent = response.StartOfEvent,
                 EndOfEvent = response.EndOfEvent,
                 RoomOfEvent = response.RoomOfEvent,
-                NumberOfConference = response.NumberOfConference,
-                Application = applications.Select(application => application.Id).ToImmutableList(),
-                Attendand = response.Attendand.Select(attendand => attendand.UserId)
+                NumberOfConference = response.NumberOfConference
             };
         }
 
-        public static ConferenceDto<ApplicationDto, UserDto> ToFullDto(this Conference response)
+        public static ConferenceDetailDto ToDetailDto(this Conference response)
         {
-            var applications = new List<ApplicationDto>();
-            response.Application.ToList().ForEach(application => applications.Add(application.ToDto()));
+            var applications = new List<ApplicationListDto>();
+            response.Application.ToList().ForEach(application => applications.Add(application.ToListDto()));
 
-            return new ConferenceDto<ApplicationDto, UserDto>()
+            return new ConferenceDetailDto()
             {
                 Id = response.Id,
                 DateOfEvent = response.DateOfEvent,
@@ -109,8 +120,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 EndOfEvent = response.EndOfEvent,
                 RoomOfEvent = response.RoomOfEvent,
                 NumberOfConference = response.NumberOfConference,
-                Application = applications,
-                Attendand = response.Attendand.Select(attendand => attendand.User.ToDto())
+                Applications = applications,
+                Attendants = response.Attendand.Select(attendand => attendand.User.ToDto())
             };
         }
 

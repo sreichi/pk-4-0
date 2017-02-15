@@ -31,8 +31,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/applications")]
         [SwaggerOperation("GetApplications")]
-        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplications([FromQuery] string filter,
+        [ProducesResponseType(typeof(List<ApplicationListDto>), 200)]
+        public virtual IEnumerable<ApplicationListDto> GetApplications([FromQuery] string filter,
             [FromQuery] string sort)
         {
             return _applicationRepository.GetAllApplications();
@@ -47,8 +47,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/applications/{applicationId}/history")]
         [SwaggerOperation("GetHistoryOfApplication")]
-        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetHistoryOfApplication([FromRoute] Guid applicationId)
+        [ProducesResponseType(typeof(List<ApplicationDetailDto>), 200)]
+        public virtual IEnumerable<ApplicationDetailDto> GetHistoryOfApplication([FromRoute] Guid applicationId)
         {
             return _applicationRepository.GetHistoryOfApplication(applicationId);
         }
@@ -65,7 +65,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
-        [ProducesResponseType(typeof(ApplicationDto), 200)]
+        [ProducesResponseType(typeof(ApplicationListDto), 200)]
         public virtual IActionResult GetApplicationById([FromRoute] Guid applicationId)
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
@@ -89,7 +89,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
-        [ProducesResponseType(typeof(ApplicationDto), 201)]
+        [ProducesResponseType(typeof(ApplicationListDto), 201)]
         public virtual IActionResult CreateApplication([FromBody] ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
@@ -166,7 +166,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
-        [ProducesResponseType(typeof(ApplicationDto),200)]
+        [ProducesResponseType(typeof(ApplicationListDto),200)]
         public virtual IActionResult UpdateApplicationById([FromRoute]Guid applicationId, [FromBody]ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)

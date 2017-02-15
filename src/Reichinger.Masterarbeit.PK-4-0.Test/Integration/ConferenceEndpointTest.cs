@@ -30,8 +30,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var conferences = JsonConvert.DeserializeObject<List<ConferenceDto<Guid, Guid>>>(result.Content.ReadAsStringAsync().Result);
-            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceDto<Guid, Guid>>());
+            var conferences = JsonConvert.DeserializeObject<List<ConferenceListDto>>(result.Content.ReadAsStringAsync().Result);
+            conferences.ForEach(conference => conference.Should().BeOfType<ConferenceListDto>());
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var confernce = JsonConvert.DeserializeObject<ConferenceDto<ApplicationDto, UserDto>>(result.Content.ReadAsStringAsync().Result);
-            confernce.Should().BeOfType<ConferenceDto<ApplicationDto, UserDto>>();
+            var confernce = JsonConvert.DeserializeObject<ConferenceListDto>(result.Content.ReadAsStringAsync().Result);
+            confernce.Should().BeOfType<ConferenceListDto>();
         }
 
         [Fact]
@@ -59,8 +59,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var result = await _fixture.GetHttpResult($"{UrlPath}{_conferenceId}/applications");
             result.Should().NotBeNull();
             var applications =
-                JsonConvert.DeserializeObject<List<ApplicationDto>>(result.Content.ReadAsStringAsync().Result);
-            applications.ForEach(application => application.Should().BeOfType<ApplicationDto>());
+                JsonConvert.DeserializeObject<List<ApplicationListDto>>(result.Content.ReadAsStringAsync().Result);
+            applications.ForEach(application => application.Should().BeOfType<ApplicationListDto>());
         }
 
         [Fact]

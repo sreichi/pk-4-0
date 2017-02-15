@@ -29,8 +29,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences")]
         [SwaggerOperation("GetConferences")]
-        [ProducesResponseType(typeof(List<ConferenceDto<Guid, Guid>>), 200)]
-        public virtual IEnumerable<ConferenceDto<Guid, Guid>> GetConferences([FromQuery] string filter, [FromQuery] string sort)
+        [ProducesResponseType(typeof(List<ConferenceListDto>), 200)]
+        public virtual IEnumerable<ConferenceListDto> GetConferences([FromQuery] string filter, [FromQuery] string sort)
         {
             return _conferenceRepository.GetAllConferences();
         }
@@ -47,7 +47,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
-        [ProducesResponseType(typeof(ConferenceDto<ApplicationDto, UserDto>), 200)]
+        [ProducesResponseType(typeof(ConferenceListDto), 200)]
         public virtual IActionResult GetConferenceById([FromRoute] Guid conferenceId)
         {
             var conference = _conferenceRepository.GetConferernceById(conferenceId);
@@ -68,8 +68,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("GetApplicationsByConference")]
-        [ProducesResponseType(typeof(List<ApplicationDto>), 200)]
-        public virtual IEnumerable<ApplicationDto> GetApplicationsByConference([FromRoute] Guid conferenceId)
+        [ProducesResponseType(typeof(List<ApplicationListDto>), 200)]
+        public virtual IEnumerable<ApplicationListDto> GetApplicationsByConference([FromRoute] Guid conferenceId)
         {
             return _conferenceRepository.GetApplicationsOfConferenceById(conferenceId);
         }
@@ -182,7 +182,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("UpdateConferenceById")]
-        [ProducesResponseType(typeof(ConferenceDto<ApplicationDto, UserDto>), 200)]
+        [ProducesResponseType(typeof(ConferenceListDto), 200)]
         public virtual IActionResult UpdateConferenceById([FromRoute]Guid conferenceId, [FromBody]ConferenceCreateDto conference)
         {
             if (!ModelState.IsValid)

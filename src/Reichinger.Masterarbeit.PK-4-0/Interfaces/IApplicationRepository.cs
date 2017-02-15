@@ -9,13 +9,13 @@ using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
  {
      public interface IApplicationRepository
      {
-         IEnumerable<ApplicationDto> GetAllApplications();
-         ApplicationDto GetApplicationById(Guid applicationId);
-         ApplicationDto CreateApplication(ApplicationCreateDto applicationToCreate);
+         IEnumerable<ApplicationListDto> GetAllApplications();
+         ApplicationDetailDto GetApplicationById(Guid applicationId);
+         ApplicationDetailDto CreateApplication(ApplicationCreateDto applicationToCreate);
          CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment);
          IActionResult DeleteApplicationById(Guid applicationId);
-         ApplicationDto UpdateApplication(Guid applicationId, ApplicationCreateDto applicationPatch);
-         IEnumerable<ApplicationDto> GetHistoryOfApplication(Guid applicationId);
+         ApplicationDetailDto UpdateApplication(Guid applicationId, ApplicationCreateDto applicationPatch);
+         IEnumerable<ApplicationDetailDto> GetHistoryOfApplication(Guid applicationId);
          CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto comment);
          void Save();
      }
