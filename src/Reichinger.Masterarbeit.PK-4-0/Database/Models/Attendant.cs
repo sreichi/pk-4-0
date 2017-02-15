@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
 {
-    [Table("attendand")]
-    public partial class Attendand
+    [Table("attendant")]
+    public partial class Attendant
     {
         [Column("conference_id")]
         public Guid ConferenceId { get; set; }
@@ -13,11 +13,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Guid UserId { get; set; }
 
         [ForeignKey("ConferenceId")]
-        [InverseProperty("Attendand")]
+        [InverseProperty("Attendant")]
         public virtual Conference Conference { get; set; }
 
         [ForeignKey("UserId")]
-        [InverseProperty("Attendand")]
+        [InverseProperty("Attendant")]
         public virtual AppUser User { get; set; }
     }
 }

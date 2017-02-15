@@ -31,7 +31,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(conference => conference.Application).ThenInclude(application => application.Status)
                 .Include(conference => conference.Application).ThenInclude(application => application.Conference)
                 .Include(conference => conference.Application).ThenInclude(application => application.Form)
-                .Include(conference => conference.Attendand).ThenInclude(attendand => attendand.User)
+                .Include(conference => conference.Attendant).ThenInclude(attendant => attendant.User)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
         }

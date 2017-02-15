@@ -78,10 +78,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Placeholder = "placeholder",
                 Value = "value",
                 Required = true,
-                Options = "{\"id\":42 , \"name\":\"Rolando\"}",
+                OptionsJson = "{\"id\":42 , \"name\":\"Rolando\"}",
                 FieldType = DataSeeder.FieldTypeId1,
-                FieldHasStyle = _styles,
-                FieldHasValidation = _validations
+                StyleIds = _styles,
+                ValidationIds = _validations
 
             });
 
@@ -93,9 +93,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 Placeholder = "platz",
                 Value = "Wert",
                 Required = false,
-                Options = "{\"id\":69 , \"name\":\"Messi\"}",
+                OptionsJson = "{\"id\":69 , \"name\":\"Messi\"}",
                 FieldType = DataSeeder.FieldTypeId1,
-                FieldHasValidation = _validations
+                ValidationIds = _validations
             });
 
             var newForm = new FormCreateDto()
@@ -126,7 +126,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             _fields.Append(new FieldCreateDto()
             {
                 Name = "TestField",
-                Options = "{\"id\":42 , \"name\":\"Rolando\"}",
+                OptionsJson = "{\"id\":42 , \"name\":\"Rolando\"}",
                 FieldType = DataSeeder.FieldTypeId1,
             });
 

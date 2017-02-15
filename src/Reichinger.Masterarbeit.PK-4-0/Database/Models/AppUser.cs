@@ -60,7 +60,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [InverseProperty("User")]
         public virtual ICollection<Assignment> Assignment { get; set; }
         [InverseProperty("User")]
-        public virtual ICollection<Attendand> Attendand { get; set; }
+        public virtual ICollection<Attendant> Attendant { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Comment> Comment { get; set; }
         [InverseProperty("User")]

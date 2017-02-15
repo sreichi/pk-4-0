@@ -152,7 +152,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.ToTable("assignment");
                 });
 
-            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendand", b =>
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendant", b =>
                 {
                     b.Property<Guid>("ConferenceId")
                         .HasColumnName("conference_id");
@@ -161,11 +161,11 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("ConferenceId", "UserId")
-                        .HasName("PK_attendand");
+                        .HasName("PK_attendant");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("attendand");
+                    b.ToTable("attendant");
                 });
 
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Comment", b =>
@@ -654,15 +654,15 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendand", b =>
+            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Attendant", b =>
                 {
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Conference", "Conference")
-                        .WithMany("Attendand")
+                        .WithMany("Attendant")
                         .HasForeignKey("ConferenceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.AppUser", "User")
-                        .WithMany("Attendand")
+                        .WithMany("Attendant")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

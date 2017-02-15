@@ -11,7 +11,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Conference()
         {
             Application = new HashSet<Application>();
-            Attendand = new HashSet<Attendand>();
+            Attendant = new HashSet<Attendant>();
         }
 
         [Column("id")]
@@ -39,6 +39,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [InverseProperty("Conference")]
         public virtual ICollection<Application> Application { get; set; }
         [InverseProperty("Conference")]
-        public virtual ICollection<Attendand> Attendand { get; set; }
+        public virtual ICollection<Attendant> Attendant { get; set; }
     }
 }

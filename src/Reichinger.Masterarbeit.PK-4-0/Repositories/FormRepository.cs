@@ -58,14 +58,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                         Placeholder = field.Placeholder ?? null,
                         ContentType = field.ContentType,
                         Value = field.Value ?? null,
-                        Options = field.Options ?? null,
+                        Options = field.OptionsJson ?? null,
                         EnumOptionsTableId = field.EnumOptionsTableId ?? null
                     }
                 });
 
-                if (field.FieldHasStyle != null)
+                if (field.StyleIds != null)
                 {
-                    foreach (var styleId in field.FieldHasStyle)
+                    foreach (var styleId in field.StyleIds)
                     {
                         _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
                         {
@@ -75,9 +75,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     }
                 }
 
-                if (field.FieldHasValidation != null)
+                if (field.ValidationIds != null)
                 {
-                    foreach (var validationId in field.FieldHasValidation)
+                    foreach (var validationId in field.ValidationIds)
                     {
                         _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
                         {

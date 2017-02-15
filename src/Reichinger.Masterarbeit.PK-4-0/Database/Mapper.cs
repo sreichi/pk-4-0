@@ -118,7 +118,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 RoomOfEvent = response.RoomOfEvent,
                 NumberOfConference = response.NumberOfConference,
                 Applications = applications,
-                Attendants = response.Attendand.Select(attendand => attendand.User.ToDto())
+                Attendants = response.Attendant.Select(attendant => attendant.User.ToDto())
             };
         }
 

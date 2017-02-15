@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateConferences(dbContext);
             CreateApplications(dbContext);
             CreateAssignments(dbContext);
-            CreateAttendands(dbContext);
+            CreateAttendants(dbContext);
             CreateComments(dbContext);
             CreateFieldTypes(dbContext);
             CreateFields(dbContext);
@@ -88,14 +88,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.SaveChanges();
         }
 
-        private static void CreateAttendands(ApplicationDbContext dbContext)
+        private static void CreateAttendants(ApplicationDbContext dbContext)
         {
-            dbContext.Attendand.Add(new Attendand()
+            dbContext.Attendant.Add(new Attendant()
             {
                 ConferenceId = ConferenceId1,
                 UserId = UserId2
             });
-            dbContext.Attendand.Add(new Attendand()
+            dbContext.Attendant.Add(new Attendant()
             {
                 ConferenceId = ConferenceId2,
                 UserId = UserId1
