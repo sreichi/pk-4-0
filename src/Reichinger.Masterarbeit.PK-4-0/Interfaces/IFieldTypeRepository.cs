@@ -7,7 +7,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface IFieldTypeRepository
     {
-        IEnumerable<FieldTypeDto> GetAllFieldTypes();
+        IEnumerable<FieldDefinitionDto> GetAllFieldTypes();
         FieldType GetFieldTypeById(Guid fieldTypeId);
     }
 }

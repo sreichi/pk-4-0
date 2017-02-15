@@ -18,7 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<FieldTypeDto> GetAllFieldTypes()
+        public IEnumerable<FieldDefinitionDto> GetAllFieldTypes()
         {
             return _applicationDbContext.FieldType
                 .Include(type => type.TypeHasConfig)

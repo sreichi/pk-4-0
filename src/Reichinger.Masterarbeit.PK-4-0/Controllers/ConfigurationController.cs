@@ -33,8 +33,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/config/fieldDefinitions")]
         [SwaggerOperation("GetFieldDefinitions")]
-        [ProducesResponseType(typeof(List<FieldTypeDto>), 200)]
-        public virtual IEnumerable<FieldTypeDto> GetFieldDefinitions()
+        [ProducesResponseType(typeof(List<FieldDefinitionDto>), 200)]
+        public virtual IEnumerable<FieldDefinitionDto> GetFieldDefinitions()
         {
             return _fieldTypeRepository.GetAllFieldTypes();
         }

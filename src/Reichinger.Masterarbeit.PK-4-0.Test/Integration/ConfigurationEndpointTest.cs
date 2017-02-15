@@ -25,8 +25,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var conferences = JsonConvert.DeserializeObject<List<FieldTypeDto>>(result.Content.ReadAsStringAsync().Result);
-            conferences.ForEach(conference => conference.Should().BeOfType<FieldTypeDto>());
+            var conferences = JsonConvert.DeserializeObject<List<FieldDefinitionDto>>(result.Content.ReadAsStringAsync().Result);
+            conferences.ForEach(conference => conference.Should().BeOfType<FieldDefinitionDto>());
         }
 
         [Fact]

@@ -9,7 +9,6 @@ using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 {
-    [Collection("Test collection")]
     public class ConferenceEndpointTest
     {
         private readonly DatabaseFixture _fixture;

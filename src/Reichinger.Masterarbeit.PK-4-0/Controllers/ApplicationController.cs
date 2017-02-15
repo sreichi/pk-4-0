@@ -65,7 +65,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("GetApplicationById")]
-        [ProducesResponseType(typeof(ApplicationListDto), 200)]
+        [ProducesResponseType(typeof(ApplicationDetailDto), 200)]
         public virtual IActionResult GetApplicationById([FromRoute] Guid applicationId)
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
@@ -89,7 +89,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/applications")]
         [SwaggerOperation("CreateApplication")]
-        [ProducesResponseType(typeof(ApplicationListDto), 201)]
+        [ProducesResponseType(typeof(ApplicationDetailDto), 201)]
         public virtual IActionResult CreateApplication([FromBody] ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
@@ -117,7 +117,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/applications/{applicationId}/comments")]
         [SwaggerOperation("AddCommentToApplication")]
-        [ProducesResponseType(typeof(CommentDto), 200)]
+        [ProducesResponseType(typeof(List<CommentDto>), 200)]
         public virtual IActionResult AddCommentToApplication([FromRoute] Guid applicationId,
             [FromBody] CommentCreateDto comment)
         {
@@ -128,10 +128,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             var newComment = _applicationRepository.AddCommentToApplication(applicationId, comment);
             _applicationRepository.Save();
 
-            //TODO this the wrong location but there is no route to get one single comment.
-            var location = "comment";
+            var location = $"/comments/{newComment.Id}";
             return Created(location, newComment);
         }
+
 
 
         /// <summary>

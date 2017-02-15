@@ -169,9 +169,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static FieldTypeDto ToDto(this FieldType response)
+        public static FieldDefinitionDto ToDto(this FieldType response)
         {
-            return new FieldTypeDto()
+            return new FieldDefinitionDto()
             {
                 Id = response.Id,
                 Name = response.Value,
@@ -230,8 +230,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new RoleDto()
             {
                 Id = response.Id,
-                Name = response.Name,
-                UserHasRole = response.UserHasRole.Select(role => role.UserId)
+                Name = response.Name
             };
         }
 

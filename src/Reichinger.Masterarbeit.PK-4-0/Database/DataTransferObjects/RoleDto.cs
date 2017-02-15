@@ -10,6 +10,5 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public virtual IEnumerable<Guid> UserHasRole { get; set; }
     }
 }
