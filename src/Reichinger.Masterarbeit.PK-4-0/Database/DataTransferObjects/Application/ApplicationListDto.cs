@@ -18,6 +18,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public StatusDto Status { get; set; }
 
-        public FormsDto Form { get; set; }
+        public FormListDto Form { get; set; }
     }
 }

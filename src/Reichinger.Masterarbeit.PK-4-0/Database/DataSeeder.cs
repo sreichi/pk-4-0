@@ -520,13 +520,23 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 new Form
                 {
                     Id = FormId1,
-                    Title = "Masterarbeit"
+                    Title = "Masterarbeit",
+                    Created = DateTime.Now,
+                    IsActive = true,
+                    Deprecated = false,
+                    IsPublic = true,
+                    RestrictedAccess = false,
                 });
             dbContext.Add(
                 new Form
                 {
                     Id = FormId2,
-                    Title = "Notenanerkennung"
+                    Title = "Notenanerkennung",
+                    Created = DateTime.Now,
+                    IsActive = false,
+                    IsPublic = false,
+                    Deprecated = true,
+                    RestrictedAccess = true
                 });
         }
 

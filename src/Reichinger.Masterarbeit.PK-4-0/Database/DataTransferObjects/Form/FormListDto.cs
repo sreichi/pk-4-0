@@ -5,12 +5,12 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
-    public class FormsDto
+    public class FormListDto
     {
         public Guid Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public bool Deprecated { get; set; }
 
@@ -20,8 +20,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool IsPublic { get; set; }
 
-        public virtual IEnumerable<Guid> Application { get; set; }
-
-        public virtual IEnumerable<Guid> FormHasField { get; set; }
+        public bool IsActive { get; set; }
     }
 }

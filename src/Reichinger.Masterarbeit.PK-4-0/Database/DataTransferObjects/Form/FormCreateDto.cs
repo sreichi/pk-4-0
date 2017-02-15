@@ -8,7 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
     public class FormCreateDto
     {
         [Required]
-        public string Name { get; set; }
+        public string Title { get; set; }
         [Required]
         public bool RestrictedAccess { get; set; }
         [Required]

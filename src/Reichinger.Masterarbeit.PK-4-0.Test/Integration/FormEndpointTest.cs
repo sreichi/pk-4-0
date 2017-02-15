@@ -35,8 +35,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var forms = JsonConvert.DeserializeObject<List<FormsDto>>(result.Content.ReadAsStringAsync().Result);
-            forms.ForEach(form => form.Should().BeOfType<FormsDto>());
+            var forms = JsonConvert.DeserializeObject<List<FormListDto>>(result.Content.ReadAsStringAsync().Result);
+            forms.ForEach(form => form.Should().BeOfType<FormListDto>());
         }
 
         [Fact]
@@ -46,8 +46,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var form = JsonConvert.DeserializeObject<SingleFormDto>(result.Content.ReadAsStringAsync().Result);
-            form.Should().BeOfType<SingleFormDto>();
+            var form = JsonConvert.DeserializeObject<FormDetailDto>(result.Content.ReadAsStringAsync().Result);
+            form.Should().BeOfType<FormDetailDto>();
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var allForms = await _fixture.GetHttpResult(UrlPath);
             var currentNumberOfForms =
-                JsonConvert.DeserializeObject<List<FormsDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
+                JsonConvert.DeserializeObject<List<FormListDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
 
             _styles.Add(DataSeeder.StyleId1);
             _validations.Add(DataSeeder.ValidationId1);
@@ -100,7 +100,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newForm = new FormCreateDto()
             {
-                Name = "NewTest Form",
+                Title = "NewTest Form",
                 IsPublic = true,
                 RestrictedAccess = false,
                 FormHasField = _fields
@@ -115,7 +115,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
 
             allForms = await _fixture.GetHttpResult(UrlPath);
-            var newNumberOfForms = JsonConvert.DeserializeObject<List<FormsDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
+            var newNumberOfForms = JsonConvert.DeserializeObject<List<FormListDto>>(allForms.Content.ReadAsStringAsync().Result).Count;
 
             newNumberOfForms.Should().Be(currentNumberOfForms + 1);
         }

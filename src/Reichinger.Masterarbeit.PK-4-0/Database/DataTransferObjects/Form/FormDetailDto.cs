@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
-    public class SingleFormDto
+    public class FormDetailDto
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public bool Deprecated { get; set; }
 
@@ -19,7 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool IsPublic { get; set; }
 
-        public virtual IEnumerable<Guid> Application { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual IEnumerable<FieldDto> FormHasField { get; set; }
     }

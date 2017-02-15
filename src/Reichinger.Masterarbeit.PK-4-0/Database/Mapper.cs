@@ -182,26 +182,31 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static FormsDto ToDto(this Form response)
+        public static FormListDto ToDto(this Form response)
         {
-            return new FormsDto()
+            return new FormListDto()
             {
                 Id = response.Id,
-                Name = response.Title,
+                Title = response.Title,
                 Created = response.Created,
-                Application = response.Application.Select(e => e.Id),
-                FormHasField = response.FormHasField.Select(field => field.FieldId)
+                Deprecated = response.Deprecated,
+                IsActive = response.IsActive,
+                IsPublic = response.IsPublic,
+                RestrictedAccess = response.RestrictedAccess
             };
         }
 
-        public static SingleFormDto ToSingleFormDto(this Form response)
+        public static FormDetailDto ToSingleFormDto(this Form response)
         {
-            return new SingleFormDto()
+            return new FormDetailDto()
             {
                 Id = response.Id,
-                Name = response.Title,
+                Title = response.Title,
                 Created = response.Created,
-                Application = response.Application.Select(e => e.Id),
+                Deprecated = response.Deprecated,
+                IsActive = response.IsActive,
+                IsPublic = response.IsPublic,
+                RestrictedAccess = response.RestrictedAccess,
                 FormHasField = response.FormHasField.Select(field => field.Field.ToDto())
             };
         }
@@ -211,7 +216,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new Form()
             {
                 Id = Guid.NewGuid(),
-                Title = response.Name,
+                Title = response.Title,
                 Created = DateTime.UtcNow,
                 Deprecated = false,
                 IsPublic = response.IsPublic,

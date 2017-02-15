@@ -30,6 +30,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public bool RestrictedAccess { get; set; }
         [Column("is_public")]
         public bool IsPublic { get; set; }
+        [Column("is_active")]
+        public bool IsActive { get; set; }
 
         [InverseProperty("Form")]
         public virtual ICollection<Application> Application { get; set; }
