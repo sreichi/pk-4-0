@@ -18,9 +18,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<Comment> GetCommentsForApllication(Guid applicationId)
+        public IEnumerable<CommentDto> GetCommentsForApllication(Guid applicationId)
         {
-            return _applicationDbContext.Comment.ToList();
+            return _applicationDbContext.Comment.Include(comment => comment.User)
+                .Where(comment => comment.ApplicationId == applicationId)
+                .Select(comment => comment.ToDto());
         }
 
         public CommentDto GetCommentById(Guid commentId)

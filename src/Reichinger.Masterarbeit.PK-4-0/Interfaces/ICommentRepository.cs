@@ -8,7 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface ICommentRepository
     {
-        IEnumerable<Comment> GetCommentsForApllication(Guid applicationId);
+        IEnumerable<CommentDto> GetCommentsForApllication(Guid applicationId);
         CommentDto GetCommentById(Guid applicationId);
     }
 }
