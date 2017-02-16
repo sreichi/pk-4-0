@@ -67,7 +67,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             {
                 IsPrivate = false,
                 RequiresChanges = true,
-                Text = "Test Kommentar",
+                Message = "Test Kommentar",
                 // TODO Look at that again!!!
                 UserId =
                     JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)
@@ -99,7 +99,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             {
                 IsPrivate = false,
                 RequiresChanges = true,
-                Text = "",
+                Message = "",
                 // TODO Look at that again!!!
                 UserId =
                     JsonConvert.DeserializeObject<ApplicationDetailDto>(applicationToTest.Content.ReadAsStringAsync().Result)

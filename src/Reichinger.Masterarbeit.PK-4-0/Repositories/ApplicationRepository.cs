@@ -33,7 +33,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             return _applicationDbContext.Application
                 .Include(application => application.Comment)
-                .Include(application => application.Assignment).ThenInclude(assignment => assignment.User)
+                .ThenInclude(comment => comment.User)
+                .Include(application => application.Assignment)
+                .ThenInclude(assignment => assignment.User)
                 .Include(application => application.User)
                 .Include(application => application.Conference)
                 .Include(application => application.Form)
@@ -69,8 +71,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             newComment.ApplicationId = applicationId;
 
             _applicationDbContext.Comment.Add(newComment);
-
-            return newComment.ToDto();
+            Save();
+            return _applicationDbContext.Comment.Include(dto => dto.User)
+                .SingleOrDefault(dto => dto.Id == newComment.Id)
+                .ToDto();
         }
 
         public IActionResult DeleteApplicationById(Guid applicationId)
@@ -120,20 +124,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             /**
             * Copies the comment to the new application
             **/
-            currentApplication.Comment?.ToList().ForEach(comment =>
-            {
-                var copyOfComment = new Comment()
+            currentApplication.Comment?.ToList()
+                .ForEach(comment =>
                 {
-                    Id = Guid.NewGuid(),
-                    ApplicationId = updatedApplication.Id,
-                    Created = DateTime.UtcNow,
-                    IsPrivate = comment.IsPrivate,
-                    RequiresChanges = comment.RequiresChanges,
-                    Message = comment.Message,
-                    UserId = comment.UserId
-                };
-                _applicationDbContext.Comment.Add(copyOfComment);
-            });
+                    var copyOfComment = new Comment()
+                    {
+                        Id = Guid.NewGuid(),
+                        ApplicationId = updatedApplication.Id,
+                        Created = DateTime.UtcNow,
+                        IsPrivate = comment.IsPrivate,
+                        RequiresChanges = comment.RequiresChanges,
+                        Message = comment.Message,
+                        UserId = comment.UserId
+                    };
+                    _applicationDbContext.Comment.Add(copyOfComment);
+                });
 
             Save();
 
@@ -142,7 +147,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IEnumerable<ApplicationDetailDto> GetHistoryOfApplication(Guid applicationId)
         {
-
             var requestedApplication = GetApplicationById(applicationId);
 
             var history = GenerateHistoryOfApplication(requestedApplication);
@@ -150,7 +154,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history;
         }
 
-        private IEnumerable<ApplicationDetailDto> GenerateHistoryOfApplication(ApplicationDetailDto requestedApplication)
+        private IEnumerable<ApplicationDetailDto> GenerateHistoryOfApplication(
+            ApplicationDetailDto requestedApplication)
         {
             var previousVersion = requestedApplication.PreviousVersion;
             var history = new List<ApplicationDetailDto>();
@@ -166,14 +171,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history.OrderByDescending(dto => dto.Version);
         }
 
-        public CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto modifiedComment)
+        public CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId,
+            CommentCreateDto modifiedComment)
         {
-            var commentToEdit = _applicationDbContext.Comment
+            var commentToEdit = _applicationDbContext.Comment.Include(comment => comment.User)
                 .SingleOrDefault(comment => comment.Id == commentId);
 
             commentToEdit.RequiresChanges = modifiedComment.RequiresChanges;
             commentToEdit.IsPrivate = modifiedComment.IsPrivate;
-            commentToEdit.Message = modifiedComment.Text;
+            commentToEdit.Message = modifiedComment.Message;
             commentToEdit.UserId = modifiedComment.UserId;
 
             return commentToEdit.ToDto();

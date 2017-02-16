@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Created = DateTime.UtcNow,
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,
-                Message = response.Text,
+                Message = response.Message,
                 UserId = response.UserId
             };
         }
@@ -84,8 +84,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Created = response.Created,
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,
-                Text = response.Message,
-                ApplicationId = response.ApplicationId,
+                Message = response.Message,
+                User = response.User.ToDto()
+            };
+        }
+
+
+        public static CommentCreateDto ToCreateDto(this Comment response)
+        {
+            return new CommentCreateDto()
+            {
+                IsPrivate = response.IsPrivate,
+                Message = response.Message,
+                RequiresChanges = response.RequiresChanges,
                 UserId = response.UserId
             };
         }

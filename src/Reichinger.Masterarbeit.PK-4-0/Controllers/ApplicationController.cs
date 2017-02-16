@@ -190,7 +190,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="commentId">ID of the Comment</param>
         /// <param name="comment">Updated Comment</param>
         /// <response code="200">The updated Comment Object</response>
-        [Authorize]
+//        [Authorize]
         [HttpPut]
         [Route("/applications/{applicationId}/comments/{commentId}")]
         [SwaggerOperation("UpdateApplicationCommentById")]
