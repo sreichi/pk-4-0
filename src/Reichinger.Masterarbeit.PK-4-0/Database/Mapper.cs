@@ -23,7 +23,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 User = response.User?.ToDto(),
                 Conference = response.Conference?.ToListDto(),
                 Status = response.Status?.ToDto(),
-                Form = response.Form?.ToListDto(),
+                Form = response.Form?.ToDetailDto(),
                 Assignments = response.Assignment?.Select(asignee => asignee.User.ToDto()),
                 Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
             };
