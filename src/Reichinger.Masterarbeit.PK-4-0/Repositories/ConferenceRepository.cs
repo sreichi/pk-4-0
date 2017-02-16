@@ -18,6 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
+
         public IEnumerable<ConferenceListDto> GetAllConferences()
         {
             return _applicationDbContext.Conference
@@ -27,11 +28,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public ConferenceDetailDto GetConferernceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
-                .Include(conference => conference.Application).ThenInclude(application => application.User)
-                .Include(conference => conference.Application).ThenInclude(application => application.Status)
-                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
-                .Include(conference => conference.Application).ThenInclude(application => application.Form)
-                .Include(conference => conference.Attendant).ThenInclude(attendant => attendant.User)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.User)
+                .ThenInclude(user => user.UserHasRole)
+                .ThenInclude(userHasRole => userHasRole.Role)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Status)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Form)
+                .Include(conference => conference.Attendant)
+                .ThenInclude(attendant => attendant.User)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
         }
@@ -39,10 +47,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             var result = _applicationDbContext.Conference
-                .Include(conference => conference.Application).ThenInclude(application => application.User)
-                .Include(conference => conference.Application).ThenInclude(application => application.Status)
-                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
-                .Include(conference => conference.Application).ThenInclude(application => application.Form)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.User)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Status)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Form)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
                 .Application.Select(application => application.ToListDto());
             return result;
@@ -102,7 +114,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
             var conference = _applicationDbContext.Conference.SingleOrDefault(conf => conf.Id == conferenceId);
 
-            if (application.ConferenceId != null) return new BadRequestObjectResult("Application is allready assigned to a conference");
+            if (application.ConferenceId != null)
+                return new BadRequestObjectResult("Application is allready assigned to a conference");
             if (conference == null) return new BadRequestObjectResult("Conference does not exist");
 
             application.ConferenceId = conferenceId;
