@@ -37,6 +37,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Created = response.Created,
                 LastModified = response.LastModified,
                 IsCurrent = response.IsCurrent,
+                Version = response.Version,
                 User = response.User.ToDto(),
                 Conference = response.Conference.ToListDto(),
                 Status = response.Status.ToDto(),
