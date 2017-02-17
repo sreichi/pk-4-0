@@ -29,7 +29,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var users = JsonConvert.DeserializeObject<List<UserDto>>(result.Content.ReadAsStringAsync().Result);
+            var users = JsonConvert.DeserializeObject<List<UserDetailDto>>(result.Content.ReadAsStringAsync().Result);
             users.Count.Should().Be(2);
         }
 
@@ -40,8 +40,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var user = JsonConvert.DeserializeObject<UserDto>(result.Content.ReadAsStringAsync().Result);
-            user.Should().BeOfType<UserDto>();
+            var user = JsonConvert.DeserializeObject<UserDetailDto>(result.Content.ReadAsStringAsync().Result);
+            user.Should().BeOfType<UserDetailDto>();
         }
 
         [Fact]
