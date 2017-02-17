@@ -56,7 +56,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.Form)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
-                .Application.Select(application => application.ToListDto());
+                .Application.Select(application => application.ToListDto()).Where(dto => dto.IsCurrent);
             return result;
         }
 
@@ -121,6 +121,43 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             application.ConferenceId = conferenceId;
             application.LastModified = DateTime.UtcNow;
             return new OkResult();
+        }
+
+        public IActionResult AddAttendantToConference(Guid conferenceId, AttendantCreateDto attendantCreateDto)
+        {
+            var newAssignment = _applicationDbContext.Attendant.Add(new Attendant()
+            {
+                ConferenceId = conferenceId,
+                UserId = attendantCreateDto.UserId,
+                TypeOfAttendance = attendantCreateDto.TypeOfAttendance
+
+            });
+            if (newAssignment == null)
+            {
+                return new BadRequestResult();
+            }
+            return new OkObjectResult("Successfully assigned User to Conference");
+        }
+
+        public IActionResult RemoveAttendandFromConference(Guid conferenceId, Guid userId)
+        {
+            var assignmentToRemove = _applicationDbContext.Attendant.SingleOrDefault(
+                attendant => attendant.UserId == userId && attendant.ConferenceId == conferenceId);
+
+            if (assignmentToRemove == null)
+            {
+                return new NotFoundObjectResult("Attendant not found");
+            }
+            try
+            {
+                _applicationDbContext.Attendant.Remove(assignmentToRemove);
+                Save();
+                return new OkObjectResult("Attendant successfully removed");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.InnerException.Message);
+            }
         }
 
         public void Save()

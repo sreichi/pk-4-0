@@ -47,7 +47,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("GetConferenceById")]
-        [ProducesResponseType(typeof(ConferenceListDto), 200)]
+        [ProducesResponseType(typeof(ConferenceDetailDto), 200)]
         public virtual IActionResult GetConferenceById([FromRoute] Guid conferenceId)
         {
             var conference = _conferenceRepository.GetConferernceById(conferenceId);
@@ -195,6 +195,49 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             _conferenceRepository.Save();
 
             return Ok(updatedComment);
+        }
+
+
+        /// <summary>
+        /// Unassign User from Conference
+        /// </summary>
+        /// <param name="conferenceId">Id of the Conference</param>
+        /// <param name="userId">Id of the user</param>
+        /// <response code="200">Attendance deleted</response>
+        /// <response code="404">Attendance not found</response>
+        /// <response code="400">Bad Request</response>
+        [Authorize]
+        [HttpDelete]
+        [Route("/conference/{conferenceId}/attendant/{userId}")]
+        [SwaggerOperation("RemoveAssignmentFromApplication")]
+        public virtual IActionResult RemoveAttendantFormConference([FromRoute] Guid conferenceId, [FromRoute] Guid userId)
+        {
+            var result = _conferenceRepository.RemoveAttendandFromConference(conferenceId, userId);
+            _conferenceRepository.Save();
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Assing User to Conference
+        /// </summary>
+        /// <param name="conferenceId">Id of the conference</param>
+        /// <param name="attendantCreateDto"></param>
+        /// <response code="200">Successful assigned</response>
+        /// <response code="400">Bad Request - Invalid Model State</response>
+        [Authorize]
+        [HttpPost]
+        [Route("/conference/{conferenceId}/attendant")]
+        [SwaggerOperation("AssignUserToApplication")]
+        [ProducesResponseType(typeof(List<CommentDto>), 200)]
+        public virtual IActionResult AddAttendadntToConference([FromRoute] Guid conferenceId, [FromBody] AttendantCreateDto attendantCreateDto)
+        {
+            var result = _conferenceRepository.AddAttendantToConference(conferenceId, attendantCreateDto);
+            _conferenceRepository.Save();
+
+            return result;
+
         }
     }
 }
