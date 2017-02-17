@@ -8,9 +8,10 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170217105806_NewCollumn5")]
+    partial class NewCollumn5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -159,9 +160,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnName("user_id");
-
-                    b.Property<int>("TypeOfAttendance")
-                        .HasColumnName("type_of_attendance");
 
                     b.HasKey("ConferenceId", "UserId")
                         .HasName("PK_attendant");

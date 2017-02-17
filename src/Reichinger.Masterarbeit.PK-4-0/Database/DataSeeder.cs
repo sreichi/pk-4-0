@@ -93,12 +93,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Attendant.Add(new Attendant()
             {
                 ConferenceId = ConferenceId1,
-                UserId = UserId2
+                UserId = UserId2,
+                TypeOfAttendance = TypeOfAttendance.GUEST
             });
             dbContext.Attendant.Add(new Attendant()
             {
                 ConferenceId = ConferenceId2,
-                UserId = UserId1
+                UserId = UserId1,
+                TypeOfAttendance = TypeOfAttendance.MEMBER
             });
         }
 

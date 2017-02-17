@@ -8,9 +8,10 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170217123906_NewCollumn6")]
+    partial class NewCollumn6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
