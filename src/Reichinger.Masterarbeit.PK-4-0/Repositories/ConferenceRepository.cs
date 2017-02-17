@@ -29,11 +29,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public ConferenceDetailDto GetConferernceById(Guid conferenceId)
         {
             var conferenceDetailDto = _applicationDbContext.Conference
-                .Include(conference => conference.Application).ThenInclude(application => application.User).ThenInclude(user => user.UserHasRole).ThenInclude(userHasRole => userHasRole.Role)
-                .Include(conference => conference.Application).ThenInclude(application => application.Status)
-                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
-                .Include(conference => conference.Application).ThenInclude(application => application.Form)
-                .Include(conference => conference.Attendant).ThenInclude(attendant => attendant.User)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.User)
+                .ThenInclude(user => user.UserHasRole)
+                .ThenInclude(userHasRole => userHasRole.Role)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Status)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application)
+                .ThenInclude(application => application.Form)
+                .Include(conference => conference.Attendant)
+                .ThenInclude(attendant => attendant.User)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
 
@@ -47,7 +54,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             conferenceDetailDto.Applications = applicationListDtos;
 
             return conferenceDetailDto;
-
         }
 
         public IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId)
@@ -76,7 +82,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public IActionResult DeleteConferenceById(Guid conferenceId)
         {
             var conferenceToDelete =
-                _applicationDbContext.Conference.FirstOrDefault(conference => conference.Id == conferenceId);
+                _applicationDbContext.Conference.Include(conference => conference.Application)
+                    .FirstOrDefault(conference => conference.Id == conferenceId);
 
             if (conferenceToDelete == null)
             {
@@ -89,7 +96,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
 
             _applicationDbContext.Conference.Remove(conferenceToDelete);
-            return new OkResult();
+            return new OkObjectResult("Conference successfully deleted");
         }
 
         public ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
@@ -135,7 +142,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 ConferenceId = conferenceId,
                 UserId = attendantCreateDto.UserId,
                 TypeOfAttendance = attendantCreateDto.TypeOfAttendance
-
             });
             if (newAssignment == null)
             {

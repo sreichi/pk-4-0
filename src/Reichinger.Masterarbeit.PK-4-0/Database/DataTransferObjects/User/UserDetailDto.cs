@@ -28,6 +28,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public DateTime Created { get; set; }
 
-        public virtual IEnumerable<RoleDto> UserHasRole { get; set; }
+        public virtual IEnumerable<RoleDto> Roles { get; set; }
     }
 }

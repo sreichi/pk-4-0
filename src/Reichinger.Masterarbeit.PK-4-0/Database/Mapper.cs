@@ -281,7 +281,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 LdapId = response.LdapId,
                 RzName = response.RzName,
                 EmployeeType = response.EmployeeType,
-                UserHasRole = response.UserHasRole.Select(e => e.Role.ToDto())
+                Roles = response.UserHasRole.Select(e => e.Role.ToDto())
             };
         }
 
