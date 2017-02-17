@@ -136,7 +136,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 UserId = DataSeeder.UserId1,
                 Version = 0,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
-                Assignments = assignments
+                AssignedUserIds = assignments
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newApplication);
@@ -183,7 +183,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 PreviousVersion = applicationToUpdate.Id,
                 UserId = applicationToUpdate.User.Id,
                 Version = applicationToUpdate.Version + 1,
-                Assignments = applicationToUpdate.Assignments.Select(dto => dto.Id).ToList()
+                AssignedUserIds = applicationToUpdate.Assignments.Select(dto => dto.Id).ToList()
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newCreateDto);

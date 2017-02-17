@@ -209,5 +209,47 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             return Ok(updatedComment);
         }
 
+        /// <summary>
+        /// Unassign User from Application
+        /// </summary>
+        /// <param name="applicationId">ID of the Application</param>
+        /// <param name="userId"></param>
+        /// <response code="200">Application deleted</response>
+        /// <response code="404">Application not found</response>
+        /// <response code="400">Bad Request</response>
+        [Authorize]
+        [HttpDelete]
+        [Route("/applications/{applicationId}/assignment/{userId}")]
+        [SwaggerOperation("RemoveAssignmentFromApplication")]
+        public virtual IActionResult RemoveAssignmentFromApplication([FromRoute] Guid applicationId, [FromRoute] Guid userId)
+        {
+            var result = _applicationRepository.RemoveAssignmentFromApplication(applicationId, userId);
+            _applicationRepository.Save();
+
+            return result;
+
+        }
+
+
+        /// <summary>
+        /// Assing User to Application
+        /// </summary>
+        /// <param name="applicationId">ID of the Application</param>
+        /// <param name="userId"></param>
+        /// <response code="200">The new Comment Object</response>
+        /// <response code="400">Bad Request - Invalid Model State</response>
+        [Authorize]
+        [HttpPut]
+        [Route("/applications/{applicationId}/assignment/{userId}")]
+        [SwaggerOperation("AssignUserToApplication")]
+        [ProducesResponseType(typeof(List<CommentDto>), 200)]
+        public virtual IActionResult AssignUserToApplication([FromRoute] Guid applicationId, [FromRoute] Guid userId)
+        {
+            var result = _applicationRepository.AssignUserToApplication(applicationId, userId);
+            _applicationRepository.Save();
+
+            return result;
+        }
+
     }
 }

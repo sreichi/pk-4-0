@@ -10,11 +10,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
     {
         public string FilledForm { get; set; }
 
-        public int Version { get; set; }
-
-        public bool IsCurrent { get; set; }
-
-        public Guid? PreviousVersion { get; set; }
         [NonEmptyGuid]
         public Guid UserId { get; set; }
 
@@ -24,6 +19,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         [NonEmptyGuid]
         public Guid FormId { get; set; }
 
-        public virtual ICollection<Guid> Assignments { get; set; }
+        public virtual ICollection<Guid> AssignedUserIds { get; set; }
     }
 }

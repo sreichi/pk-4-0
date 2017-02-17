@@ -26,7 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Form)
                 .Include(application => application.User)
                 .Include(application => application.Status)
-                .Select(entry => entry.ToListDto());
+                .Select(entry => entry.ToListDto()).Where(entry => entry.IsCurrent);
         }
 
         public ApplicationDetailDto GetApplicationById(Guid applicationId)
@@ -48,7 +48,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             var newApplication = applicationToCreate.ToModel();
 
-            applicationToCreate.Assignments?.ToList()
+            newApplication.IsCurrent = true;
+            newApplication.Version = 1;
+
+            applicationToCreate.AssignedUserIds?.ToList()
                 .ForEach(guid =>
                 {
                     newApplication.Assignment.Add(new Assignment()
@@ -108,18 +111,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .SingleOrDefault(app => app.Id == applicationId);
             currentApplication.IsCurrent = false;
 
-            var updatedApplication = CreateApplication(new ApplicationCreateDto()
-            {
-                ConferenceId = newApplication.ConferenceId ?? null,
-                FilledForm = newApplication.FilledForm,
-                FormId = newApplication.FormId,
-                StatusId = newApplication.StatusId,
-                IsCurrent = newApplication.IsCurrent,
-                PreviousVersion = currentApplication.Id,
-                UserId = newApplication.UserId,
-                Version = currentApplication.Version + 1,
-                Assignments = newApplication.Assignments
-            });
+            var updatedApplication = newApplication.ToModel();
+
+            updatedApplication.IsCurrent = true;
+            updatedApplication.Version = currentApplication.Version + 1;
+            updatedApplication.PreviousVersion = currentApplication.Id;
+
+            _applicationDbContext.Application.Add(updatedApplication);
 
             /**
             * Copies the comment to the new application
@@ -140,6 +138,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     _applicationDbContext.Comment.Add(copyOfComment);
                 });
 
+            currentApplication.Assignment?.ToList().ForEach(assignment =>
+            {
+                _applicationDbContext.Assignment.Add(new Assignment()
+                {
+                    ApplicationId = applicationId,
+                    UserId = assignment.UserId
+                });
+            });
+
             Save();
 
             return GetApplicationById(updatedApplication.Id);
@@ -158,9 +165,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             ApplicationDetailDto requestedApplication)
         {
             var previousVersion = requestedApplication.PreviousVersion;
-            var history = new List<ApplicationDetailDto>();
-
-            history.Add(requestedApplication);
+            var history = new List<ApplicationDetailDto> {requestedApplication};
 
             while (previousVersion != null)
             {
@@ -183,6 +188,41 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             commentToEdit.UserId = modifiedComment.UserId;
 
             return commentToEdit.ToDto();
+        }
+
+        public IActionResult RemoveAssignmentFromApplication(Guid applicationId, Guid userId)
+        {
+            var assignmentToRemove = _applicationDbContext.Assignment.SingleOrDefault(
+                assignment => assignment.UserId == userId && assignment.ApplicationId == applicationId);
+
+            if (assignmentToRemove == null)
+            {
+                return new NotFoundObjectResult("Assignment not found");
+            }
+            try
+            {
+                _applicationDbContext.Assignment.Remove(assignmentToRemove);
+                Save();
+                return new OkObjectResult("Assignment successfully removed");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.InnerException.Message);
+            }
+        }
+
+        public IActionResult AssignUserToApplication(Guid applicationId, Guid userId)
+        {
+            var newAssignment = _applicationDbContext.Assignment.Add(new Assignment()
+            {
+                ApplicationId = applicationId,
+                UserId = userId
+            });
+            if (newAssignment == null)
+            {
+                return new BadRequestResult();
+            }
+            return new OkObjectResult("Successfully assigned User to Application");
         }
 
         public void Save()
