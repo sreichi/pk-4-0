@@ -51,16 +51,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             newApplication.IsCurrent = true;
             newApplication.Version = 1;
 
-            applicationToCreate.AssignedUserIds?.ToList()
-                .ForEach(guid =>
-                {
-                    newApplication.Assignment.Add(new Assignment()
-                    {
-                        UserId = guid,
-                        ApplicationId = newApplication.Id
-                    });
-                });
-
             _applicationDbContext.Application.Add(newApplication);
 
             Save();
@@ -108,6 +98,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             var currentApplication = _applicationDbContext.Application
                 .Include(application => application.Comment)
+                .Include(application => application.Assignment)
                 .SingleOrDefault(app => app.Id == applicationId);
             currentApplication.IsCurrent = false;
 
@@ -142,7 +133,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             {
                 _applicationDbContext.Assignment.Add(new Assignment()
                 {
-                    ApplicationId = applicationId,
+                    ApplicationId = updatedApplication.Id,
                     UserId = assignment.UserId
                 });
             });

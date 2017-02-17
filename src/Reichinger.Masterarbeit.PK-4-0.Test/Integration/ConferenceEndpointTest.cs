@@ -70,8 +70,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             {
                 Description = "New Test Description For Conference",
                 DateOfEvent = DateTime.UtcNow,
-                StartOfEvent = DateTime.UtcNow,
-                EndOfEvent = DateTime.UtcNow,
+                StartOfEvent = "15:00",
+                EndOfEvent = "18:00",
                 RoomOfEvent = "A Room",
                 NumberOfConference = 42
             };

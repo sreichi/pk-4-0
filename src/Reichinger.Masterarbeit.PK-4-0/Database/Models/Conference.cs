@@ -23,11 +23,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("date_of_event")]
         public DateTime DateOfEvent { get; set; }
         [Required]
-        [Column("start_of_event")]
-        public DateTime StartOfEvent { get; set; }
+        [Column("start_of_event", TypeName = "varchar")]
+        [MaxLength(5)]
+        public string StartOfEvent { get; set; }
         [Required]
-        [Column("end_of_event")]
-        public DateTime EndOfEvent { get; set; }
+        [Column("end_of_event", TypeName = "varchar")]
+        [MaxLength(5)]
+        public string EndOfEvent { get; set; }
         [Required]
         [Column("room_of_event", TypeName = "varchar")]
         [MaxLength(50)]

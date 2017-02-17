@@ -456,8 +456,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = ConferenceId1,
                 DateOfEvent = DateTime.Now,
                 Description = "Hauptsitzung der PK",
-                StartOfEvent = DateTime.Now + TimeSpan.FromHours(10),
-                EndOfEvent = DateTime.Now + TimeSpan.FromHours(12),
+                StartOfEvent = "08:00",
+                EndOfEvent = "11:00",
                 RoomOfEvent = "J 2.13",
                 NumberOfConference = 112
             });
@@ -466,8 +466,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = ConferenceId2,
                 DateOfEvent = DateTime.Now,
                 Description = "Spontansitzung der Informatik",
-                StartOfEvent = DateTime.Now + TimeSpan.FromDays(10),
-                EndOfEvent = DateTime.Now + TimeSpan.FromDays(10) + TimeSpan.FromHours(2),
+                StartOfEvent = "11:00",
+                EndOfEvent = "13:00",
                 RoomOfEvent = "M 1.01",
                 NumberOfConference = 113
             });

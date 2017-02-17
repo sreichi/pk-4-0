@@ -18,7 +18,5 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public Guid StatusId { get; set; }
         [NonEmptyGuid]
         public Guid FormId { get; set; }
-
-        public virtual ICollection<Guid> AssignedUserIds { get; set; }
     }
 }

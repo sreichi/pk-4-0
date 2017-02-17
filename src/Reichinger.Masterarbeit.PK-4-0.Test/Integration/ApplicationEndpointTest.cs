@@ -124,19 +124,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         public async void CreateApplicationShouldReturnCreated()
         {
 
-            var assignments = new List<Guid>();
-            assignments.Add(DataSeeder.UserId2);
-            assignments.Add(DataSeeder.UserId1);
-
             var newApplication = new ApplicationCreateDto()
             {
                 FormId = DataSeeder.FormId1,
-                IsCurrent = true,
                 StatusId = DataSeeder.StatusId1,
                 UserId = DataSeeder.UserId1,
-                Version = 0,
-                FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
-                AssignedUserIds = assignments
+                FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newApplication);
@@ -153,9 +146,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var newApplication = new ApplicationCreateDto()
             {
                 FormId = DataSeeder.FormId1,
-                IsCurrent = true,
                 StatusId = DataSeeder.StatusId1,
-                Version = 0,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             };
 
@@ -174,16 +165,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var newCreateDto = new ApplicationCreateDto()
             {
-                // TODO Look at that again!!!
                 ConferenceId = applicationToUpdate.Conference?.Id,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
                 FormId = applicationToUpdate.Form.Id,
                 StatusId = applicationToUpdate.Status.Id,
-                IsCurrent = applicationToUpdate.IsCurrent,
-                PreviousVersion = applicationToUpdate.Id,
-                UserId = applicationToUpdate.User.Id,
-                Version = applicationToUpdate.Version + 1,
-                AssignedUserIds = applicationToUpdate.Assignments.Select(dto => dto.Id).ToList()
+                UserId = applicationToUpdate.User.Id
             };
 
             var serializedApplication = JsonConvert.SerializeObject(newCreateDto);

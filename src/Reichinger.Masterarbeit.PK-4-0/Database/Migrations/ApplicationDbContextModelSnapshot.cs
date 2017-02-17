@@ -217,8 +217,11 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .IsRequired()
                         .HasColumnName("description");
 
-                    b.Property<DateTime>("EndOfEvent")
-                        .HasColumnName("end_of_event");
+                    b.Property<string>("EndOfEvent")
+                        .IsRequired()
+                        .HasColumnName("end_of_event")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(5);
 
                     b.Property<int>("NumberOfConference")
                         .HasColumnName("number_of_conference");
@@ -229,8 +232,11 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("StartOfEvent")
-                        .HasColumnName("start_of_event");
+                    b.Property<string>("StartOfEvent")
+                        .IsRequired()
+                        .HasColumnName("start_of_event")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(5);
 
                     b.HasKey("Id");
 
