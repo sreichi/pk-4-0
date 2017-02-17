@@ -9,6 +9,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public DateTime Created { get; set; }
         public bool IsPrivate { get; set; }
         public bool RequiresChanges { get; set; }
-        public UserDto User { get; set; }
+        public UserDetailDto User { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
 {
     public interface IUserRepository
     {
-        IEnumerable<UserDto> GetAllUsers();
-        UserDto GetUserById(Guid userId);
+        IEnumerable<UserListDto> GetAllUsers();
+        UserDetailDto GetUserById(Guid userId);
         AppUser GetUserByEmail(string email);
-        UserDto CreateUser(UserCreateDto user);
+        UserDetailDto CreateUser(UserCreateDto user);
         void Save();
     }
 }

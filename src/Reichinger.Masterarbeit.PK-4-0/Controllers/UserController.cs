@@ -31,8 +31,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/users")]
         [SwaggerOperation("GetUsers")]
-        [ProducesResponseType(typeof(List<UserDto>), 200)]
-        public virtual IEnumerable<UserDto> GetUsers([FromHeader]long? token)
+        [ProducesResponseType(typeof(List<UserListDto>), 200)]
+        public virtual IEnumerable<UserListDto> GetUsers([FromHeader]long? token)
         {
             return _userRepository.GetAllUsers();
         }
@@ -49,7 +49,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/users/{userId}")]
         [SwaggerOperation("GetUserById")]
-        [ProducesResponseType(typeof(UserDto), 200)]
+        [ProducesResponseType(typeof(UserDetailDto), 200)]
         public virtual IActionResult GetUserById([FromRoute]Guid userId)
         {
             var user = _userRepository.GetUserById(userId);
@@ -72,7 +72,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/users")]
         [SwaggerOperation("AddUser")]
-        [ProducesResponseType(typeof(UserDto), 200)]
+        [ProducesResponseType(typeof(UserDetailDto), 200)]
         public virtual IActionResult AddUser([FromBody]UserCreateDto user)
         {
             if (!ModelState.IsValid)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
@@ -27,26 +28,31 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public ConferenceDetailDto GetConferernceById(Guid conferenceId)
         {
-            return _applicationDbContext.Conference
-                .Include(conference => conference.Application)
-                .ThenInclude(application => application.User)
-                .ThenInclude(user => user.UserHasRole)
-                .ThenInclude(userHasRole => userHasRole.Role)
-                .Include(conference => conference.Application)
-                .ThenInclude(application => application.Status)
-                .Include(conference => conference.Application)
-                .ThenInclude(application => application.Conference)
-                .Include(conference => conference.Application)
-                .ThenInclude(application => application.Form)
-                .Include(conference => conference.Attendant)
-                .ThenInclude(attendant => attendant.User)
+            var conferenceDetailDto = _applicationDbContext.Conference
+                .Include(conference => conference.Application).ThenInclude(application => application.User).ThenInclude(user => user.UserHasRole).ThenInclude(userHasRole => userHasRole.Role)
+                .Include(conference => conference.Application).ThenInclude(application => application.Status)
+                .Include(conference => conference.Application).ThenInclude(application => application.Conference)
+                .Include(conference => conference.Application).ThenInclude(application => application.Form)
+                .Include(conference => conference.Attendant).ThenInclude(attendant => attendant.User)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(entry => entry.Id == conferenceId);
+
+            if (conferenceDetailDto == null)
+            {
+                return null;
+            }
+
+            var applicationListDtos = conferenceDetailDto.Applications.Where(dto => dto.IsCurrent);
+
+            conferenceDetailDto.Applications = applicationListDtos;
+
+            return conferenceDetailDto;
+
         }
 
         public IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
-            var result = _applicationDbContext.Conference
+            return _applicationDbContext.Conference
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.User)
                 .Include(conference => conference.Application)
@@ -56,8 +62,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.Form)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
-                .Application.Select(application => application.ToListDto()).Where(dto => dto.IsCurrent);
-            return result;
+                .Application.Select(application => application.ToListDto());
         }
 
         public ConferenceDetailDto CreateConference(ConferenceCreateDto conference)

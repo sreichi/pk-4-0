@@ -20,11 +20,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsCurrent = response.IsCurrent,
                 PreviousVersion = response.PreviousVersion ?? null,
                 FilledForm = response.FilledForm,
-                User = response.User?.ToDto(),
+                User = response.User?.ToDetailDto(),
                 Conference = response.Conference?.ToListDto(),
                 Status = response.Status?.ToDto(),
                 Form = response.Form?.ToDetailDto(),
-                Assignments = response.Assignment?.Select(asignee => asignee.User.ToDto()),
+                Assignments = response.Assignment?.Select(asignee => asignee.User.ToDetailDto()),
                 Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
             };
         }
@@ -38,7 +38,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 LastModified = response.LastModified,
                 IsCurrent = response.IsCurrent,
                 Version = response.Version,
-                User = response.User.ToDto(),
+                User = response.User.ToDetailDto(),
                 Conference = response.Conference.ToListDto(),
                 Status = response.Status.ToDto(),
                 Form = response.Form.ToListDto(),
@@ -82,7 +82,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsPrivate = response.IsPrivate,
                 RequiresChanges = response.RequiresChanges,
                 Message = response.Message,
-                User = response.User.ToDto()
+                User = response.User.ToDetailDto()
             };
         }
 
@@ -114,8 +114,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         public static ConferenceDetailDto ToDetailDto(this Conference response)
         {
-            var applications = new List<ApplicationListDto>();
-            response.Application.ToList().ForEach(application => applications.Add(application.ToListDto()));
 
             return new ConferenceDetailDto()
             {
@@ -126,8 +124,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 EndOfEvent = response.EndOfEvent,
                 RoomOfEvent = response.RoomOfEvent,
                 NumberOfConference = response.NumberOfConference,
-                Applications = applications,
-                Attendants = response.Attendant.Select(attendant => attendant.User.ToDto())
+                Applications = response.Application.Select(application => application.ToListDto()),
+                Guests = response.Attendant.Where(attendant => attendant.TypeOfAttendance == TypeOfAttendance.GUEST).Select(attendant => attendant.User.ToListDto()),
+                Members = response.Attendant.Where(attendant => attendant.TypeOfAttendance == TypeOfAttendance.MEMBER).Select(attendant => attendant.User.ToListDto())
             };
         }
 
@@ -269,9 +268,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
-        public static UserDto ToDto(this AppUser response)
+        public static UserDetailDto ToDetailDto(this AppUser response)
         {
-            return new UserDto()
+            return new UserDetailDto()
             {
                 Id = response.Id,
                 Firstname = response.Firstname,
@@ -283,6 +282,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 RzName = response.RzName,
                 EmployeeType = response.EmployeeType,
                 UserHasRole = response.UserHasRole.Select(e => e.Role.ToDto())
+            };
+        }
+
+        public static UserListDto ToListDto(this AppUser response)
+        {
+            return new UserListDto()
+            {
+                Id = response.Id,
+                Firstname = response.Firstname,
+                Lastname = response.Lastname,
+                Email = response.Email,
             };
         }
 

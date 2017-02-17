@@ -14,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public int Version { get; set; }
 
-        public UserDto User { get; set; }
+        public UserDetailDto User { get; set; }
 
         public ConferenceListDto Conference { get; set; }
 

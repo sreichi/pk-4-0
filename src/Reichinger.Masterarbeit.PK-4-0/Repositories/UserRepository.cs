@@ -17,15 +17,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IEnumerable<UserDto> GetAllUsers()
+        public IEnumerable<UserListDto> GetAllUsers()
         {
-            return _applicationDbContext.AppUser.Select(entry => entry.ToDto());
+            return _applicationDbContext.AppUser.Select(entry => entry.ToListDto());
         }
 
-        public UserDto GetUserById(Guid userId)
+        public UserDetailDto GetUserById(Guid userId)
         {
             return _applicationDbContext.AppUser
-                .Select(entry => entry.ToDto())
+                .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == userId);
         }
 
@@ -34,11 +34,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _applicationDbContext.AppUser.SingleOrDefault(e => e.Email == email);
         }
 
-        public UserDto CreateUser(UserCreateDto user)
+        public UserDetailDto CreateUser(UserCreateDto user)
         {
             var newUser = user.ToModel();
             _applicationDbContext.AppUser.Add(newUser);
-            return newUser.ToDto();
+            return newUser.ToDetailDto();
         }
 
         public void Save()

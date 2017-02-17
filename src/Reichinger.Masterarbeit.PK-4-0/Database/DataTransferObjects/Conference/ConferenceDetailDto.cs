@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
@@ -14,6 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string RoomOfEvent { get; set; }
         public int NumberOfConference { get; set; }
         public virtual IEnumerable<ApplicationListDto> Applications { get; set; }
-        public virtual IEnumerable<UserDto> Attendants { get; set; }
+        public virtual IEnumerable<UserListDto> Guests { get; set; }
+        public virtual IEnumerable<UserListDto> Members { get; set; }
     }
 }
