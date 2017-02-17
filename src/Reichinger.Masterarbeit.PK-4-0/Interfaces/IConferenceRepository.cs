@@ -9,7 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
     {
         IEnumerable<ConferenceListDto> GetAllConferences();
         ConferenceDetailDto GetConferernceById(Guid conferenceId);
-        IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId);
+        IEnumerable<ApplicationDetailDto> GetApplicationsOfConferenceById(Guid conferenceId);
         ConferenceDetailDto CreateConference(ConferenceCreateDto conference);
         IActionResult DeleteConferenceById(Guid conferenceId);
         ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference);

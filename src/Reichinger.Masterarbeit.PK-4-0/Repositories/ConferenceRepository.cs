@@ -56,7 +56,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return conferenceDetailDto;
         }
 
-        public IEnumerable<ApplicationListDto> GetApplicationsOfConferenceById(Guid conferenceId)
+        public IEnumerable<ApplicationDetailDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
                 .Include(conference => conference.Application)
@@ -68,7 +68,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.Form)
                 .SingleOrDefault(conference => conference.Id == conferenceId)
-                .Application.Select(application => application.ToListDto());
+                .Application.Select(application => application.ToDetailDto());
         }
 
         public ConferenceDetailDto CreateConference(ConferenceCreateDto conference)

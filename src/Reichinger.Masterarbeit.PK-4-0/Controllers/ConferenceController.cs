@@ -68,8 +68,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpGet]
         [Route("/conferences/{conferenceId}/applications")]
         [SwaggerOperation("GetApplicationsByConference")]
-        [ProducesResponseType(typeof(List<ApplicationListDto>), 200)]
-        public virtual IEnumerable<ApplicationListDto> GetApplicationsByConference([FromRoute] Guid conferenceId)
+        [ProducesResponseType(typeof(List<ApplicationDetailDto>), 200)]
+        public virtual IEnumerable<ApplicationDetailDto> GetApplicationsByConference([FromRoute] Guid conferenceId)
         {
             return _conferenceRepository.GetApplicationsOfConferenceById(conferenceId);
         }
