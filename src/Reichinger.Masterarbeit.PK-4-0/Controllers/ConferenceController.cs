@@ -230,7 +230,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPost]
         [Route("/conference/{conferenceId}/attendant")]
         [SwaggerOperation("AddAttendadntToConference")]
-        [ProducesResponseType(typeof(List<CommentDto>), 200)]
+        [ProducesResponseType(typeof(ConferenceDetailDto), 200)]
         public virtual IActionResult AddAttendadntToConference([FromRoute] Guid conferenceId, [FromBody] AttendantCreateDto attendantCreateDto)
         {
             var result = _conferenceRepository.AddAttendantToConference(conferenceId, attendantCreateDto);
