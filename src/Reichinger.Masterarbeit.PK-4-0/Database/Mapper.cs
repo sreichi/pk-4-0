@@ -164,7 +164,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Placeholder = response.Placeholder,
                 Value = response.Value,
                 Required = response.Required,
-                Options = response.Options,
+                OptionsJson = response.Options,
                 MultipleSelect = response.MultipleSelect,
                 Disabled = response.Disabled,
                 EnumOptionsTableId = response.EnumOptionsTableId,
