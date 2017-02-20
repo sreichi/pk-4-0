@@ -30,7 +30,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var users = JsonConvert.DeserializeObject<List<UserDetailDto>>(result.Content.ReadAsStringAsync().Result);
-            users.Count.Should().Be(2);
+            users.ForEach(dto => dto.Should().BeOfType<UserDetailDto>());
         }
 
         [Fact]
