@@ -42,6 +42,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return newUser.ToDetailDto();
         }
 
+        public IActionResult RemoveRoleFromUser(Guid userId, Guid roleId)
+        {
+            var userHasRole = _applicationDbContext.UserHasRole.SingleOrDefault(
+                entry => entry.UserId == userId && entry.RoleId == roleId);
+
+            if (userHasRole == null)
+            {
+                return new NotFoundObjectResult("User doesn't have given role");
+            }
+
+            _applicationDbContext.UserHasRole.Remove(userHasRole);
+
+            return new OkObjectResult("Role successfully removed from user");
+        }
+
+        public IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();
