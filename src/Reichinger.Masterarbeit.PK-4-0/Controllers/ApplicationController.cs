@@ -183,33 +183,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
 
         /// <summary>
-        /// Update a comment with Id
-        /// </summary>
-
-        /// <param name="applicationId">ID of the Application</param>
-        /// <param name="commentId">ID of the Comment</param>
-        /// <param name="comment">Updated Comment</param>
-        /// <response code="200">The updated Comment Object</response>
-//        [Authorize]
-        [HttpPut]
-        [Route("/applications/{applicationId}/comments/{commentId}")]
-        [SwaggerOperation("UpdateApplicationCommentById")]
-        [ProducesResponseType(typeof(CommentDto), 200)]
-        public virtual IActionResult UpdateApplicationCommentById([FromRoute]Guid applicationId, [FromRoute]Guid commentId, [FromBody]CommentCreateDto comment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var updatedComment = _applicationRepository.UpdateCommentOfApplication(applicationId, commentId, comment);
-
-            _applicationRepository.Save();
-
-            return Ok(updatedComment);
-        }
-
-        /// <summary>
         /// Unassign User from Application
         /// </summary>
         /// <param name="applicationId">ID of the Application</param>
