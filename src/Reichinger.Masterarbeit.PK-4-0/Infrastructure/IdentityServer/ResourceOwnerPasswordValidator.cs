@@ -40,7 +40,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
                 {
                     new Claim(PKClaims.Lastname, appUser.Lastname),
                     new Claim(PKClaims.Firstname, appUser.Firstname),
-                    new Claim(PKClaims.Email, appUser.Email)
+                    new Claim(PKClaims.Email, appUser.Email),
+                    new Claim(PKClaims.RzName, appUser.RzName),
+                    new Claim(PKClaims.EmployeeType, appUser.EmployeeType)
                 };
 
                 context.Result = new GrantValidationResult(
