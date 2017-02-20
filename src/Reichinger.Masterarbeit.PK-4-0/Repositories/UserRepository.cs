@@ -71,7 +71,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.AppUser.Add(newUser);
             Save();
 
-            return new CreatedResult($"/user/{newUser.Id}", newUser.ToDetailDto());
+            return new CreatedResult($"/users/{newUser.Id}", newUser.ToDetailDto());
         }
 
         public IActionResult RemoveRoleFromUser(Guid userId, Guid roleId)
