@@ -137,6 +137,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IActionResult AddAttendantToConference(Guid conferenceId, AttendantCreateDto attendantCreateDto)
         {
+            var attendantExists = _applicationDbContext.Attendant.SingleOrDefault(
+                attendant => attendant.ConferenceId == conferenceId && attendant.UserId == attendantCreateDto.UserId);
+
+            if (attendantExists != null)
+            {
+                return new BadRequestObjectResult("User is allready assigned to this conference.");
+            }
+
             var newAssignment = _applicationDbContext.Attendant.Add(new Attendant()
             {
                 ConferenceId = conferenceId,
@@ -147,7 +155,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             {
                 return new BadRequestResult();
             }
-            return new OkObjectResult("Successfully assigned User to Conference");
+
+            Save();
+
+            var updatedConference = GetConferernceById(conferenceId);
+
+            return new OkObjectResult(updatedConference);
         }
 
         public IActionResult RemoveAttendandFromConference(Guid conferenceId, Guid userId)
