@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Novell.Directory.Ldap.Utilclass;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Helper;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Repositories
@@ -35,11 +38,40 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return _applicationDbContext.AppUser.SingleOrDefault(e => e.Email == email);
         }
 
-        public UserDetailDto CreateUser(UserCreateDto user)
+        public IActionResult CreateUser(string rzName, string rzPassword, UserCreateDto user)
         {
+            var rzNameData = Convert.FromBase64String(rzName);
+            var decodedRzname = Encoding.UTF8.GetString(rzNameData);
+
+            var rzPasswordData = Convert.FromBase64String(rzPassword);
+            var decodedPassword = Encoding.UTF8.GetString(rzPasswordData);
+
+            var ldapCredentialsAreValid = CheckIfLdapCredentialsAreValid(decodedRzname, decodedPassword);
+            if (!ldapCredentialsAreValid)
+            {
+                return new BadRequestObjectResult("Wrong Ldap Credentials");
+            }
+
+            var ldapUserAsDictionary = LdapHelper.GetLdapUser(decodedRzname);
+            var ldapIdOfUser = Convert.ToInt32(ldapUserAsDictionary["uidNumber"]);
+
+            var userAllreadyExists = CheckIfUserAllreadyExists(ldapIdOfUser, decodedRzname);
+
+            if (userAllreadyExists)
+            {
+                return new BadRequestObjectResult("User is allready registered");
+            }
+
             var newUser = user.ToModel();
+
+            newUser.EmployeeType = ldapUserAsDictionary["employeeType"];
+            newUser.RzName = ldapUserAsDictionary["uid"];
+            newUser.LdapId = Convert.ToInt32(ldapUserAsDictionary["uidNumber"]);
+
             _applicationDbContext.AppUser.Add(newUser);
-            return newUser.ToDetailDto();
+            Save();
+
+            return new CreatedResult($"/user/{newUser.Id}", newUser.ToDetailDto());
         }
 
         public IActionResult RemoveRoleFromUser(Guid userId, Guid roleId)
@@ -83,6 +115,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public void Save()
         {
             _applicationDbContext.SaveChanges();
+        }
+
+        private bool CheckIfUserAllreadyExists(int ldapId, string rzName)
+        {
+            var userToCreate = _applicationDbContext.AppUser.SingleOrDefault(user => user.LdapId == ldapId && user.RzName == rzName);
+            return userToCreate != null;
+        }
+
+        private bool CheckIfLdapCredentialsAreValid(string rzName, string rzPassword)
+        {
+            return LdapHelper.ValidateCredentials(rzName, rzPassword);
         }
     }
 }

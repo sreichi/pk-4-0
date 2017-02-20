@@ -11,7 +11,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IEnumerable<UserListDto> GetAllUsers();
         UserDetailDto GetUserById(Guid userId);
         AppUser GetUserByEmail(string email);
-        UserDetailDto CreateUser(UserCreateDto user);
+        IActionResult CreateUser(string rzName, string rzPassword, UserCreateDto user);
         IActionResult RemoveRoleFromUser(Guid userId, Guid roleId);
         IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto);
         void Save();

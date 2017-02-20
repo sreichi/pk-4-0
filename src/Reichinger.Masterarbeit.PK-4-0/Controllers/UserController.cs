@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.SwaggerGen.Annotations;
 
@@ -25,7 +24,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all AppUser
         /// </summary>
         /// <remarks>The Users Endpoint returns all Users</remarks>
-        /// <param name="token">Accesstoken to authenticate with the API</param>
         /// <response code="200">An array of Users</response>
         [Authorize]
         [HttpGet]
@@ -61,30 +59,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         }
 
 
-
         /// <summary>
         /// Create new AppUser from LDAP
         /// </summary>
-
+        /// <param name="rzPassword">The users rz password base 64 encoded</param>
         /// <param name="user">The AppUser credentials</param>
+        /// <param name="rzName">The users rz name base 64 encoded</param>
         /// <response code="200">The new AppUser Object</response>
         [Authorize]
         [HttpPost]
         [Route("/users")]
         [SwaggerOperation("AddUser")]
         [ProducesResponseType(typeof(UserDetailDto), 200)]
-        public virtual IActionResult AddUser([FromBody]UserCreateDto user)
+        public virtual IActionResult AddUser([FromHeader]string rzName, [FromHeader]string rzPassword, [FromBody]UserCreateDto user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var newUser = _userRepository.CreateUser(user);
-            _userRepository.Save();
-
-            var location = "/users/" + newUser.Id;
-            return Created(location, newUser);
+            return !ModelState.IsValid ? BadRequest() : _userRepository.CreateUser(rzName, rzPassword, user);
         }
 
         /// <summary>
