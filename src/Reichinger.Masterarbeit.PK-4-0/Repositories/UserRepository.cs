@@ -59,7 +59,25 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto)
         {
-            throw new NotImplementedException();
+            var userHasRole = _applicationDbContext.UserHasRole.SingleOrDefault(
+                entry => entry.RoleId == roleDto.Id && entry.UserId == userId);
+
+            if (userHasRole != null)
+            {
+                return new BadRequestObjectResult("User allready has that role");
+            }
+
+            _applicationDbContext.UserHasRole.Add(new UserHasRole()
+            {
+                UserId = userId,
+                RoleId = roleDto.Id
+            });
+
+            Save();
+
+            var updatedUser = GetUserById(userId);
+
+            return new OkObjectResult(updatedUser);
         }
 
         public void Save()
