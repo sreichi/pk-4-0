@@ -39,7 +39,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsCurrent = response.IsCurrent,
                 Version = response.Version,
                 User = response.User.ToDetailDto(),
-                Conference = response.Conference.ToListDto(),
+                Conference = response.Conference?.ToListDto(),
                 Status = response.Status.ToDto(),
                 Form = response.Form.ToListDto(),
             };

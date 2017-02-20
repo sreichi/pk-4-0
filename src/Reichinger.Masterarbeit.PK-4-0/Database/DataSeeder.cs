@@ -15,9 +15,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         public static readonly Guid UserId1 = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61");
         public static readonly Guid UserId2 = new Guid("ee632373-432e-40f0-9f33-8cc6b684e673");
+        public static readonly Guid UserId3 = new Guid("ec6f8f65-b076-4cfe-9c2d-e486448b083b");
 
         public static readonly Guid ApplicationId1 = new Guid("86c42368-ba33-4fca-a911-fa8d3758b01d");
         public static readonly Guid ApplicationId2 = new Guid("b630df84-32bd-42b5-a957-7f94a9ee503e");
+        public static readonly Guid ApplicationId3 = new Guid("adf4f223-01a0-4f57-971b-46785a8bd80c");
+        public static readonly Guid ApplicationId4 = new Guid("2e0fc5b8-9f12-4ded-86aa-00fb6eeccc16");
 
         public static readonly Guid FormId1 = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
         public static readonly Guid FormId2 = new Guid("e5253303-5f6e-474e-812b-d655afce5edb");
@@ -490,11 +493,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Assignment.Add(new Assignment
             {
                 ApplicationId = ApplicationId2,
+                UserId = UserId2
+            });
+            dbContext.Assignment.Add(new Assignment
+            {
+                ApplicationId = ApplicationId4,
                 UserId = UserId1
             });
             dbContext.Assignment.Add(new Assignment
             {
-                ApplicationId = ApplicationId2,
+                ApplicationId = ApplicationId4,
                 UserId = UserId2
             });
         }
@@ -572,6 +580,34 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     FormId = FormId1,
                     ConferenceId = ConferenceId1
                 });
+            dbContext.Add(
+                new Application
+                {
+                    Id = ApplicationId3,
+                    Created = DateTime.Now,
+                    LastModified = DateTime.Now,
+                    Version = 0,
+                    IsCurrent = true,
+                    PreviousVersion = null,
+                    UserId = UserId2,
+                    StatusId = StatusId2,
+                    FormId = FormId1,
+                    ConferenceId = null
+                });
+            dbContext.Add(
+                new Application
+                {
+                    Id = ApplicationId4,
+                    Created = DateTime.Now,
+                    LastModified = DateTime.Now,
+                    Version = 0,
+                    IsCurrent = true,
+                    PreviousVersion = null,
+                    UserId = UserId2,
+                    StatusId = StatusId2,
+                    FormId = FormId1,
+                    ConferenceId = ConferenceId1
+                });
         }
 
         private static void CreateUsers(ApplicationDbContext dbContext)
@@ -599,12 +635,27 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Email = "patrick.schroeter@hs-augsburg.de",
                 RzName = "schroeti",
                 LdapId = 98765,
-                Active = false,
+                Active = true,
                 Created = DateTime.Now,
                 EmployeeType = "Studenten"
             };
             newAppUser2.SetHashedPassword("safePassword");
             dbContext.AppUser.Add(newAppUser2);
+
+            var newAppUser3 = new AppUser
+            {
+                Id = UserId3,
+                Firstname = "Rainer",
+                Lastname = "Unsinn",
+                Email = "rainer.unsinn@spaß-am-leben.de",
+                RzName = "runsi",
+                LdapId = 85202,
+                Active = false,
+                Created = DateTime.Now,
+                EmployeeType = "Studenten"
+            };
+            newAppUser3.SetHashedPassword("aBitOfAPassword");
+            dbContext.AppUser.Add(newAppUser3);
         }
     }
 }

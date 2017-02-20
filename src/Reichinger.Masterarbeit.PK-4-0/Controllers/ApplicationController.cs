@@ -208,12 +208,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Assing User to Application
         /// </summary>
         /// <param name="applicationId">ID of the Application</param>
-        /// <param name="userId"></param>
+        /// <param name="assingnmentCreateDto">Object that contains information of the user to assign</param>
         /// <response code="200">The new Comment Object</response>
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
         [HttpPost]
-        [Route("/applications/{applicationId}/assignment/{userId}")]
+        [Route("/applications/{applicationId}/assignment")]
         [SwaggerOperation("AssignUserToApplication")]
         [ProducesResponseType(typeof(ApplicationDetailDto), 200)]
         public virtual IActionResult AssignUserToApplication([FromRoute] Guid applicationId, [FromBody] AssignmentCreateDto assingnmentCreateDto)

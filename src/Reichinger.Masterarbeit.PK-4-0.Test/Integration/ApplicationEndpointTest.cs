@@ -17,6 +17,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private const string UrlPath = "/applications/";
         private readonly Guid _applicationId = DataSeeder.ApplicationId1;
         private readonly Guid _applicationToUpdateId = DataSeeder.ApplicationId2;
+        private readonly Guid _applicationToDelete = DataSeeder.ApplicationId3;
+        private readonly Guid _applicationId4 = DataSeeder.ApplicationId4;
+        private readonly Guid _userId1 = DataSeeder.UserId1;
+        private readonly Guid _userId2 = DataSeeder.UserId2;
+        private readonly Guid _userId3 = DataSeeder.UserId3;
+        private readonly int _invalidUserIdToUnassign = 543210;
         private const int InvalidApplicationId = 987654;
 
         public ApplicationEndpointTest(DatabaseFixture fixture)
@@ -34,6 +40,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var applications =
                 JsonConvert.DeserializeObject<List<ApplicationListDto>>(result.Content.ReadAsStringAsync().Result);
             applications.ForEach(dto => dto.Should().BeOfType<ApplicationListDto>());
+        }
+
+        [Fact]
+        public async void GetHistoryOfApplicationShouldReturnAListOfApplicationDetailDtos()
+        {
+            var result = await _fixture.GetHttpResult($"{UrlPath}{_applicationToUpdateId}/history");
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var applications =
+                JsonConvert.DeserializeObject<List<ApplicationDetailDto>>(result.Content.ReadAsStringAsync().Result);
+            applications.ForEach(dto => dto.Should().BeOfType<ApplicationDetailDto>());
         }
 
         [Fact]
@@ -190,6 +208,76 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             {
                 applicationToUpdate.Assignments.Select(userDto => userDto.Id).Contains(guid).Should().Be(true);
             });
+        }
+
+
+        [Fact]
+        public async void DeleteApplicationByIdShouldReturnOkAndDeleteOneApplication()
+        {
+            var httpResponse = await _fixture.GetHttpResult(UrlPath + _applicationToDelete);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await _fixture.DeleteHttpResult(UrlPath + _applicationToDelete);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var httpResponseOfDeletedConference = await _fixture.GetHttpResult(UrlPath + _applicationToDelete);
+            httpResponseOfDeletedConference.Should().NotBeNull();
+            httpResponseOfDeletedConference.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async void DeleteApplicationWithInvalidIdShouldReturnNotFound()
+        {
+            var httpResponse = await _fixture.GetHttpResult(UrlPath + InvalidApplicationId);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async void UnassignUserFromApplicationShouldReturnOkAndUnassignTheUser()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignment/{_userId1}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void UnassignUserWithInvalidFromApplicationShouldReturnNotFound()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignment/{_invalidUserIdToUnassign}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async void AssignUserToApplicationShouldReturnOkAndAssignThisUserToTheApplication()
+        {
+            var assignmentCreateDto = new AssignmentCreateDto()
+            {
+                UserId = _userId3
+            };
+
+            var serializedAssignmentCreateDto = JsonConvert.SerializeObject(assignmentCreateDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignment/", serializedAssignmentCreateDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+
+        [Fact]
+        public async void AssignAllreadyAssignedUserToApplicationShouldReturnBadRequest()
+        {
+            var assignmentCreateDto = new AssignmentCreateDto()
+            {
+                UserId = _userId1
+            };
+
+            var serializedAssignmentCreateDto = JsonConvert.SerializeObject(assignmentCreateDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignment/", serializedAssignmentCreateDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
