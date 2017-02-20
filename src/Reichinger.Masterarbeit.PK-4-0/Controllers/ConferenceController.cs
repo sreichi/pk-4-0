@@ -209,7 +209,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Authorize]
         [HttpDelete]
         [Route("/conference/{conferenceId}/attendant/{userId}")]
-        [SwaggerOperation("RemoveAssignmentFromApplication")]
+        [SwaggerOperation("RemoveAttendantFormConference")]
         public virtual IActionResult RemoveAttendantFormConference([FromRoute] Guid conferenceId, [FromRoute] Guid userId)
         {
             var result = _conferenceRepository.RemoveAttendandFromConference(conferenceId, userId);
@@ -229,7 +229,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Authorize]
         [HttpPost]
         [Route("/conference/{conferenceId}/attendant")]
-        [SwaggerOperation("AssignUserToApplication")]
+        [SwaggerOperation("AddAttendadntToConference")]
         [ProducesResponseType(typeof(List<CommentDto>), 200)]
         public virtual IActionResult AddAttendadntToConference([FromRoute] Guid conferenceId, [FromBody] AttendantCreateDto attendantCreateDto)
         {
