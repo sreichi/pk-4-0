@@ -234,7 +234,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         public virtual IActionResult AddAttendadntToConference([FromRoute] Guid conferenceId, [FromBody] AttendantCreateDto attendantCreateDto)
         {
             var result = _conferenceRepository.AddAttendantToConference(conferenceId, attendantCreateDto);
-            _conferenceRepository.Save();
 
             return result;
 

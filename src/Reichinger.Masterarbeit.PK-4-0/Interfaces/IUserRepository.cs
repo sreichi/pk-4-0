@@ -12,6 +12,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         UserDetailDto GetUserById(Guid userId);
         AppUser GetUserByEmail(string email);
         UserDetailDto CreateUser(UserCreateDto user);
+        IActionResult UpdateUserById(Guid userId, UserCreateDto updatedUserCreateDto);
+        IActionResult RemoveRoleFromUser(Guid userId, Guid roleId);
+        IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto);
         void Save();
     }
 }

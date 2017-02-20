@@ -110,7 +110,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/forms/{formId}")]
         [SwaggerOperation("UpdateFormById")]
         [ProducesResponseType(typeof(Form), 200)]
-        public virtual IActionResult UpdateFormById([FromRoute] decimal? formId,
+        public virtual IActionResult UpdateFormById([FromRoute] Guid formId,
             [FromBody] Form form)
         {
             string exampleJson = null;

@@ -18,7 +18,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
          IEnumerable<ApplicationDetailDto> GetHistoryOfApplication(Guid applicationId);
          CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto comment);
          IActionResult RemoveAssignmentFromApplication(Guid applicationId, Guid userId);
-         IActionResult AssignUserToApplication(Guid applicationId, Guid userId);
+         IActionResult AssignUserToApplication(Guid applicationId, AssignmentCreateDto assignmentCreateDto);
          void Save();
      }
  }

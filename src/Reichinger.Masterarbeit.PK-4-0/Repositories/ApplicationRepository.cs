@@ -202,18 +202,28 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
-        public IActionResult AssignUserToApplication(Guid applicationId, Guid userId)
+        public IActionResult AssignUserToApplication(Guid applicationId, AssignmentCreateDto assignmentCreateDto)
         {
-            var newAssignment = _applicationDbContext.Assignment.Add(new Assignment()
+            var assignmentExists = _applicationDbContext.Assignment.SingleOrDefault(
+                assignment => assignment.ApplicationId == applicationId &&
+                              assignment.UserId == assignmentCreateDto.UserId);
+
+            if (assignmentExists != null)
+            {
+                return new BadRequestObjectResult("User is allready assigned to this application");
+            }
+
+            _applicationDbContext.Assignment.Add(new Assignment()
             {
                 ApplicationId = applicationId,
-                UserId = userId
+                UserId = assignmentCreateDto.UserId
             });
-            if (newAssignment == null)
-            {
-                return new BadRequestResult();
-            }
-            return new OkObjectResult("Successfully assigned User to Application");
+            
+            Save();
+
+            var updatedApplication = GetApplicationById(applicationId);
+
+            return new OkObjectResult(updatedApplication);
         }
 
         public void Save()

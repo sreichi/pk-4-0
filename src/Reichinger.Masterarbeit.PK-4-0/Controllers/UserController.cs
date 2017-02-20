@@ -32,7 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/users")]
         [SwaggerOperation("GetUsers")]
         [ProducesResponseType(typeof(List<UserListDto>), 200)]
-        public virtual IEnumerable<UserListDto> GetUsers([FromHeader]long? token)
+        public virtual IEnumerable<UserListDto> GetUsers()
         {
             return _userRepository.GetAllUsers();
         }
@@ -87,49 +87,44 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             return Created(location, newUser);
         }
 
-
         /// <summary>
-        /// Update AppUser with Id
+        /// Remove Role from User
         /// </summary>
-
-        /// <param name="userId">ID of AppUser</param>
-        /// <param name="user">Updated AppUser</param>
-        /// <response code="200">The updated AppUser Object</response>
+        /// <param name="userId">ID of the Application</param>
+        /// <param name="roleId">ID of the Role</param>
+        /// <response code="200">Role removed</response>
+        /// <response code="404">User not found</response>
+        /// <response code="400">Bad Request</response>
         [Authorize]
-        [HttpPut]
-        [Route("/users/{userId}")]
-        [SwaggerOperation("UpdateUserById")]
-        [ProducesResponseType(typeof(AppUser), 200)]
-        public virtual IActionResult UpdateUserById([FromRoute]decimal? userId, [FromBody]AppUser user)
+        [HttpDelete]
+        [Route("/user/{userId}/role/{roleId}")]
+        [SwaggerOperation("RemoveRoleFromUser")]
+        public virtual IActionResult RemoveRoleFromUser([FromRoute] Guid userId, [FromRoute] Guid roleId)
         {
-            string exampleJson = null;
+            var result = _userRepository.RemoveRoleFromUser(userId, roleId);
+            _userRepository.Save();
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
-                : default(AppUser);
-            return new ObjectResult(example);
+            return result;
+
         }
 
 
         /// <summary>
-        /// Update the AppUser&#39;s Role
+        /// Add Role to User
         /// </summary>
-
-        /// <param name="userId">ID of AppUser</param>
-        /// <param name="role">The AppUser&#39;s new Role</param>
-        /// <response code="200">Role has been changed.</response>
+        /// <param name="userId">ID of the User</param>
+        /// <response code="200">The new Comment Object</response>
+        /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
-        [HttpPut]
-        [Route("/users/{userId}/role")]
-        [SwaggerOperation("UpdateUserRole")]
-        public virtual IActionResult UpdateUserRole([FromRoute]decimal? userId, [FromBody]decimal? role)
+        [HttpPost]
+        [Route("/user/{userId}/role")]
+        [SwaggerOperation("AddRoleToUser")]
+        [ProducesResponseType(typeof(UserDetailDto), 200)]
+        public virtual IActionResult AddRoleToUser([FromRoute] Guid userId, [FromBody] RoleDto roleDto)
         {
-            string exampleJson = null;
+            var result = _userRepository.AssignUserToApplication(userId, roleDto);
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<AppUser>(exampleJson)
-                : default(AppUser);
-            return new ObjectResult(example);
+            return result;
         }
     }
 }

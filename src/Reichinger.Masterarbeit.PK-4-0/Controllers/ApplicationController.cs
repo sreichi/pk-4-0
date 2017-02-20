@@ -166,7 +166,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/applications/{applicationId}")]
         [SwaggerOperation("UpdateApplicationById")]
-        [ProducesResponseType(typeof(ApplicationListDto),200)]
+        [ProducesResponseType(typeof(ApplicationDetailDto),200)]
         public virtual IActionResult UpdateApplicationById([FromRoute]Guid applicationId, [FromBody]ApplicationCreateDto application)
         {
             if (!ModelState.IsValid)
@@ -239,14 +239,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="200">The new Comment Object</response>
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         [Route("/applications/{applicationId}/assignment/{userId}")]
         [SwaggerOperation("AssignUserToApplication")]
-        [ProducesResponseType(typeof(List<CommentDto>), 200)]
-        public virtual IActionResult AssignUserToApplication([FromRoute] Guid applicationId, [FromRoute] Guid userId)
+        [ProducesResponseType(typeof(ApplicationDetailDto), 200)]
+        public virtual IActionResult AssignUserToApplication([FromRoute] Guid applicationId, [FromBody] AssignmentCreateDto assingnmentCreateDto)
         {
-            var result = _applicationRepository.AssignUserToApplication(applicationId, userId);
-            _applicationRepository.Save();
+            var result = _applicationRepository.AssignUserToApplication(applicationId, assingnmentCreateDto);
 
             return result;
         }
