@@ -7,6 +7,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         public static string Lastname = "name";
         public static string Firstname = "first_name";
         public static string Email = "email";
+        public static string Id = "id";
 
 
         public static List<string> ClaimList()
@@ -15,7 +16,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             {
                 Lastname,
                 Firstname,
-                Email
+                Email,
+                Id
             };
         }
     }
