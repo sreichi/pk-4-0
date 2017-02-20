@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
@@ -62,9 +61,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Create new AppUser from LDAP
         /// </summary>
+        /// <param name="rzName">The users rz name base 64 encoded</param>
         /// <param name="rzPassword">The users rz password base 64 encoded</param>
         /// <param name="user">The AppUser credentials</param>
-        /// <param name="rzName">The users rz name base 64 encoded</param>
         /// <response code="200">The new AppUser Object</response>
         [Authorize]
         [HttpPost]
