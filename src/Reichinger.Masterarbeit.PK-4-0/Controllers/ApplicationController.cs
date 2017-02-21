@@ -192,7 +192,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request</response>
         [Authorize]
         [HttpDelete]
-        [Route("/applications/{applicationId}/assignment/{userId}")]
+        [Route("/applications/{applicationId}/assignments/{userId}")]
         [SwaggerOperation("RemoveAssignmentFromApplication")]
         public virtual IActionResult RemoveAssignmentFromApplication([FromRoute] Guid applicationId, [FromRoute] Guid userId)
         {
@@ -213,7 +213,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
         [HttpPost]
-        [Route("/applications/{applicationId}/assignment")]
+        [Route("/applications/{applicationId}/assignments")]
         [SwaggerOperation("AssignUserToApplication")]
         [ProducesResponseType(typeof(ApplicationDetailDto), 200)]
         public virtual IActionResult AssignUserToApplication([FromRoute] Guid applicationId, [FromBody] AssignmentCreateDto assingnmentCreateDto)

@@ -112,12 +112,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId)
         {
+            var affectedConference = _applicationDbContext.Conference.Include(conference => conference.Application)
+                .SingleOrDefault(conference => conference.Id == conferenceId);
+
             var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
 
-            if (application.ConferenceId != conferenceId) return new BadRequestResult();
+            if (!affectedConference.Application.Contains(application))
+                return new NotFoundObjectResult("Conference doesn't contain that application");
 
             application.ConferenceId = null;
             application.LastModified = DateTime.UtcNow;
+
             return new OkResult();
         }
 

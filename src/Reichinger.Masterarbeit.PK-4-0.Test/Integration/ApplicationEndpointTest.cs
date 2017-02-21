@@ -238,7 +238,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void UnassignUserFromApplicationShouldReturnOkAndUnassignTheUser()
         {
-            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignment/{_userId1}");
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignments/{_userId1}");
             httpResponse.Should().NotBeNull();
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -246,7 +246,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void UnassignUserWithInvalidFromApplicationShouldReturnNotFound()
         {
-            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignment/{_invalidUserIdToUnassign}");
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_applicationId}/assignments/{_invalidUserIdToUnassign}");
             httpResponse.Should().NotBeNull();
             httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -260,7 +260,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             };
 
             var serializedAssignmentCreateDto = JsonConvert.SerializeObject(assignmentCreateDto);
-            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignment/", serializedAssignmentCreateDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignments/", serializedAssignmentCreateDto);
             httpResponse.Should().NotBeNull();
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -275,7 +275,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             };
 
             var serializedAssignmentCreateDto = JsonConvert.SerializeObject(assignmentCreateDto);
-            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignment/", serializedAssignmentCreateDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_applicationId4}/assignments/", serializedAssignmentCreateDto);
             httpResponse.Should().NotBeNull();
             httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

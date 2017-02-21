@@ -182,7 +182,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/conferences/{conferenceId}")]
         [SwaggerOperation("UpdateConferenceById")]
-        [ProducesResponseType(typeof(ConferenceListDto), 200)]
+        [ProducesResponseType(typeof(ConferenceDetailDto), 200)]
         public virtual IActionResult UpdateConferenceById([FromRoute]Guid conferenceId, [FromBody]ConferenceCreateDto conference)
         {
             if (!ModelState.IsValid)
@@ -208,7 +208,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request</response>
         [Authorize]
         [HttpDelete]
-        [Route("/conference/{conferenceId}/attendant/{userId}")]
+        [Route("/conferences/{conferenceId}/attendants/{userId}")]
         [SwaggerOperation("RemoveAttendantFormConference")]
         public virtual IActionResult RemoveAttendantFormConference([FromRoute] Guid conferenceId, [FromRoute] Guid userId)
         {
@@ -228,7 +228,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
         [HttpPost]
-        [Route("/conference/{conferenceId}/attendant")]
+        [Route("/conferences/{conferenceId}/attendants")]
         [SwaggerOperation("AddAttendadntToConference")]
         [ProducesResponseType(typeof(ConferenceDetailDto), 200)]
         public virtual IActionResult AddAttendadntToConference([FromRoute] Guid conferenceId, [FromBody] AttendantCreateDto attendantCreateDto)

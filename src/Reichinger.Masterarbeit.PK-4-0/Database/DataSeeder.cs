@@ -27,6 +27,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         public static readonly Guid ConferenceId1 = new Guid("74cf7b5c-1c7e-448b-ac5d-b9c63d466e1a");
         public static readonly Guid ConferenceId2 = new Guid("866ad5a9-64a4-4058-9751-b0dd27ef4d0e");
+        public static readonly Guid ConferenceId3 = new Guid("18d1cf10-420e-4230-9cf8-b9bde3155b8b");
 
         public static readonly Guid StatusId1 = new Guid("e3c1f89f-d9d5-4d76-a05a-2b3745d72c80");
         public static readonly Guid StatusId2 = new Guid("ba72b0fb-9969-4942-801e-685b86059421");
@@ -98,6 +99,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 ConferenceId = ConferenceId1,
                 UserId = UserId2,
                 TypeOfAttendance = TypeOfAttendance.GUEST
+            });
+            dbContext.Attendant.Add(new Attendant()
+            {
+                ConferenceId = ConferenceId1,
+                UserId = UserId1,
+                TypeOfAttendance = TypeOfAttendance.MEMBER
             });
             dbContext.Attendant.Add(new Attendant()
             {
@@ -475,6 +482,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 EndOfEvent = "13:00",
                 RoomOfEvent = "M 1.01",
                 NumberOfConference = 113
+            });
+            dbContext.Conference.Add(new Conference
+            {
+                Id = ConferenceId3,
+                DateOfEvent = DateTime.Now,
+                Description = "Abschlusskonferenz 2017",
+                StartOfEvent = "17:00",
+                EndOfEvent = "19:00",
+                RoomOfEvent = "M 1.01",
+                NumberOfConference = 114
             });
         }
 
