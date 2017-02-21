@@ -11,6 +11,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         FormDetailDto GetFormById(Guid formId);
         FormDetailDto CreateNewForm(FormCreateDto formToCreate);
         IActionResult DeleteFormById(Guid formId);
+        IActionResult UpdateFormById(Guid formId, FormCreateDto formCreateDto);
         void Save();
     }
 }

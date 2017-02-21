@@ -7,6 +7,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
     public class FieldCreateDto
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         [NonEmptyGuid]
         public Guid FieldType { get; set; }

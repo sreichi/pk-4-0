@@ -103,22 +103,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Update Form with Id
         /// </summary>
         /// <param name="formId">ID of the Form</param>
-        /// <param name="form">Updated Form</param>
+        /// <param name="formCreateDto">The updated form</param>
         /// <response code="200">The updated Form</response>
-        [Authorize]
+        // [Authorize]
         [HttpPut]
         [Route("/forms/{formId}")]
         [SwaggerOperation("UpdateFormById")]
         [ProducesResponseType(typeof(Form), 200)]
         public virtual IActionResult UpdateFormById([FromRoute] Guid formId,
-            [FromBody] Form form)
+            [FromBody] FormCreateDto formCreateDto)
         {
-            string exampleJson = null;
-
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Form>(exampleJson)
-                : default(Form);
-            return new ObjectResult(example);
+            return _formRepository.UpdateFormById(formId, formCreateDto);
         }
     }
 }
