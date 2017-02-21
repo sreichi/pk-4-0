@@ -227,12 +227,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId1,
-                Value = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}"
+                Value = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}",
+                Name = "Config1"
             });
             dbContext.Config.Add(new Config()
             {
                 Id = ConfigId2,
-                Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
+                Value = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
+                Name = "Config2"
             });
         }
 
