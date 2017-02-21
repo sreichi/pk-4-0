@@ -16,6 +16,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("id")]
         public Guid Id { get; set; }
         [Required]
+        [Column("Name", TypeName = "varchar")]
+        [MaxLength(50)]
+        public string Name { get; set; }
+        [Required]
         [Column("value", TypeName = "varchar")]
         [MaxLength(50)]
         public string Value { get; set; }
