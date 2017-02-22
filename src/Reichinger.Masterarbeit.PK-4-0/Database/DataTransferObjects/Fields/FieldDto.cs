@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
@@ -18,7 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string OptionsJson { get; set; }
         public Guid? EnumOptionsTableId { get; set; }
 
-        public virtual IEnumerable<string> Styles { get; set; }
-        public virtual IEnumerable<string> Validations { get; set; }
+        public virtual IEnumerable<Guid> StyleIds { get; set; }
+        public virtual IEnumerable<Guid> ValidationIds { get; set; }
     }
 }

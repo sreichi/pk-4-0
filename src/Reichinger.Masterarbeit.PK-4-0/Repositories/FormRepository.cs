@@ -46,54 +46,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         public FormDetailDto CreateNewForm(FormCreateDto formToCreate)
         {
             var newForm = formToCreate.ToModel();
+            _applicationDbContext.Form.Add(newForm);
+            Save();
             foreach (var field in formToCreate.FormHasField)
             {
-                var newFormFieldÍd = Guid.NewGuid();
-                newForm.FormHasField.Add(new FormHasField()
-                {
-                    FormId = newForm.Id,
-                    Field = new Field()
-                    {
-                        Id = newFormFieldÍd,
-                        Name = field.Name,
-                        FieldType = field.FieldType,
-                        Label = field.Label ?? null,
-                        MultipleSelect = field.MultipleSelect ?? null,
-                        Required = field.Required ?? null,
-                        Placeholder = field.Placeholder ?? null,
-                        ContentType = field.ContentType,
-                        Value = field.Value ?? null,
-                        Options = field.OptionsJson ?? null,
-                        EnumOptionsTableId = field.EnumOptionsTableId ?? null
-                    }
-                });
-
-                if (field.StyleIds != null)
-                {
-                    foreach (var styleId in field.StyleIds)
-                    {
-                        _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
-                        {
-                            FieldId = newFormFieldÍd,
-                            StyleId = styleId
-                        });
-                    }
-                }
-
-                if (field.ValidationIds != null)
-                {
-                    foreach (var validationId in field.ValidationIds)
-                    {
-                        _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
-                        {
-                            FieldId = newFormFieldÍd,
-                            ValidationId = validationId
-                        });
-                    }
-                }
+                CreateNewField(newForm.Id, field);
             }
-            _applicationDbContext.Form.Add(newForm);
-            return newForm.ToDetailDto();
+            return GetFormById(newForm.Id);
         }
 
         public IActionResult DeleteFormById(Guid formId)
@@ -178,10 +137,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Except(listOfFields.Select(dto => dto.Id));
             toDelete.ToList().ForEach(guid =>
             {
-                var objectToRemove =
-                    _applicationDbContext.FormHasField.SingleOrDefault(
-                        field => field.FieldId == guid && field.FormId == formToUpdate.Id);
-                _applicationDbContext.FormHasField.Remove(objectToRemove);
+
+                RemoveFieldFromForm(guid, formToUpdate.Id);
             });
             listOfFields.ForEach(dto =>
             {
@@ -267,13 +224,23 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             f.Field.Options = dto.OptionsJson;
             f.Field.EnumOptionsTableId = dto.EnumOptionsTableId;
 
-            var stylesOfField = f.Field.FieldHasStyle.Select(style => style.StyleId);
+            UpdateStylesOfField(f, dto);
+            UpdateValidationsOfField(f, dto);
+
+            Save();
+        }
+
+
+        private void UpdateStylesOfField(FormHasField field, FieldCreateDto dto)
+        {
+
+            var stylesOfField = field.Field.FieldHasStyle?.Select(style => style.StyleId);
             var stylesOfDto = dto.StyleIds;
 
 
             if (stylesOfField != null)
             {
-                var stylesToAdd = dto.StyleIds?.Except(stylesOfField);
+                var stylesToAdd = dto.StyleIds.Except(stylesOfField);
                 foreach (var guid in stylesToAdd)
                 {
                     _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
@@ -284,8 +251,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 }
             }
             if (stylesOfDto != null)
-            {            
-                var stylesToRemove = f.Field.FieldHasStyle.Select(style => style.StyleId)?.Except(stylesOfDto);
+            {
+                var stylesToRemove = field.Field.FieldHasStyle.Select(style => style.StyleId)?.Except(stylesOfDto);
                 foreach (var guid in stylesToRemove)
                 {
                     var objectToRemove = _applicationDbContext.FieldHasStyle.SingleOrDefault(
@@ -293,17 +260,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     _applicationDbContext.FieldHasStyle.Remove(objectToRemove);
                 }
             }
+        }
 
 
 
-            var validationsOfField = f.Field.FieldHasValidation.Select(validation => validation.ValidationId);
+        private void UpdateValidationsOfField(FormHasField field, FieldCreateDto dto)
+        {
+            var validationsOfField = field.Field.FieldHasValidation?.Select(validation => validation.ValidationId);
             var validationsOfDto = dto.ValidationIds;
-
-
 
             if (validationsOfField != null)
             {
-                var validationsToAdd = dto.ValidationIds?.Except(validationsOfField);
+                var validationsToAdd = dto.ValidationIds.Except(validationsOfField);
                 foreach (var guid in validationsToAdd)
                 {
                     _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
@@ -315,7 +283,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
             if (validationsOfDto != null)
             {
-                var validationsToRemove = f.Field.FieldHasValidation.Select(validation => validation.ValidationId)?.Except(validationsOfDto);
+                var validationsToRemove = field.Field.FieldHasValidation.Select(validation => validation.ValidationId)?.Except(validationsOfDto);
                 foreach (var guid in validationsToRemove)
                 {
                     var objectToRemove = _applicationDbContext.FieldHasValidation.SingleOrDefault(
@@ -323,8 +291,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     _applicationDbContext.FieldHasValidation.Remove(objectToRemove);
                 }
             }
-
-            Save();
         }
     }
 }

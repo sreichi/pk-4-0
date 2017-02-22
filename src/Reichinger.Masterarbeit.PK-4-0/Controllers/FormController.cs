@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Swashbuckle.SwaggerGen.Annotations;
 
@@ -109,10 +107,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/forms/{formId}")]
         [SwaggerOperation("UpdateFormById")]
-        [ProducesResponseType(typeof(Form), 200)]
+        [ProducesResponseType(typeof(FormDetailDto), 200)]
         public virtual IActionResult UpdateFormById([FromRoute] Guid formId,
             [FromBody] FormCreateDto formCreateDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             return _formRepository.UpdateFormById(formId, formCreateDto);
         }
     }

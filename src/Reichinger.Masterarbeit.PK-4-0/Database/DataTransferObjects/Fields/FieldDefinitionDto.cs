@@ -10,7 +10,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string Name { get; set; }
 
         public virtual IEnumerable<string> Configs { get; set; }
-        public virtual IEnumerable<string> Styles { get; set; }
-        public virtual IEnumerable<string> Validations { get; set; }
+        public virtual IEnumerable<Guid> StyleIds { get; set; }
+        public virtual IEnumerable<Guid> ValidationIds { get; set; }
     }
 }

@@ -169,9 +169,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Disabled = response.Disabled,
                 EnumOptionsTableId = response.EnumOptionsTableId,
 
-                Styles = response.FieldHasStyle.Select(style => style.Style.StyleString),
-                Validations =
-                    response.FieldHasValidation.Select(validation => validation.Validation.ValidationString)
+                StyleIds = response.FieldHasStyle.Select(style => style.Style.Id),
+                ValidationIds =
+                    response.FieldHasValidation.Select(validation => validation.Validation.Id)
             };
         }
 
@@ -183,8 +183,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Name = response.Value,
                 Description = response.Label,
                 Configs = response.TypeHasConfig.OrderBy(config => config.Position).Select(config => config.Config.Value),
-                Styles = response.TypeHasStyle.Select(style => style.Style.StyleString),
-                Validations = response.TypeHasValidation.Select(validation => validation.Validation.ValidationString)
+                StyleIds = response.TypeHasStyle.Select(style => style.Style.Id),
+                ValidationIds = response.TypeHasValidation.Select(validation => validation.Validation.Id)
             };
         }
 
