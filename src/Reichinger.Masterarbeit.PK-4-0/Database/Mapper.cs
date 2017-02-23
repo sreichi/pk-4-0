@@ -124,6 +124,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 EndOfEvent = response.EndOfEvent,
                 RoomOfEvent = response.RoomOfEvent,
                 NumberOfConference = response.NumberOfConference,
+                ConfigJson = response.ConferenceConfiguration,
                 Applications = response.Application.Select(application => application.ToListDto()),
                 Guests = response.Attendant.Where(attendant => attendant.TypeOfAttendance == TypeOfAttendance.GUEST).Select(attendant => attendant.User.ToListDto()),
                 Members = response.Attendant.Where(attendant => attendant.TypeOfAttendance == TypeOfAttendance.MEMBER).Select(attendant => attendant.User.ToListDto())
@@ -140,7 +141,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StartOfEvent = response.StartOfEvent,
                 EndOfEvent = response.EndOfEvent,
                 RoomOfEvent = response.RoomOfEvent,
-                NumberOfConference = response.NumberOfConference
+                NumberOfConference = response.NumberOfConference,
+                ConferenceConfiguration = response.ConfigJson
             };
         }
 
@@ -213,7 +215,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 IsActive = response.IsActive,
                 IsPublic = response.IsPublic,
                 RestrictedAccess = response.RestrictedAccess,
-                FormHasField = response.FormHasField.Select(field => field.Field.ToDto())
+                FormHasField = response.FormHasField.OrderBy(field => field.Position).Select(field => field.Field.ToDto())
             };
         }
 

@@ -13,5 +13,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
         public string EndOfEvent { get; set; }
         public string RoomOfEvent { get; set; }
         public int NumberOfConference { get; set; }
+        public string ConfigJson { get; set; }
     }
 }

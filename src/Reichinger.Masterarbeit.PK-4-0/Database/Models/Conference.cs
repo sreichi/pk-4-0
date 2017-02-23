@@ -37,6 +37,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Required]
         [Column("number_of_conference")]
         public int NumberOfConference { get; set; }
+        [Column("conference_configuration", TypeName = "json")]
+        public string ConferenceConfiguration { get; set; }
 
         [InverseProperty("Conference")]
         public virtual ICollection<Application> Application { get; set; }

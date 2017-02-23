@@ -213,6 +213,10 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnName("id");
 
+                    b.Property<string>("ConferenceConfiguration")
+                        .HasColumnName("conference_configuration")
+                        .HasColumnType("json");
+
                     b.Property<DateTime>("DateOfEvent")
                         .HasColumnName("date_of_event");
 
@@ -446,6 +450,9 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
                     b.Property<Guid>("FieldId")
                         .HasColumnName("field_id");
+
+                    b.Property<int>("Position")
+                        .HasColumnName("position");
 
                     b.HasKey("FormId", "FieldId")
                         .HasName("PK_form_has_field");
