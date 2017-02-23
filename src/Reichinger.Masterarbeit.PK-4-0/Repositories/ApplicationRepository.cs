@@ -38,7 +38,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .ThenInclude(assignment => assignment.User)
                 .Include(application => application.User)
                 .Include(application => application.Conference)
-                .Include(application => application.Form)
+                .Include(application => application.Form).ThenInclude(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
+                .Include(application => application.Form).ThenInclude(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
                 .Include(application => application.Status)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == applicationId);
