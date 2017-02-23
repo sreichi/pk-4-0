@@ -8,6 +8,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
      public interface IApplicationRepository
      {
          IEnumerable<ApplicationListDto> GetAllApplications();
+         IEnumerable<ApplicationListDto> GetAllApplicationsOfUser(Guid? userId);
+         IEnumerable<ApplicationListDto> GetApplicationsOfUser(Guid applicationId, Guid userId);
          ApplicationDetailDto GetApplicationById(Guid applicationId);
          ApplicationDetailDto CreateApplication(ApplicationCreateDto applicationToCreate);
          CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment);

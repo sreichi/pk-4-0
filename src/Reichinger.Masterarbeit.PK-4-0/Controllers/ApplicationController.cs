@@ -24,17 +24,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all Applications
         /// </summary>
         /// <remarks>The Applications Endpoint returns all Applications</remarks>
-        /// <param name="filter">Filter the Result</param>
-        /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Applications</response>
         [Authorize]
         [HttpGet]
         [Route("/applications")]
-        [SwaggerOperation("GetApplications")]
+        [SwaggerOperation("GetApplicationsOfUser")]
         [ProducesResponseType(typeof(List<ApplicationListDto>), 200)]
-        public virtual IEnumerable<ApplicationListDto> GetApplications([FromQuery] string filter,
-            [FromQuery] string sort)
+        public virtual IEnumerable<ApplicationListDto> GetApplications([FromQuery]Guid? userId)
         {
+            if (userId != null)
+            {
+                return _applicationRepository.GetAllApplicationsOfUser(userId);
+            }
             return _applicationRepository.GetAllApplications();
         }
 

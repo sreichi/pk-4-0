@@ -26,8 +26,32 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Form)
                 .Include(application => application.User)
                 .Include(application => application.Status)
+                .Where(entry => entry.IsCurrent)
                 .OrderBy(dto => dto.Created)
-                .Select(entry => entry.ToListDto()).Where(entry => entry.IsCurrent);
+                .Select(entry => entry.ToListDto());
+        }
+
+        public IEnumerable<ApplicationListDto> GetAllApplicationsOfUser(Guid? userId)
+        {
+            return _applicationDbContext.Application
+                .Include(application => application.Conference)
+                .Include(application => application.Form)
+                .Include(application => application.User)
+                .Include(application => application.Status)
+                .Where(entry => entry.IsCurrent && entry.User.Id == userId)
+                .OrderBy(dto => dto.Created)
+                .Select(entry => entry.ToListDto());
+        }
+
+        public IEnumerable<ApplicationListDto> GetApplicationsOfUser(Guid applicationId, Guid userId)
+        {
+            return _applicationDbContext.Application
+                .Include(application => application.Conference)
+                .Include(application => application.Form)
+                .Include(application => application.User)
+                .Include(application => application.Status)
+                .OrderBy(dto => dto.Created)
+                .Select(entry => entry.ToListDto()).Where(entry => entry.IsCurrent && entry.User.Id == userId);
         }
 
         public ApplicationDetailDto GetApplicationById(Guid applicationId)
