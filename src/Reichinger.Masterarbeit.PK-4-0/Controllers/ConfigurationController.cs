@@ -29,7 +29,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// </summary>
         /// <remarks>The config Endpoint returns all form relevant configs</remarks>
         /// <response code="200">An array of Field Definitions</response>
-        [Authorize]
         [HttpGet]
         [Route("/config/fieldDefinitions")]
         [SwaggerOperation("GetFieldDefinitions")]
@@ -44,7 +43,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all possible Status
         /// </summary>
         /// <response code="200">An array of staus values</response>
-        [Authorize]
         [HttpGet]
         [Route("/config/status")]
         [SwaggerOperation("GetStatusValues")]
@@ -58,7 +56,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all possible Styles
         /// </summary>
         /// <response code="200">An array of Styling values</response>
-        [Authorize]
         [HttpGet]
         [Route("/config/styles")]
         [SwaggerOperation("GetFieldStyles")]
@@ -72,7 +69,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// GET all possible Validations
         /// </summary>
         /// <response code="200">An array of Validation values</response>
-        [Authorize]
         [HttpGet]
         [Route("/config/validations")]
         [SwaggerOperation("GetFieldValidations")]
