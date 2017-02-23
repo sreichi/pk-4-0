@@ -46,12 +46,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public FormDetailDto CreateNewForm(FormCreateDto formToCreate)
         {
+            var fieldIndex = 1;
             var newForm = formToCreate.ToModel();
             _applicationDbContext.Form.Add(newForm);
             Save();
             foreach (var field in formToCreate.FormHasField)
             {
-                CreateNewField(newForm.Id, field);
+                CreateNewField(newForm.Id, field, fieldIndex);
+                fieldIndex++;
             }
             return GetFormById(newForm.Id);
         }
@@ -122,7 +124,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
-        private void CreateNewField(Guid formId, FieldCreateDto fieldCreateDto)
+        private void CreateNewField(Guid formId, FieldCreateDto fieldCreateDto, int fieldIndex)
         {
             var newField = new Field()
             {
@@ -146,7 +148,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.FormHasField.Add(new FormHasField()
             {
                 FormId = formId,
-                FieldId = newField.Id
+                FieldId = newField.Id,
+                Position = fieldIndex
             });
 
             foreach (var styleId in fieldCreateDto.StyleIds)

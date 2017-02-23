@@ -351,22 +351,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             dbContext.FormHasField.Add(new FormHasField
             {
                 FormId = FormId1,
-                FieldId = FieldId1
+                FieldId = FieldId1,
+                Position = 1
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 FormId = FormId1,
-                FieldId = FieldId2
+                FieldId = FieldId2,
+                Position = 2
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 FormId = FormId1,
-                FieldId = FieldId3
+                FieldId = FieldId3,
+                Position = 3
             });
             dbContext.FormHasField.Add(new FormHasField
             {
                 FormId = FormId1,
-                FieldId = FieldId4
+                FieldId = FieldId4,
+                Position = 4
             });
         }
 
@@ -473,7 +477,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StartOfEvent = "08:00",
                 EndOfEvent = "11:00",
                 RoomOfEvent = "J 2.13",
-                NumberOfConference = 112
+                NumberOfConference = 112,
+                ConferenceConfiguration = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}"
             });
             dbContext.Conference.Add(new Conference
             {
@@ -483,7 +488,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StartOfEvent = "11:00",
                 EndOfEvent = "13:00",
                 RoomOfEvent = "M 1.01",
-                NumberOfConference = 113
+                NumberOfConference = 113,
+                ConferenceConfiguration = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}"
             });
             dbContext.Conference.Add(new Conference
             {
@@ -493,7 +499,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 StartOfEvent = "17:00",
                 EndOfEvent = "19:00",
                 RoomOfEvent = "M 1.01",
-                NumberOfConference = 114
+                NumberOfConference = 114,
+                ConferenceConfiguration = "{\"1\":\"McDoof\",\"2\":\"Würger King\"}"
             });
         }
 

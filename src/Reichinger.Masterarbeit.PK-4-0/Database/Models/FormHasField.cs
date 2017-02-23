@@ -12,6 +12,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public Guid FormId { get; set; }
         [Column("field_id")]
         public Guid FieldId { get; set; }
+        [Required]
+        [Column("position")]
+        public int Position { get; set; }
 
         [ForeignKey("FieldId")]
         [InverseProperty("FormHasField")]
