@@ -24,6 +24,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return
                 _applicationDbContext.Form.Include(form => form.Application)
                     .Include(form => form.FormHasField)
+                    .Where(form => form.Deprecated == false)
                     .Select(entry => entry.ToListDto());
         }
 
@@ -87,25 +88,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IActionResult UpdateFormById(Guid formId, FormCreateDto formCreateDto)
         {
-            var formToUpdate = _applicationDbContext.Form.Include(form => form.FormHasField)
-                .ThenInclude(field => field.Field)
-                .ThenInclude(field => field.FieldHasStyle)
-                .ThenInclude(style => style.Style)
-                .Include(form => form.FormHasField)
-                .ThenInclude(fields => fields.Field)
-                .ThenInclude(field => field.FieldHasValidation)
-                .ThenInclude(collection => collection.Validation)
-                .SingleOrDefault(form => form.Id == formId);
-
-            formToUpdate.Title = formCreateDto.Title;
-            formToUpdate.RestrictedAccess = formCreateDto.RestrictedAccess;
-            formToUpdate.IsPublic = formCreateDto.IsPublic;
-
+            // Set updated Form Deprecated true
+            var formToUpdate = _applicationDbContext.Form.SingleOrDefault(form => form.Id == formId);
+            formToUpdate.Deprecated = true;
             Save();
 
-            var formWithUpdatedFields = UpdateFieldsOfForm(formToUpdate, formCreateDto.FormHasField.ToList());
+            // Create new Form.
+            var newForm = CreateNewForm(formCreateDto);
 
-            return new OkObjectResult(formWithUpdatedFields);
+            return new OkObjectResult(newForm);
         }
 
         public void Save()
@@ -129,31 +120,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             {
                 _applicationDbContext.Field.Remove(fieldToRemove);
             }
-        }
-
-        private FormDetailDto UpdateFieldsOfForm(Form formToUpdate, List<FieldCreateDto> listOfFields)
-        {
-            var toDelete = formToUpdate.FormHasField.Select(field => field.FieldId)
-                .Except(listOfFields.Select(dto => dto.Id));
-            toDelete.ToList().ForEach(guid =>
-            {
-
-                RemoveFieldFromForm(guid, formToUpdate.Id);
-            });
-            listOfFields.ForEach(dto =>
-            {
-                if (dto.Id == Guid.Empty)
-                {
-                    CreateNewField(formToUpdate.Id, dto);
-                    return;
-                }
-                var objectToUpdate =
-                    formToUpdate.FormHasField.SingleOrDefault(field => field.FieldId == dto.Id);
-
-                UpdatePropertiesOfFormEntry(objectToUpdate, dto);
-            });
-
-            return GetFormById(formToUpdate.Id);
         }
 
         private void CreateNewField(Guid formId, FieldCreateDto fieldCreateDto)
@@ -200,97 +166,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 });
             }
             Save();
-        }
-
-
-        private void RemoveFieldFromForm(Guid fieldId, Guid formId)
-        {
-            var objectToDelete =
-                _applicationDbContext.FormHasField.SingleOrDefault(
-                    field => field.FieldId == fieldId && field.FormId == formId);
-            _applicationDbContext.FormHasField.Remove(objectToDelete);
-        }
-
-        private void UpdatePropertiesOfFormEntry(FormHasField f, FieldCreateDto dto)
-        {
-            f.Field.Name = dto.Name;
-            f.Field.FieldType = dto.FieldType;
-            f.Field.Label = dto.Label;
-            f.Field.Required = dto.Required;
-            f.Field.MultipleSelect = dto.MultipleSelect;
-            f.Field.Value = dto.Value;
-            f.Field.ContentType = dto.ContentType;
-            f.Field.Placeholder = dto.Placeholder;
-            f.Field.Options = dto.OptionsJson;
-            f.Field.EnumOptionsTableId = dto.EnumOptionsTableId;
-
-            UpdateStylesOfField(f, dto);
-            UpdateValidationsOfField(f, dto);
-
-            Save();
-        }
-
-
-        private void UpdateStylesOfField(FormHasField field, FieldCreateDto dto)
-        {
-
-            var stylesOfField = field.Field.FieldHasStyle?.Select(style => style.StyleId);
-            var stylesOfDto = dto.StyleIds;
-
-
-            if (stylesOfField != null)
-            {
-                var stylesToAdd = dto.StyleIds.Except(stylesOfField);
-                foreach (var guid in stylesToAdd)
-                {
-                    _applicationDbContext.FieldHasStyle.Add(new FieldHasStyle()
-                    {
-                        StyleId = guid,
-                        FieldId = dto.Id
-                    });
-                }
-            }
-            if (stylesOfDto != null)
-            {
-                var stylesToRemove = field.Field.FieldHasStyle.Select(style => style.StyleId)?.Except(stylesOfDto);
-                foreach (var guid in stylesToRemove)
-                {
-                    var objectToRemove = _applicationDbContext.FieldHasStyle.SingleOrDefault(
-                        style => style.FieldId == dto.Id && style.StyleId == guid);
-                    _applicationDbContext.FieldHasStyle.Remove(objectToRemove);
-                }
-            }
-        }
-
-
-
-        private void UpdateValidationsOfField(FormHasField field, FieldCreateDto dto)
-        {
-            var validationsOfField = field.Field.FieldHasValidation?.Select(validation => validation.ValidationId);
-            var validationsOfDto = dto.ValidationIds;
-
-            if (validationsOfField != null)
-            {
-                var validationsToAdd = dto.ValidationIds.Except(validationsOfField);
-                foreach (var guid in validationsToAdd)
-                {
-                    _applicationDbContext.FieldHasValidation.Add(new FieldHasValidation()
-                    {
-                        ValidationId = guid,
-                        FieldId = dto.Id
-                    });
-                }
-            }
-            if (validationsOfDto != null)
-            {
-                var validationsToRemove = field.Field.FieldHasValidation.Select(validation => validation.ValidationId)?.Except(validationsOfDto);
-                foreach (var guid in validationsToRemove)
-                {
-                    var objectToRemove = _applicationDbContext.FieldHasValidation.SingleOrDefault(
-                        validation => validation.FieldId == dto.Id && validation.ValidationId == guid);
-                    _applicationDbContext.FieldHasValidation.Remove(objectToRemove);
-                }
-            }
         }
     }
 }

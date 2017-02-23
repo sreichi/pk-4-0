@@ -26,6 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Form)
                 .Include(application => application.User)
                 .Include(application => application.Status)
+                .OrderBy(dto => dto.Created)
                 .Select(entry => entry.ToListDto()).Where(entry => entry.IsCurrent);
         }
 
