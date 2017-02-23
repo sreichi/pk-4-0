@@ -223,5 +223,26 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
             return result;
         }
 
+
+        /// <summary>
+        /// Update Status of Application
+        /// </summary>
+        /// <param name="applicationId">ID of the Application</param>
+        /// <param name="statusDto">The new Status of the Application</param>
+        /// <response code="200">The updated Application</response>
+        [Authorize]
+        [HttpPut]
+        [Route("/applications/{applicationId}/status")]
+        [SwaggerOperation("UpdateStatusOfApplication")]
+        [ProducesResponseType(typeof(ApplicationDetailDto),200)]
+        public virtual IActionResult UpdateStatusOfApplication([FromRoute]Guid applicationId, [FromBody]StatusDto statusDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            return _applicationRepository.UpdateStatusOfApplication(applicationId, statusDto);
+        }
     }
 }

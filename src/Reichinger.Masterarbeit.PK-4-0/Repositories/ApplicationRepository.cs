@@ -228,6 +228,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(updatedApplication);
         }
 
+        public IActionResult UpdateStatusOfApplication(Guid applicationId, StatusDto statusDto)
+        {
+            var applicationToUpdate = _applicationDbContext.Application.SingleOrDefault(application => application.Id == applicationId);
+            if (applicationToUpdate == null)
+            {
+                return new NotFoundObjectResult("Application not found");
+            }
+            applicationToUpdate.StatusId = statusDto.Id;
+
+            Save();
+
+            var updatedApplication = GetApplicationById(applicationToUpdate.Id);
+            return new OkObjectResult(updatedApplication);
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();

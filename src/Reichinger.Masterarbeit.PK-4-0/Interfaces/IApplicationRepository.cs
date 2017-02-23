@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
- using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
- namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
+namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
  {
      public interface IApplicationRepository
      {
@@ -19,6 +17,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
          CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId, CommentCreateDto comment);
          IActionResult RemoveAssignmentFromApplication(Guid applicationId, Guid userId);
          IActionResult AssignUserToApplication(Guid applicationId, AssignmentCreateDto assignmentCreateDto);
+         IActionResult UpdateStatusOfApplication(Guid applicationId, StatusDto statusDto);
          void Save();
      }
  }
