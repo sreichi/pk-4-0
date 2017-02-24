@@ -105,6 +105,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             conferenceToEdit.DateOfEvent = modifiedConference.DateOfEvent;
             conferenceToEdit.Description = modifiedConference.Description;
+            conferenceToEdit.ConferenceConfiguration = modifiedConference.ConfigJson;
+
+            Save();
 
             return conferenceToEdit.ToDetailDto();
         }
