@@ -139,7 +139,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             application.ConferenceId = conferenceId;
             application.LastModified = DateTime.UtcNow;
-            return new OkResult();
+
+            Save();
+
+            var updatedConference = GetConferernceById(conferenceId);
+
+            return new OkObjectResult(updatedConference);
         }
 
         public IActionResult AddAttendantToConference(Guid conferenceId, AttendantCreateDto attendantCreateDto)
