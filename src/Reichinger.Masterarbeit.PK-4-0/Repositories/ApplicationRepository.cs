@@ -58,15 +58,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == applicationId);
 
-
-            var formToCheck = _applicationDbContext.Form.SingleOrDefault(form => form.Id == applicationById.Form.Id);
-            while(formToCheck.Deprecated)
+            if (applicationById != null)
             {
-                formToCheck = _applicationDbContext.Form
-                            .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
-                            .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
-                            .SingleOrDefault(form => form.PreviousVersion == formToCheck.Id);
-                applicationById.CurrentForm = formToCheck.ToDetailDto();
+                var formToCheck = _applicationDbContext.Form.SingleOrDefault(form => form.Id == applicationById.Form.Id);
+                while(formToCheck.Deprecated)
+                {
+                    formToCheck = _applicationDbContext.Form
+                        .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
+                        .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
+                        .SingleOrDefault(form => form.PreviousVersion == formToCheck.Id);
+                    applicationById.CurrentForm = formToCheck.ToDetailDto();
+                }
             }
             return applicationById;
         }
