@@ -228,8 +228,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Created = DateTime.UtcNow,
                 Deprecated = false,
                 IsPublic = response.IsPublic,
-                RestrictedAccess = response.RestrictedAccess,
-                PreviousVersion = null
+                RestrictedAccess = response.RestrictedAccess
             };
         }
 

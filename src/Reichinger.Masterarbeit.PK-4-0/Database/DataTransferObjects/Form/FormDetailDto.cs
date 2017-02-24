@@ -15,6 +15,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public bool RestrictedAccess { get; set; }
 
+        public bool PreviousVersion { get; set; }
+
         public bool IsPublic { get; set; }
 
         public bool IsActive { get; set; }

@@ -44,11 +44,16 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     .SingleOrDefault(entry => entry.Id == formId);
         }
 
-        public FormDetailDto CreateNewForm(FormCreateDto formToCreate)
+        public FormDetailDto CreateNewForm(FormCreateDto formToCreate, Guid? previousVerison)
         {
             var fieldIndex = 1;
             var newForm = formToCreate.ToModel();
+            if (previousVerison != null)
+            {
+                newForm.PreviousVersion = previousVerison;
+            }
             _applicationDbContext.Form.Add(newForm);
+
             Save();
             foreach (var field in formToCreate.FormHasField)
             {
@@ -93,10 +98,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             // Set updated Form Deprecated true
             var formToUpdate = _applicationDbContext.Form.SingleOrDefault(form => form.Id == formId);
             formToUpdate.Deprecated = true;
+
             Save();
 
             // Create new Form.
-            var newForm = CreateNewForm(formCreateDto);
+            var newForm = CreateNewForm(formCreateDto, formToUpdate.Id);
 
             return new OkObjectResult(newForm);
         }

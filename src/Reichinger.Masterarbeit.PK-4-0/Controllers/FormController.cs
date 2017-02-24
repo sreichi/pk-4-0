@@ -73,7 +73,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
                 return BadRequest(ModelState);
             }
 
-            var newForm = _formRepository.CreateNewForm(form);
+            var newForm = _formRepository.CreateNewForm(form, null);
             _formRepository.Save();
 
             var location = "/forms/" + newForm.Id;
