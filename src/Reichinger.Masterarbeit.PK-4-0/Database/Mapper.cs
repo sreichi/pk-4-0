@@ -233,6 +233,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             };
         }
 
+        public static PermissionDto ToDto(this Permission response)
+        {
+            return new PermissionDto()
+            {
+                Id = response.Id,
+                Name = response.Name
+            };
+        }
+
         public static RoleDto ToDto(this Role response)
         {
             return new RoleDto()

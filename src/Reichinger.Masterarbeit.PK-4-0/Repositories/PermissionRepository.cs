@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Reichinger.Masterarbeit.PK_4_0.Database;
+using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
@@ -13,9 +15,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
         
-        public IEnumerable<Permission> GetAllPermissions()
+        public IEnumerable<PermissionDto> GetAllPermissions()
         {
-            return _applicationDbContext.Permission.ToList();
+            return _applicationDbContext.Permission.Select(permission => permission.ToDto());
         }
     }
 }
