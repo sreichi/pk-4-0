@@ -43,20 +43,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToListDto());
         }
 
-        public IEnumerable<ApplicationListDto> GetApplicationsOfUser(Guid applicationId, Guid userId)
-        {
-            return _applicationDbContext.Application
-                .Include(application => application.Conference)
-                .Include(application => application.Form)
-                .Include(application => application.User)
-                .Include(application => application.Status)
-                .OrderBy(dto => dto.Created)
-                .Select(entry => entry.ToListDto()).Where(entry => entry.IsCurrent && entry.User.Id == userId);
-        }
-
         public ApplicationDetailDto GetApplicationById(Guid applicationId)
         {
-            return _applicationDbContext.Application
+            var applicationById = _applicationDbContext.Application
                 .Include(application => application.Comment)
                 .ThenInclude(comment => comment.User)
                 .Include(application => application.Assignment)
@@ -68,6 +57,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Status)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == applicationId);
+
+
+            var formToCheck = _applicationDbContext.Form.SingleOrDefault(form => form.Id == applicationById.Form.Id);
+            while(formToCheck.Deprecated)
+            {
+                formToCheck = _applicationDbContext.Form
+                            .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
+                            .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
+                            .SingleOrDefault(form => form.PreviousVersion == formToCheck.Id);
+            }
+            applicationById.CurrentForm = formToCheck.ToDetailDto();
+            return applicationById;
         }
 
         public ApplicationDetailDto CreateApplication(ApplicationCreateDto applicationToCreate)

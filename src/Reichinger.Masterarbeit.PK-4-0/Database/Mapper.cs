@@ -12,7 +12,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         public static ApplicationDetailDto ToDetailDto(this Application response)
         {
             return new ApplicationDetailDto()
-            { // TODO LOOK HERE AGAIN
+            {
                 Id = response.Id,
                 Created = response.Created,
                 LastModified = response.LastModified,
