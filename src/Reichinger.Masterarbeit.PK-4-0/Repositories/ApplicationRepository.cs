@@ -66,8 +66,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                             .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
                             .Include(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
                             .SingleOrDefault(form => form.PreviousVersion == formToCheck.Id);
+                applicationById.CurrentForm = formToCheck.ToDetailDto();
             }
-            applicationById.CurrentForm = formToCheck.ToDetailDto();
             return applicationById;
         }
 
