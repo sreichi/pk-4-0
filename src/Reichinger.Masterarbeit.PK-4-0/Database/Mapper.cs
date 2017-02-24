@@ -36,6 +36,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Id = response.Id,
                 Created = response.Created,
                 LastModified = response.LastModified,
+                FilledForm = response.FilledForm,
                 IsCurrent = response.IsCurrent,
                 Version = response.Version,
                 User = response.User.ToDetailDto(),

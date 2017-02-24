@@ -10,6 +10,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public DateTime LastModified { get; set; }
 
+        public string FilledForm { get; set; }
+
         public bool IsCurrent { get; set; }
 
         public int Version { get; set; }
