@@ -33,7 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         [Column("conference_id")]
         public Guid? ConferenceId { get; set; }
         [Column("status_id")]
-        public Guid StatusId { get; set; }
+        public StatusValue StatusId { get; set; }
         [Column("form_id")]
         public Guid FormId { get; set; }
 
@@ -52,9 +52,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual Application PreviousVersionNavigation { get; set; }
         [InverseProperty("PreviousVersionNavigation")]
         public virtual ICollection<Application> InversePreviousVersionNavigation { get; set; }
-        [ForeignKey("StatusId")]
-        [InverseProperty("Application")]
-        public virtual Status Status { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("Application")]
         public virtual AppUser User { get; set; }

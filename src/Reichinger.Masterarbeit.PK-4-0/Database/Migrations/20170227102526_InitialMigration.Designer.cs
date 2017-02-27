@@ -8,8 +8,8 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170223144536_CollumnsAdded")]
-    partial class CollumnsAdded
+    [Migration("20170227102526_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.Property<Guid?>("PreviousVersion")
                         .HasColumnName("previous_version");
 
-                    b.Property<Guid>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnName("status_id");
 
                     b.Property<Guid>("UserId")
@@ -62,8 +62,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasIndex("FormId");
 
                     b.HasIndex("PreviousVersion");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -511,22 +509,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.ToTable("role_permission");
                 });
 
-            modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Status", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("varchar")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("status");
-                });
-
             modelBuilder.Entity("Reichinger.Masterarbeit.PK_4_0.Database.Models.Style", b =>
                 {
                     b.Property<Guid>("Id")
@@ -652,11 +634,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Application", "PreviousVersionNavigation")
                         .WithMany("InversePreviousVersionNavigation")
                         .HasForeignKey("PreviousVersion");
-
-                    b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.Status", "Status")
-                        .WithMany("Application")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Reichinger.Masterarbeit.PK_4_0.Database.Models.AppUser", "User")
                         .WithMany("Application")

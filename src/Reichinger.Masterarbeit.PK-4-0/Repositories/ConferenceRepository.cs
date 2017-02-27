@@ -33,7 +33,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .ThenInclude(user => user.UserHasRole)
                 .ThenInclude(userHasRole => userHasRole.Role)
                 .Include(conference => conference.Application)
-                .ThenInclude(application => application.Status)
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.Conference)
                 .Include(conference => conference.Application)
@@ -61,7 +60,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.User)
                 .Include(conference => conference.Application)
-                .ThenInclude(application => application.Status)
                 .Include(conference => conference.Application)
                 .ThenInclude(application => application.Conference)
                 .Include(conference => conference.Application)
@@ -137,6 +135,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             application.ConferenceId = conferenceId;
             application.LastModified = DateTime.UtcNow;
+            application.StatusId = StatusValue.PENDING;
 
             Save();
 

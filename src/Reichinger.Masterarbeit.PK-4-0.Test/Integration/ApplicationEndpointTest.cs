@@ -6,6 +6,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
+using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Xunit;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
@@ -145,7 +146,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var newApplication = new ApplicationCreateDto()
             {
                 FormId = DataSeeder.FormId1,
-                StatusId = DataSeeder.StatusId1,
+                StatusId = StatusValue.CREATED,
                 UserId = DataSeeder.UserId1,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             };
@@ -164,7 +165,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var newApplication = new ApplicationCreateDto()
             {
                 FormId = DataSeeder.FormId1,
-                StatusId = DataSeeder.StatusId1,
+                StatusId = StatusValue.CREATED,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}"
             };
 
@@ -186,7 +187,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 ConferenceId = applicationToUpdate.Conference?.Id,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
                 FormId = applicationToUpdate.Form.Id,
-                StatusId = applicationToUpdate.Status.Id,
+                StatusId = applicationToUpdate.Status,
                 UserId = applicationToUpdate.User.Id
             };
 

@@ -25,7 +25,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Conference)
                 .Include(application => application.Form)
                 .Include(application => application.User)
-                .Include(application => application.Status)
                 .Where(entry => entry.IsCurrent)
                 .OrderBy(dto => dto.Created)
                 .Select(entry => entry.ToListDto());
@@ -37,7 +36,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Conference)
                 .Include(application => application.Form)
                 .Include(application => application.User)
-                .Include(application => application.Status)
                 .Where(entry => entry.IsCurrent && entry.User.Id == userId)
                 .OrderBy(dto => dto.Created)
                 .Select(entry => entry.ToListDto());
@@ -54,7 +52,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Include(application => application.Conference)
                 .Include(application => application.Form).ThenInclude(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasStyle).ThenInclude(fieldHasStyle => fieldHasStyle.Style)
                 .Include(application => application.Form).ThenInclude(form => form.FormHasField).ThenInclude(formHasField => formHasField.Field).ThenInclude(field => field.FieldHasValidation).ThenInclude(fieldHasValidation => fieldHasValidation.Validation)
-                .Include(application => application.Status)
                 .Select(entry => entry.ToDetailDto())
                 .SingleOrDefault(e => e.Id == applicationId);
 

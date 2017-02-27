@@ -23,7 +23,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
         public virtual DbSet<Permission> Permission { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RolePermission> RolePermission { get; set; }
-        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Style> Style { get; set; }
         public virtual DbSet<TypeHasConfig> TypeHasConfig { get; set; }
         public virtual DbSet<TypeHasStyle> TypeHasStyle { get; set; }
@@ -179,11 +178,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.Models
                 entity.HasOne(rp => rp.Permission)
                     .WithMany(permission => permission.RolePermission)
                     .HasForeignKey(rp => rp.PermissionId);
-            });
-
-            modelBuilder.Entity<Status>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Style>(entity =>

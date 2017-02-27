@@ -16,11 +16,12 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     active = table.Column<bool>(nullable: true),
                     created = table.Column<DateTime>(nullable: false, defaultValueSql: "('now'::text)::date"),
                     email = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
+                    employee_type = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     firstname = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     lastname = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     ldap_id = table.Column<int>(nullable: false),
                     password = table.Column<string>(type: "bpchar", maxLength: 128, nullable: false),
-                    rz_name = table.Column<string>(nullable: true),
+                    rz_name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     salt_string = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -33,12 +34,13 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
+                    conference_configuration = table.Column<string>(type: "json", nullable: true),
                     date_of_event = table.Column<DateTime>(nullable: false),
                     description = table.Column<string>(nullable: false),
-                    end_of_event = table.Column<DateTime>(nullable: false),
+                    end_of_event = table.Column<string>(type: "varchar", maxLength: 5, nullable: false),
                     number_of_conference = table.Column<int>(nullable: false),
                     room_of_event = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
-                    start_of_event = table.Column<DateTime>(nullable: false)
+                    start_of_event = table.Column<string>(type: "varchar", maxLength: 5, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,6 +52,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false),
                     value = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -90,6 +93,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     id = table.Column<Guid>(nullable: false),
                     created = table.Column<DateTime>(nullable: false),
                     deprecated = table.Column<bool>(nullable: false),
+                    is_active = table.Column<bool>(nullable: false),
                     is_public = table.Column<bool>(nullable: false),
                     previous_version = table.Column<Guid>(nullable: true),
                     restricted_access = table.Column<bool>(nullable: false),
@@ -131,18 +135,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "status",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    name = table.Column<string>(type: "varchar", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_status", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "style",
                 columns: table => new
                 {
@@ -169,23 +161,24 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "attendand",
+                name: "attendant",
                 columns: table => new
                 {
                     conference_id = table.Column<Guid>(nullable: false),
-                    user_id = table.Column<Guid>(nullable: false)
+                    user_id = table.Column<Guid>(nullable: false),
+                    type_of_attendance = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_attendand", x => new { x.conference_id, x.user_id });
+                    table.PrimaryKey("PK_attendant", x => new { x.conference_id, x.user_id });
                     table.ForeignKey(
-                        name: "FK_attendand_conference_conference_id",
+                        name: "FK_attendant_conference_conference_id",
                         column: x => x.conference_id,
                         principalTable: "conference",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_attendand_app_user_user_id",
+                        name: "FK_attendant_app_user_user_id",
                         column: x => x.user_id,
                         principalTable: "app_user",
                         principalColumn: "id",
@@ -198,6 +191,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 {
                     id = table.Column<Guid>(nullable: false),
                     content_type = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
+                    disbaled = table.Column<bool>(nullable: true),
                     enum_options_table_id = table.Column<Guid>(nullable: true),
                     field_type = table.Column<Guid>(nullable: false),
                     label = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
@@ -206,8 +200,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                     options = table.Column<string>(type: "json", nullable: true),
                     placeholder = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
                     required = table.Column<bool>(nullable: true),
-                    value = table.Column<string>(type: "varchar", maxLength: 50, nullable: true),
-                    disabled = table.Column<bool>(nullable: true)
+                    value = table.Column<string>(type: "varchar", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -247,6 +240,51 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         name: "FK_type_has_config_field_type_field_type_id",
                         column: x => x.field_type_id,
                         principalTable: "field_type",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "application",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    conference_id = table.Column<Guid>(nullable: true),
+                    created = table.Column<DateTime>(nullable: false, defaultValueSql: "('now'::text)::date"),
+                    filled_form = table.Column<string>(type: "json", nullable: true),
+                    form_id = table.Column<Guid>(nullable: false),
+                    is_current = table.Column<bool>(nullable: false),
+                    last_modified = table.Column<DateTime>(nullable: false),
+                    previous_version = table.Column<Guid>(nullable: true),
+                    status_id = table.Column<int>(nullable: false),
+                    user_id = table.Column<Guid>(nullable: false),
+                    version = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_application", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_application_conference_conference_id",
+                        column: x => x.conference_id,
+                        principalTable: "conference",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_application_form_form_id",
+                        column: x => x.form_id,
+                        principalTable: "form",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_application_application_previous_version",
+                        column: x => x.previous_version,
+                        principalTable: "application",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_application_app_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "app_user",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -293,57 +331,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_user_has_role_app_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "app_user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "application",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    conference_id = table.Column<Guid>(nullable: true),
-                    created = table.Column<DateTime>(nullable: false, defaultValueSql: "('now'::text)::date"),
-                    filled_form = table.Column<string>(type: "json", nullable: true),
-                    form_id = table.Column<Guid>(nullable: false),
-                    is_current = table.Column<bool>(nullable: false),
-                    last_modified = table.Column<DateTime>(nullable: false),
-                    previous_version = table.Column<Guid>(nullable: true),
-                    status_id = table.Column<Guid>(nullable: false),
-                    user_id = table.Column<Guid>(nullable: false),
-                    version = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_application", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_application_conference_conference_id",
-                        column: x => x.conference_id,
-                        principalTable: "conference",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_application_form_form_id",
-                        column: x => x.form_id,
-                        principalTable: "form",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_application_application_previous_version",
-                        column: x => x.previous_version,
-                        principalTable: "application",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_application_status_status_id",
-                        column: x => x.status_id,
-                        principalTable: "status",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_application_app_user_user_id",
                         column: x => x.user_id,
                         principalTable: "app_user",
                         principalColumn: "id",
@@ -451,7 +438,8 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 columns: table => new
                 {
                     form_id = table.Column<Guid>(nullable: false),
-                    field_id = table.Column<Guid>(nullable: false)
+                    field_id = table.Column<Guid>(nullable: false),
+                    position = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -539,11 +527,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 column: "previous_version");
 
             migrationBuilder.CreateIndex(
-                name: "IX_application_status_id",
-                table: "application",
-                column: "status_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_application_user_id",
                 table: "application",
                 column: "user_id");
@@ -560,8 +543,8 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_attendand_user_id",
-                table: "attendand",
+                name: "IX_attendant_user_id",
+                table: "attendant",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
@@ -636,7 +619,7 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
                 name: "assignment");
 
             migrationBuilder.DropTable(
-                name: "attendand");
+                name: "attendant");
 
             migrationBuilder.DropTable(
                 name: "comment");
@@ -691,9 +674,6 @@ namespace Reichinger.Masterarbeit.PK40.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "form");
-
-            migrationBuilder.DropTable(
-                name: "status");
 
             migrationBuilder.DropTable(
                 name: "app_user");

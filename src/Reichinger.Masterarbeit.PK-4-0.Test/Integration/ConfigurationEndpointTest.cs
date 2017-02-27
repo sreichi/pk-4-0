@@ -30,17 +30,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         }
 
         [Fact]
-        public async void GetStatusesShouldReturnAListOfDtos()
-        {
-            var result = await _fixture.GetHttpResult(UrlPath+"status");
-            result.Should().NotBeNull();
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            var conferences = JsonConvert.DeserializeObject<List<StatusDto>>(result.Content.ReadAsStringAsync().Result);
-            conferences.ForEach(conference => conference.Should().BeOfType<StatusDto>());
-        }
-
-        [Fact]
         public async void GetStylesShouldReturnAListOfDtos()
         {
             var result = await _fixture.GetHttpResult(UrlPath+"styles");

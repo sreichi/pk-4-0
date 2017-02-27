@@ -15,7 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public Guid? ConferenceId { get; set; }
         [NonEmptyGuid]
-        public Guid StatusId { get; set; }
+        public StatusValue StatusId { get; set; }
         [NonEmptyGuid]
         public Guid FormId { get; set; }
     }

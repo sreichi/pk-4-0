@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -12,15 +11,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         private readonly IFieldTypeRepository _fieldTypeRepository;
         private readonly IStyleRepository _styleRepository;
         private readonly IValidationRepository _validationRepository;
-        private readonly IStatusRepository _statusRepository;
 
         public ConfigurationController(IFieldTypeRepository fieldTypeRepository, IStyleRepository styleRepository,
-            IValidationRepository validationRepository, IStatusRepository statusRepository)
+            IValidationRepository validationRepository)
         {
             _fieldTypeRepository = fieldTypeRepository;
             _styleRepository = styleRepository;
             _validationRepository = validationRepository;
-            _statusRepository = statusRepository;
         }
 
 
@@ -36,20 +33,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         public virtual IEnumerable<FieldDefinitionDto> GetFieldDefinitions()
         {
             return _fieldTypeRepository.GetAllFieldTypes();
-        }
-
-
-        /// <summary>
-        /// GET all possible Status
-        /// </summary>
-        /// <response code="200">An array of staus values</response>
-        [HttpGet]
-        [Route("/config/status")]
-        [SwaggerOperation("GetStatusValues")]
-        [ProducesResponseType(typeof(List<StatusDto>), 200)]
-        public virtual IEnumerable<StatusDto> GetStatusValues()
-        {
-            return _statusRepository.GetAllStatuses();
         }
 
         /// <summary>

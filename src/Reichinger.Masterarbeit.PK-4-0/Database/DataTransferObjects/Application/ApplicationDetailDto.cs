@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 {
@@ -23,7 +24,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public ConferenceListDto Conference { get; set; }
 
-        public StatusDto Status { get; set; }
+        public StatusValue Status { get; set; }
 
         public FormDetailDto Form { get; set; }
 

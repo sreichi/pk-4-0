@@ -71,7 +71,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateRoles(dbContext);
             CreateUsers(dbContext);
             CreateForms(dbContext);
-            CreateStatuses(dbContext);
             CreateConferences(dbContext);
             CreateApplications(dbContext);
             CreateAssignments(dbContext);
@@ -533,21 +532,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             });
         }
 
-        private static void CreateStatuses(ApplicationDbContext dbContext)
-        {
-            dbContext.Status.Add(
-                new Status
-                {
-                    Id = StatusId1,
-                    Name = "Active"
-                });
-            dbContext.Status.Add(
-                new Status
-                {
-                    Id = StatusId2,
-                    Name = "Updated"
-                });
-        }
 
 
         private static void CreateForms(ApplicationDbContext dbContext)
@@ -588,7 +572,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     IsCurrent = false,
                     PreviousVersion = null,
                     UserId = UserId1,
-                    StatusId = StatusId2,
+                    StatusId = StatusValue.DEACTIVATED,
                     FormId = FormId1,
                     ConferenceId = ConferenceId1
                 });
@@ -602,7 +586,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     IsCurrent = true,
                     PreviousVersion = ApplicationId1,
                     UserId = UserId1,
-                    StatusId = StatusId1,
+                    StatusId = StatusValue.CREATED,
                     FormId = FormId1,
                     ConferenceId = ConferenceId1
                 });
@@ -616,7 +600,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     IsCurrent = true,
                     PreviousVersion = null,
                     UserId = UserId2,
-                    StatusId = StatusId2,
+                    StatusId = StatusValue.CREATED,
                     FormId = FormId1,
                     ConferenceId = null
                 });
@@ -630,7 +614,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     IsCurrent = true,
                     PreviousVersion = null,
                     UserId = UserId2,
-                    StatusId = StatusId2,
+                    StatusId = StatusValue.PENDING,
                     FormId = FormId1,
                     ConferenceId = ConferenceId1
                 });

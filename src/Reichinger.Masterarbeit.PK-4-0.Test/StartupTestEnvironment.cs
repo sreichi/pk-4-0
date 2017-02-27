@@ -50,7 +50,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             services.AddTransient<IFormRepository, FormRepository>();
             services.AddTransient<IPermissionRepository, PermissionRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
-            services.AddTransient<IStatusRepository, StatusRepository>();
             services.AddTransient<IStyleRepository, StyleRepository>();
             services.AddTransient<IValidationRepository, ValidationRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();

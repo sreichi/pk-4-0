@@ -22,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 FilledForm = response.FilledForm,
                 User = response.User?.ToDetailDto(),
                 Conference = response.Conference?.ToListDto(),
-                Status = response.Status?.ToDto(),
+                Status = response.StatusId,
                 Form = response.Form?.ToDetailDto(),
                 Assignments = response.Assignment?.Select(asignee => asignee.User.ToDetailDto()),
                 Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
@@ -41,7 +41,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Version = response.Version,
                 User = response.User.ToDetailDto(),
                 Conference = response.Conference?.ToListDto(),
-                Status = response.Status.ToDto(),
+                Status = response.StatusId,
                 Form = response.Form.ToListDto(),
             };
         }
@@ -256,15 +256,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             return new Role()
             {
                 Id = Guid.NewGuid(),
-                Name = response.Name
-            };
-        }
-
-        public static StatusDto ToDto(this Status response)
-        {
-            return new StatusDto()
-            {
-                Id = response.Id,
                 Name = response.Name
             };
         }
