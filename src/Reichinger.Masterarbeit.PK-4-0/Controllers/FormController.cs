@@ -118,5 +118,20 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
             return _formRepository.UpdateFormById(formId, formCreateDto);
         }
+
+        /// <summary>
+        /// Activate Form
+        /// </summary>
+        /// <param name="formId">ID of the Form</param>
+        /// <response code="200">The updated Form</response>
+        // [Authorize]
+        [HttpPut]
+        [Route("/forms/{formId}/activate")]
+        [SwaggerOperation("ActivateForm")]
+        [ProducesResponseType(typeof(FormDetailDto), 200)]
+        public virtual IActionResult ActivateForm([FromRoute] Guid formId)
+        {
+            return _formRepository.ActivateForm(formId);
+        }
     }
 }
