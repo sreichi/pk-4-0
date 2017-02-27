@@ -88,7 +88,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [SwaggerOperation("AddApplicationToConference")]
         public virtual IActionResult AddApplicationToConference([FromRoute] Guid conferenceId, [FromRoute] Guid applicationId)
         {
-            var result = _conferenceRepository.AddApplicationFromConference(conferenceId, applicationId);
+            var result = _conferenceRepository.AddApplicationToConference(conferenceId, applicationId);
             _conferenceRepository.Save();
             return result;
         }
@@ -121,7 +121,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
 
         /// <summary>
-        /// Delete Application of Conference
+        /// Remove Application From Conference
         /// </summary>
 
         /// <param name="conferenceId">ID of the Conference</param>
@@ -130,7 +130,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Authorize]
         [HttpDelete]
         [Route("/conferences/{conferenceId}/applications/{applicationId}")]
-        [SwaggerOperation("DeleteApplicationOfConference")]
+        [SwaggerOperation("RemoveApplicationFromConference")]
         public virtual IActionResult RemoveApplicationFromConference([FromRoute]Guid conferenceId, [FromRoute]Guid applicationId)
         {
             var result = _conferenceRepository.RemoveApplicationFromConference(conferenceId, applicationId);

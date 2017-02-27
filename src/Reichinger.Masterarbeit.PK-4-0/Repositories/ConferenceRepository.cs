@@ -128,13 +128,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkResult();
         }
 
-        public IActionResult AddApplicationFromConference(Guid conferenceId, Guid applicationId)
+        public IActionResult AddApplicationToConference(Guid conferenceId, Guid applicationId)
         {
             var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
             var conference = _applicationDbContext.Conference.SingleOrDefault(conf => conf.Id == conferenceId);
 
-            if (application.ConferenceId != null)
-                return new BadRequestObjectResult("Application is allready assigned to a conference");
             if (conference == null) return new BadRequestObjectResult("Conference does not exist");
 
             application.ConferenceId = conferenceId;

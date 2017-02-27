@@ -14,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IActionResult DeleteConferenceById(Guid conferenceId);
         ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference);
         IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId);
-        IActionResult AddApplicationFromConference(Guid conferenceId, Guid applicationId);
+        IActionResult AddApplicationToConference(Guid conferenceId, Guid applicationId);
         IActionResult AddAttendantToConference(Guid conferenceId, AttendantCreateDto attendantCreateDto);
         IActionResult RemoveAttendandFromConference(Guid conferenceId, Guid userId);
         void Save();
