@@ -252,14 +252,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(updatedApplication);
         }
 
-        public IActionResult UpdateStatusOfApplication(Guid applicationId, StatusDto statusDto)
+        public IActionResult UpdateStatusOfApplication(Guid applicationId, int statusId)
         {
             var applicationToUpdate = _applicationDbContext.Application.SingleOrDefault(application => application.Id == applicationId);
             if (applicationToUpdate == null)
             {
                 return new NotFoundObjectResult("Application not found");
             }
-            applicationToUpdate.StatusId = statusDto.Id;
+            applicationToUpdate.StatusId = (StatusValue)statusId;
 
             Save();
 

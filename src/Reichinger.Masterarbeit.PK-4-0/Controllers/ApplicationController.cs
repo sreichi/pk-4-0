@@ -236,14 +236,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/applications/{applicationId}/status")]
         [SwaggerOperation("UpdateStatusOfApplication")]
         [ProducesResponseType(typeof(ApplicationDetailDto),200)]
-        public virtual IActionResult UpdateStatusOfApplication([FromRoute]Guid applicationId, [FromBody]StatusDto statusDto)
+        public virtual IActionResult UpdateStatusOfApplication([FromRoute]Guid applicationId, [FromBody]int statusId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            return _applicationRepository.UpdateStatusOfApplication(applicationId, statusDto);
+            return _applicationRepository.UpdateStatusOfApplication(applicationId, statusId);
         }
     }
 }

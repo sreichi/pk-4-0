@@ -22,7 +22,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 FilledForm = response.FilledForm,
                 User = response.User?.ToDetailDto(),
                 Conference = response.Conference?.ToListDto(),
-                Status = response.StatusId,
+                StatusId = response.StatusId,
                 Form = response.Form?.ToDetailDto(),
                 Assignments = response.Assignment?.Select(asignee => asignee.User.ToDetailDto()),
                 Comments = response.Comment?.Select(comment => comment.ToDto()).OrderBy(dto => dto.Created) ?? null
@@ -41,7 +41,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 Version = response.Version,
                 User = response.User.ToDetailDto(),
                 Conference = response.Conference?.ToListDto(),
-                Status = response.StatusId,
+                StatusId = response.StatusId,
                 Form = response.Form.ToListDto(),
             };
         }

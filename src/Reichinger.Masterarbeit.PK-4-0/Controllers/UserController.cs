@@ -65,7 +65,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="rzPassword">The users rz password base 64 encoded</param>
         /// <param name="user">The AppUser credentials</param>
         /// <response code="200">The new AppUser Object</response>
-        [Authorize]
         [HttpPost]
         [Route("/users")]
         [SwaggerOperation("AddUser")]

@@ -187,7 +187,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
                 ConferenceId = applicationToUpdate.Conference?.Id,
                 FilledForm = "{\"1\":\"Messi\",\"2\":\"Rolando\"}",
                 FormId = applicationToUpdate.Form.Id,
-                StatusId = applicationToUpdate.Status,
+                StatusId = applicationToUpdate.StatusId,
                 UserId = applicationToUpdate.User.Id
             };
 

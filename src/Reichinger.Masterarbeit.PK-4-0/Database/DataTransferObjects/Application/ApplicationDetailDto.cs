@@ -24,7 +24,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects
 
         public ConferenceListDto Conference { get; set; }
 
-        public StatusValue Status { get; set; }
+        public StatusValue StatusId { get; set; }
 
         public FormDetailDto Form { get; set; }
 
