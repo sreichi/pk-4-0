@@ -16,6 +16,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/forms/";
         private readonly Guid _formId = DataSeeder.FormId1;
+        private readonly Guid _inactiveForm = DataSeeder.FormId3;
         private readonly Guid _formToDeleteId = DataSeeder.FormId2;
         private const int InvalidFormId = 98765;
 
@@ -150,6 +151,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var result = await _fixture.DeleteHttpResult(UrlPath + _formToDeleteId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var tryToLoadDeletedForm = await _fixture.GetHttpResult(UrlPath + _formToDeleteId);
+            tryToLoadDeletedForm.Should().NotBeNull();
+            tryToLoadDeletedForm.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
@@ -158,6 +163,18 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var result = await _fixture.DeleteHttpResult(UrlPath + _formId);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async void ActivateFormShouldReturnOkAndSetFormToActive()
+        {
+            var result = await _fixture.PutHttpResult($"{UrlPath}{_inactiveForm}/activate", "");
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var activatedForm = await _fixture.GetHttpResult(UrlPath + _inactiveForm);
+            var deserializedForm = JsonConvert.DeserializeObject<FormDetailDto>(activatedForm.Content.ReadAsStringAsync().Result);
+            deserializedForm.IsActive.Should().Be(true);
         }
     }
 }

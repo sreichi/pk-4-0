@@ -24,6 +24,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
 
         public static readonly Guid FormId1 = new Guid("bb2cf80b-6f7f-4305-8d65-4468908fd1f3");
         public static readonly Guid FormId2 = new Guid("e5253303-5f6e-474e-812b-d655afce5edb");
+        public static readonly Guid FormId3 = new Guid("D9CB5464-5271-4F6E-9D32-DCCF9DABFE08");
 
         public static readonly Guid ConferenceId1 = new Guid("74cf7b5c-1c7e-448b-ac5d-b9c63d466e1a");
         public static readonly Guid ConferenceId2 = new Guid("866ad5a9-64a4-4058-9751-b0dd27ef4d0e");
@@ -552,6 +553,17 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 {
                     Id = FormId2,
                     Title = "Notenanerkennung",
+                    Created = DateTime.Now,
+                    IsActive = false,
+                    IsPublic = false,
+                    Deprecated = true,
+                    RestrictedAccess = true
+                });
+            dbContext.Add(
+                new Form
+                {
+                    Id = FormId3,
+                    Title = "Inaktive Form",
                     Created = DateTime.Now,
                     IsActive = false,
                     IsPublic = false,
