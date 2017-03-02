@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -34,6 +35,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.Role.Add(newRole);
 
             return newRole.ToDto();
+        }
+
+        public IActionResult AddPermissionToRole(Guid roleId, PermissionDto permission)
+        {
+            var exitingRolePermission = _applicationDbContext.RolePermission.SingleOrDefault(
+                rolePermission => rolePermission.RoleId == roleId && rolePermission.PermissionId == permission.Id);
+            if(permission == null) return new BadRequestObjectResult("Role allready has that permission");
+            _applicationDbContext.RolePermission.Add(new RolePermission()
+            {
+                RoleId = roleId,
+                PermissionId = permission.Id
+            });
+            return new OkObjectResult("Permission added to Role");
         }
 
         public void Save()

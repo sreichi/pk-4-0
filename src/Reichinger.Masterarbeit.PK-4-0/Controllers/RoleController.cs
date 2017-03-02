@@ -66,11 +66,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="200">Role added</response>
         [Authorize]
         [HttpPost]
-        [Route("/roles/{roleId}/permissions/{permission_id}")]
+        [Route("/roles/{roleId}/permissions")]
         [SwaggerOperation("AddPermissionToRole")]
-        public virtual void AddPermissionToRole([FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
+        public virtual IActionResult AddPermissionToRole([FromRoute]Guid roleId, [FromBody]PermissionDto permission)
         {
-            throw new NotImplementedException();
+            return _roleRepository.AddPermissionToRole(roleId, permission);
         }
 
 
