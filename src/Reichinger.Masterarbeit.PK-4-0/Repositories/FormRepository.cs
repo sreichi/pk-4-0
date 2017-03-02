@@ -112,6 +112,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             var formToActivate = _applicationDbContext.Form.SingleOrDefault(form => form.Id == formId);
             if(formToActivate == null) return new NotFoundResult();
             formToActivate.IsActive = true;
+            Save();
             return new OkObjectResult("Form is now active");
         }
 
