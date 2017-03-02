@@ -60,9 +60,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <summary>
         /// Add Permission to Role
         /// </summary>
-
         /// <param name="roleId">ID of Role</param>
-        /// <param name="permissionId">ID of Permission</param>
+        /// <param name="permission">The Permission to add</param>
         /// <response code="200">Role added</response>
         [Authorize]
         [HttpPost]
@@ -109,7 +108,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="200">Permission deleted</response>
         [Authorize]
         [HttpDelete]
-        [Route("/roles/{roleId}/permissions/{permission_id}")]
+        [Route("/roles/{roleId}/permissions/{permissionId}")]
         [SwaggerOperation("RemovePermissionFromRole")]
         public virtual IActionResult RemovePermissionFromRole([FromRoute]Guid roleId, [FromRoute]Guid permissionId)
         {
@@ -127,9 +126,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpDelete]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("DeleteRoleById")]
-        public virtual void DeleteRoleById([FromRoute]decimal? roleId)
+        public virtual IActionResult DeleteRoleById([FromRoute]Guid roleId)
         {
-            throw new NotImplementedException();
+            return _roleRepository.DeleteRoleById(roleId);
         }
 
 

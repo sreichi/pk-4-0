@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
@@ -42,7 +43,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             var exitingRolePermission = _applicationDbContext.RolePermission.SingleOrDefault(
                 rolePermission => rolePermission.RoleId == roleId && rolePermission.PermissionId == permission.Id);
 
-            if(exitingRolePermission == null) return new BadRequestObjectResult("Role allready has that permission");
+            if(exitingRolePermission != null) return new BadRequestObjectResult("Role allready has that permission");
 
             _applicationDbContext.RolePermission.Add(new RolePermission()
             {
@@ -63,6 +64,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.RolePermission.Remove(rolePermissionToDelete);
             Save();
             return new OkObjectResult("Removed Permission from Role");
+        }
+
+        public IActionResult DeleteRoleById(Guid roleId)
+        {
+            var roleToDelete = _applicationDbContext.Role.Include(role => role.RolePermission).Include(role => role.UserHasRole).SingleOrDefault(role => role.Id == roleId);
+            if(roleToDelete == null) return new NotFoundObjectResult("Role not found");
+
+            if(roleToDelete.RolePermission.Count > 0) return new BadRequestObjectResult("Role still has permissions so it cant be delted");
+
+            if(roleToDelete.UserHasRole.Count > 0) return new BadRequestObjectResult("There are still users referencing to this role so it cant be deleted");
+            _applicationDbContext.Role.Remove(roleToDelete);
+            Save();
+            return new OkObjectResult("Role deleted");
         }
 
         public void Save()

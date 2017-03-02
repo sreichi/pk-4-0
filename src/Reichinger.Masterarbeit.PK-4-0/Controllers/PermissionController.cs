@@ -19,7 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         }
 
         /// <summary>
-        /// GET all Applications
+        /// GET all Permissions
         /// </summary>
         /// <remarks>The Permission Endpoint returns all possible Permissions</remarks>
         /// <response code="200">An array of Permissions</response>
@@ -28,7 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Route("/permissions")]
         [SwaggerOperation("GetAllPermissions")]
         [ProducesResponseType(typeof(List<PermissionDto>), 200)]
-        public virtual IEnumerable<PermissionDto> GetApplications([FromQuery]Guid? userId)
+        public virtual IEnumerable<PermissionDto> GetPermissions()
         {
             return _permissionRepository.GetAllPermissions();
 

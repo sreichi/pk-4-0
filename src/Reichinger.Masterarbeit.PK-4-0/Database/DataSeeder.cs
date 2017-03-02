@@ -57,6 +57,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
         public static readonly Guid ConfigId1 = new Guid("8a2222b0-e603-44b9-aa20-f4b0086db429");
         public static readonly Guid ConfigId2 = new Guid("42dcc7fc-c462-4684-8a6b-c55860708dea");
 
+        public static readonly Guid PermissionId1 = new Guid("36DFAC33-AE79-48C2-AB06-21D3D2C0899B");
+        public static readonly Guid PermissionId2 = new Guid("06A7565E-633E-428C-A269-E225332DE6FB");
+        public static readonly Guid PermissionId3 = new Guid("354BFC04-9563-4939-9142-1F89C2BB02A8");
+
         public static void SeedData(this IApplicationBuilder applicationBuilder)
         {
             var db =
@@ -89,7 +93,42 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
             CreateFieldTypeHasConfig(dbContext);
             CreaFieldHasValidation(dbContext);
             CreateUserHasRole(dbContext);
+            CreatePermissions(dbContext);
+            CreateRolePermissions(dbContext);
             dbContext.SaveChanges();
+        }
+
+        private static void CreateRolePermissions(ApplicationDbContext dbContext)
+        {
+            dbContext.RolePermission.Add(new RolePermission()
+            {
+                RoleId = RoleId1,
+                PermissionId = PermissionId1
+            });
+            dbContext.RolePermission.Add(new RolePermission()
+            {
+                RoleId = RoleId1,
+                PermissionId = PermissionId2
+            });
+        }
+
+        private static void CreatePermissions(ApplicationDbContext dbContext)
+        {
+            dbContext.Add(new Permission()
+            {
+                Id = PermissionId1,
+                Name = "ALL.EDIT"
+            });
+            dbContext.Add(new Permission()
+            {
+                Id = PermissionId2,
+                Name = "ALL.VIEW"
+            });
+            dbContext.Add(new Permission()
+            {
+                Id = PermissionId3,
+                Name = "ALL.DELETE"
+            });
         }
 
         private static void CreateAttendants(ApplicationDbContext dbContext)
