@@ -41,13 +41,28 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             var exitingRolePermission = _applicationDbContext.RolePermission.SingleOrDefault(
                 rolePermission => rolePermission.RoleId == roleId && rolePermission.PermissionId == permission.Id);
-            if(permission == null) return new BadRequestObjectResult("Role allready has that permission");
+
+            if(exitingRolePermission == null) return new BadRequestObjectResult("Role allready has that permission");
+
             _applicationDbContext.RolePermission.Add(new RolePermission()
             {
                 RoleId = roleId,
                 PermissionId = permission.Id
             });
+            Save();
             return new OkObjectResult("Permission added to Role");
+        }
+
+        public IActionResult RemovePermissionFromRole(Guid roleId, Guid permissionId)
+        {
+            var rolePermissionToDelete = _applicationDbContext.RolePermission.SingleOrDefault(
+                rolePermission => rolePermission.RoleId == roleId && rolePermission.PermissionId == permissionId);
+
+            if(rolePermissionToDelete == null) return new NotFoundObjectResult("Role Permission not Found");
+
+            _applicationDbContext.RolePermission.Remove(rolePermissionToDelete);
+            Save();
+            return new OkObjectResult("Removed Permission from Role");
         }
 
         public void Save()

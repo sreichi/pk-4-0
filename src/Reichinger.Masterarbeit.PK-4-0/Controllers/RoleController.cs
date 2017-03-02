@@ -110,10 +110,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [Authorize]
         [HttpDelete]
         [Route("/roles/{roleId}/permissions/{permission_id}")]
-        [SwaggerOperation("DeletePermissionOfRole")]
-        public virtual void DeletePermissionOfRole([FromRoute]decimal? roleId, [FromRoute]decimal? permissionId)
+        [SwaggerOperation("RemovePermissionFromRole")]
+        public virtual IActionResult RemovePermissionFromRole([FromRoute]Guid roleId, [FromRoute]Guid permissionId)
         {
-            throw new NotImplementedException();
+            return _roleRepository.RemovePermissionFromRole(roleId, permissionId);
         }
 
 

@@ -12,6 +12,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         RoleDto GetRoleById(Guid roleId);
         RoleDto CreateRole(RoleDto role);
         IActionResult AddPermissionToRole(Guid roleId, PermissionDto permission);
+        IActionResult RemovePermissionFromRole(Guid roleId, Guid permissionId);
         void Save();
     }
 }
