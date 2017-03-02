@@ -143,15 +143,21 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [HttpPut]
         [Route("/roles/{roleId}")]
         [SwaggerOperation("UpdateRoleById")]
-        [ProducesResponseType(typeof(Role), 200)]
-        public virtual IActionResult UpdateRoleById([FromRoute]decimal? roleId, [FromBody]Role role)
+        [ProducesResponseType(typeof(RoleDto), 200)]
+        public virtual IActionResult UpdateRoleById([FromRoute]Guid roleId, [FromBody]RoleDto role)
         {
-            string exampleJson = null;
 
-            var example = exampleJson != null
-                ? JsonConvert.DeserializeObject<Role>(exampleJson)
-                : default(Role);
-            return new ObjectResult(example);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var updatedRole = _roleRepository.UpdateRole(roleId, role);
+
+            _roleRepository.Save();
+
+            return Ok(updatedRole);
+        }
         }
     }
 }

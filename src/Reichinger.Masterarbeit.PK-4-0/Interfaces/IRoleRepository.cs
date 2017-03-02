@@ -13,6 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         IActionResult AddPermissionToRole(Guid roleId, PermissionDto permission);
         IActionResult RemovePermissionFromRole(Guid roleId, Guid permissionId);
         IActionResult DeleteRoleById(Guid roleId);
+        RoleDto UpdateRole(Guid roleId, RoleDto role);
         void Save();
     }
 }

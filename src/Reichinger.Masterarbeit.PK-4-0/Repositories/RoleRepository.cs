@@ -79,6 +79,19 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Role deleted");
         }
 
+        public RoleDto UpdateRole(Guid roleId, RoleDto role)
+        {
+
+            var roleToEdit = _applicationDbContext.Role
+                .SingleOrDefault(r => r.Id == roleId);
+
+            roleToEdit.Name = role.Name;
+
+            Save();
+
+            return roleToEdit.ToDto();
+        }
+
         public void Save()
         {
             _applicationDbContext.SaveChanges();

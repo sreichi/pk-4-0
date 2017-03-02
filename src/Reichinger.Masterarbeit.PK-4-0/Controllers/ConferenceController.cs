@@ -190,11 +190,11 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
                 return BadRequest();
             }
 
-            var updatedComment = _conferenceRepository.UpdateConference(conferenceId, conference);
+            var updatedConference = _conferenceRepository.UpdateConference(conferenceId, conference);
 
             _conferenceRepository.Save();
 
-            return Ok(updatedComment);
+            return Ok(updatedConference);
         }
 
 
