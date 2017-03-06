@@ -15,6 +15,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/roles/";
         private readonly Guid _roleId1 = DataSeeder.RoleId1;
+        private readonly Guid _roleId2 = DataSeeder.RoleId2;
         private readonly Guid _roleId3 = DataSeeder.RoleId3;
         private const int InvalidRoleId = 987654;
 
@@ -91,6 +92,24 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             var result = await _fixture.DeleteHttpResult(UrlPath + _roleId1);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async void UpdateRoleShouldReturnOkAndUpdatedRoleDto()
+        {
+            var roleDto = new RoleDto()
+            {
+                Name = "Updated Test role"
+            };
+
+            var serializedRoleDto = JsonConvert.SerializeObject(roleDto);
+
+            var result = await _fixture.PutHttpResult(UrlPath + _roleId2, serializedRoleDto);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var deserializedResult = JsonConvert.DeserializeObject<RoleDto>(result.Content.ReadAsStringAsync().Result);
+            deserializedResult.Name.Should().Be(roleDto.Name);
         }
     }
 

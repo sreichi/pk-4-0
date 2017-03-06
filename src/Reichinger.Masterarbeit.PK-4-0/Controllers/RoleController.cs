@@ -146,7 +146,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [ProducesResponseType(typeof(RoleDto), 200)]
         public virtual IActionResult UpdateRoleById([FromRoute]Guid roleId, [FromBody]RoleDto role)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest();
