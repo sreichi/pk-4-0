@@ -12,6 +12,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
     {
         public static readonly Guid RoleId1 = new Guid("8fa4497d-bee4-411d-83ef-f195037cbb43");
         public static readonly Guid RoleId2 = new Guid("c18ac352-9efc-4d64-8555-3379336309c8");
+        public static readonly Guid RoleId3 = new Guid("0FAA2DAD-53E8-4EE5-9CD8-CB1B9E5578BC");
 
         public static readonly Guid UserId1 = new Guid("b904cc6e-b3a6-42a9-8880-3096be1b6c61");
         public static readonly Guid UserId2 = new Guid("ee632373-432e-40f0-9f33-8cc6b684e673");
@@ -363,6 +364,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                 {
                     Id = RoleId2,
                     Name = "User"
+                });
+            dbContext.Role.Add(
+                new Role
+                {
+                    Id = RoleId3,
+                    Name = "Student"
                 });
         }
 

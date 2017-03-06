@@ -14,7 +14,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/roles/";
-        private readonly Guid _roleId = DataSeeder.RoleId1;
+        private readonly Guid _roleId1 = DataSeeder.RoleId1;
+        private readonly Guid _roleId3 = DataSeeder.RoleId3;
         private const int InvalidRoleId = 987654;
 
         public RoleEndpointTest(DatabaseFixture fixture)
@@ -37,7 +38,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetRoleByIdShouldReturnOneElement()
         {
-            var result = await _fixture.GetHttpResult(UrlPath + _roleId);
+            var result = await _fixture.GetHttpResult(UrlPath + _roleId1);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -66,6 +67,30 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public async void DeleteRoleShouldReturnOk()
+        {
+            var result = await _fixture.DeleteHttpResult(UrlPath + _roleId3);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void DeleteRoleWithInvalidIdShouldReturnNotFound()
+        {
+            var result = await _fixture.DeleteHttpResult(UrlPath + InvalidRoleId);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async void DeleteRoleWithRolePermissionsOrUsersShouldReturnBadRequest()
+        {
+            var result = await _fixture.DeleteHttpResult(UrlPath + _roleId1);
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 

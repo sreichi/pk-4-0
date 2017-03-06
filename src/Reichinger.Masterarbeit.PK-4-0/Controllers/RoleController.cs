@@ -158,6 +158,5 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
 
             return Ok(updatedRole);
         }
-        }
     }
 }
