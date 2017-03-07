@@ -100,6 +100,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// Add Role to User
         /// </summary>
         /// <param name="userId">ID of the User</param>
+        /// <param name="roleDto"></param>
         /// <response code="200">The new Comment Object</response>
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
@@ -109,7 +110,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         [ProducesResponseType(typeof(UserDetailDto), 200)]
         public virtual IActionResult AddRoleToUser([FromRoute] Guid userId, [FromBody] RoleDto roleDto)
         {
-            var result = _userRepository.AssignUserToApplication(userId, roleDto);
+            var result = _userRepository.AddRoleToUser(userId, roleDto);
 
             return result;
         }

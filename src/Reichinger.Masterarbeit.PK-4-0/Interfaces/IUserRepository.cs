@@ -13,7 +13,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Interfaces
         AppUser GetUserByEmail(string email);
         IActionResult CreateUser(string rzName, string rzPassword, UserCreateDto user);
         IActionResult RemoveRoleFromUser(Guid userId, Guid roleId);
-        IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto);
+        IActionResult AddRoleToUser(Guid userId, RoleDto roleDto);
         void Save();
     }
 }

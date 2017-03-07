@@ -63,7 +63,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
 
             var newUser = user.ToModel();
-
+            newUser.Firstname = ldapUserAsDictionary["givenName"];
+            newUser.Lastname = ldapUserAsDictionary["sn"];
             newUser.EmployeeType = ldapUserAsDictionary["employeeType"];
             newUser.RzName = ldapUserAsDictionary["uid"];
             newUser.LdapId = Convert.ToInt32(ldapUserAsDictionary["uidNumber"]);
@@ -89,7 +90,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Role successfully removed from user");
         }
 
-        public IActionResult AssignUserToApplication(Guid userId, RoleDto roleDto)
+        public IActionResult AddRoleToUser(Guid userId, RoleDto roleDto)
         {
             var userHasRole = _applicationDbContext.UserHasRole.SingleOrDefault(
                 entry => entry.RoleId == roleDto.Id && entry.UserId == userId);
