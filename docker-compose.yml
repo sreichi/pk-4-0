@@ -9,6 +9,7 @@ services:
     database-server:
         container_name: psqldatabase
         image: psqldatabase
+        restart: always
         build:
             context: .
             dockerfile: postgresql.dockerfile
@@ -23,6 +24,7 @@ services:
     application:
         container_name: coreapp
         image: coreapp
+        restart: always
         build:
             context: .
             dockerfile: application.dockerfile
@@ -38,6 +40,7 @@ services:
     database-data:
         container_name: data_container
         image: psqldatabase
+        restart: always
         entrypoint: /bin/bash
         networks:
             - core-application-network
