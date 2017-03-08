@@ -40,7 +40,6 @@ services:
     database-data:
         container_name: data_container
         image: psqldatabase
-        restart: always
         entrypoint: /bin/bash
         networks:
             - core-application-network
