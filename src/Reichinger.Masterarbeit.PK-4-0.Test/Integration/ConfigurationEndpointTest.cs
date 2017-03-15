@@ -21,7 +21,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetFieldDefinitionsShouldReturnAListOfDtos()
         {
-            var result = await _fixture.GetHttpResult(UrlPath+"fieldDefinitions");
+            var result = await _fixture.GetHttpResult($"{UrlPath}fieldDefinitions");
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -32,7 +32,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetStylesShouldReturnAListOfDtos()
         {
-            var result = await _fixture.GetHttpResult(UrlPath+"styles");
+            var result = await _fixture.GetHttpResult($"{UrlPath}styles");
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -43,7 +43,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetValidationsShouldReturnAListOfDtos()
         {
-            var result = await _fixture.GetHttpResult(UrlPath+"validations");
+            var result = await _fixture.GetHttpResult($"{UrlPath}validations");
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
