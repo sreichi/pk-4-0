@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
+using Microsoft.CodeAnalysis;
 using Reichinger.Masterarbeit.PK_4_0.Database.DataTransferObjects;
 using Newtonsoft.Json;
 using Reichinger.Masterarbeit.PK_4_0.Database;
@@ -14,8 +15,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private const string UrlPath = "/users/";
-        private readonly Guid UserId = DataSeeder.UserId1;
+        private readonly Guid _userId1 = DataSeeder.UserId1;
+        private readonly Guid _userId2 = DataSeeder.UserId2;
+        private readonly Guid _userId3 = DataSeeder.UserId3;
+        private readonly Guid _roleId1 = DataSeeder.RoleId1;
         private const int InvalidUserId = 98765;
+        private const int InvalidRoleId = 123456;
 
         public UserEndpointTest(DatabaseFixture fixture)
         {
@@ -36,7 +41,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         [Fact]
         public async void GetUserByIdShouldReturnOneUser()
         {
-            var result = await _fixture.GetHttpResult(UrlPath + UserId);
+            var result = await _fixture.GetHttpResult(UrlPath + _userId1);
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -51,5 +56,54 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+
+        [Fact]
+        public async void AddRoleToUserShouldReturnOk()
+        {
+            var roleDto = new RoleDto()
+            {
+                Id = _roleId1,
+                Name = "Admin"
+            };
+
+            var serializedRoleDto = JsonConvert.SerializeObject(roleDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_userId3}/role", serializedRoleDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void AddAllreadyAssignedRoleToUserShouldReturnBadRequest()
+        {
+            var roleDto = new RoleDto()
+            {
+                Id = _roleId1,
+                Name = "Admin"
+            };
+
+            var serializedRoleDto = JsonConvert.SerializeObject(roleDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_userId1}/role", serializedRoleDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async void RemoveRoleFromUserShouldReturnOk()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_userId2}/role/{_roleId1}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void RemoveRoleWithInvalidIdFromUserShouldReturnNotFound()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_userId2}/role/{InvalidRoleId}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+
     }
 }

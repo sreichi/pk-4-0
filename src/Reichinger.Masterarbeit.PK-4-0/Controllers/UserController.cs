@@ -84,7 +84,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request</response>
         [Authorize]
         [HttpDelete]
-        [Route("/user/{userId}/role/{roleId}")]
+        [Route("/users/{userId}/role/{roleId}")]
         [SwaggerOperation("RemoveRoleFromUser")]
         public virtual IActionResult RemoveRoleFromUser([FromRoute] Guid userId, [FromRoute] Guid roleId)
         {
@@ -105,7 +105,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <response code="400">Bad Request - Invalid Model State</response>
         [Authorize]
         [HttpPost]
-        [Route("/user/{userId}/role")]
+        [Route("/users/{userId}/role")]
         [SwaggerOperation("AddRoleToUser")]
         [ProducesResponseType(typeof(UserDetailDto), 200)]
         public virtual IActionResult AddRoleToUser([FromRoute] Guid userId, [FromBody] RoleDto roleDto)
