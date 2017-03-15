@@ -17,7 +17,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
         private readonly Guid _roleId1 = DataSeeder.RoleId1;
         private readonly Guid _roleId2 = DataSeeder.RoleId2;
         private readonly Guid _roleId3 = DataSeeder.RoleId3;
+        private readonly Guid _permissionId1 = DataSeeder.PermissionId1;
+        private readonly Guid _permissionId2 = DataSeeder.PermissionId2;
         private const int InvalidRoleId = 987654;
+        private const int InvalidPermissionId = 123456;
 
         public RoleEndpointTest(DatabaseFixture fixture)
         {
@@ -110,6 +113,52 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
 
             var deserializedResult = JsonConvert.DeserializeObject<RoleDto>(result.Content.ReadAsStringAsync().Result);
             deserializedResult.Name.Should().Be(roleDto.Name);
+        }
+
+        [Fact]
+        public async void AddPermissionToRoleShouldReturnOk()
+        {
+            var permissionDto = new PermissionDto()
+            {
+                Id = _permissionId1,
+                Name = "ALL.EDIT"
+            };
+
+            var serializedPermissionDto = JsonConvert.SerializeObject(permissionDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_roleId2}/permissions/", serializedPermissionDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void AddAllreadyExistingPermissionToRoleShouldReturnBadRequest()
+        {
+            var permissionDto = new PermissionDto()
+            {
+                Id = _permissionId1,
+                Name = "ALL.EDIT"
+            };
+
+            var serializedPermissionDto = JsonConvert.SerializeObject(permissionDto);
+            var httpResponse = await _fixture.PostHttpResult($"{UrlPath}{_roleId1}/permissions/", serializedPermissionDto);
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async void RemovePermissionFromRoleShouldReturnOk()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_roleId1}/permissions/{_permissionId1}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async void RemovePermissionWithInvalidIdFromRoleShouldReturnNotFound()
+        {
+            var httpResponse = await _fixture.DeleteHttpResult($"{UrlPath}{_roleId1}/permissions/{InvalidPermissionId}");
+            httpResponse.Should().NotBeNull();
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 
