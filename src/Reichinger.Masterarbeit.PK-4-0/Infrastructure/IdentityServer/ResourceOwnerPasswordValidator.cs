@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
@@ -37,12 +38,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             }
             else
             {
-                var allPermissions = _permissionRepository.GetAllPermissions();
+                var allPermissions = _permissionRepository.GetPermissionsOfUser(DataSeeder.UserId1);
+
                 var claimList = allPermissions.Select(permission => new Claim("permission", permission.Name)).ToList();
-                claimList.Add(new Claim(PKClaims.Lastname, appUser.Lastname));
-                claimList.Add(new Claim(PKClaims.Firstname, appUser.Firstname));
-                claimList.Add(new Claim(PKClaims.Email, appUser.Email));
-                claimList.Add(new Claim(PKClaims.EmployeeType, appUser.EmployeeType));
+                claimList.Add(new Claim(ProfileClaims.Lastname, appUser.Lastname));
+                claimList.Add(new Claim(ProfileClaims.Firstname, appUser.Firstname));
+                claimList.Add(new Claim(ProfileClaims.Email, appUser.Email));
+                claimList.Add(new Claim(ProfileClaims.EmployeeType, appUser.EmployeeType));
 
                 context.Result = new GrantValidationResult(
                     subject: appUser.Id.ToString(),

@@ -35,7 +35,6 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.Integration
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var applications = JsonConvert.DeserializeObject<List<RoleDto>>(result.Content.ReadAsStringAsync().Result);
-            applications.Count.Should().Be(2);
             applications.ForEach(dto => dto.Should().BeOfType<RoleDto>());
         }
 

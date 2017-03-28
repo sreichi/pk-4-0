@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -25,13 +26,25 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
         public IEnumerable<PermissionDto> GetPermissionsOfUser(Guid userId)
         {
-            var user = _applicationDbContext.AppUser.Include(appUser => appUser.UserHasRole)
-                .ThenInclude(userHasRole => userHasRole.Role)
-                .ThenInclude(role => role.RolePermission)
-                .ThenInclude(rolePermission => rolePermission.Permission).
-            SingleOrDefault(appUser => appUser.Id == userId);
+            var listOfPermissions = new List<PermissionDto>();
 
-            return _applicationDbContext.Permission.Select(permission => permission.ToDto());
+            var rolesOfUser =
+                _applicationDbContext.UserHasRole.Include(role => role.Role)
+                .ThenInclude(role => role.RolePermission)
+                .ThenInclude(rolePermission => rolePermission.Permission)
+                .Where(role => role.UserId == userId)
+                .Select(userHasRole => userHasRole.Role).ToList();
+
+            rolesOfUser.ForEach(role =>
+            {
+                var permissions =
+                    _applicationDbContext.RolePermission.Include(roPer => roPer.Permission)
+                        .Where(roPer => roPer.RoleId == role.Id).Select(roPer => roPer.Permission.ToDto());
+
+                listOfPermissions.AddRange(permissions);
+            });
+
+            return listOfPermissions.Distinct();
         }
     }
 }

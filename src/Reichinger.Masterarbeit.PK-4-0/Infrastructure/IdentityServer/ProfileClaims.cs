@@ -2,7 +2,7 @@
 
 namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
 {
-    public class PKClaims
+    public class ProfileClaims
     {
         public static string Lastname = "lastname";
         public static string Firstname = "first_name";

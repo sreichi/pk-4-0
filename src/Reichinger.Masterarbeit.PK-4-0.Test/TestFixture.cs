@@ -44,13 +44,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             }
 
             IClient = IntegrationClient.Create("testclient", "test", "api");
-            var tokeresponse = IClient.GetTokenResponseForClient().Result;
+            var tokenResponse = IClient.GetTokenResponseForClient().Result;
 
             _client = new HttpClient()
             {
                 BaseAddress = new Uri(_baseUri),
             };
-            _client.SetBearerToken(tokeresponse.AccessToken);
+            _client.SetBearerToken(tokenResponse.AccessToken);
+
+            
         }
 
         public async Task<HttpResponseMessage> GetHttpResult(string path)

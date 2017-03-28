@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
+using Reichinger.Masterarbeit.PK_4_0.Test.ApplicationModelProvider;
 using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Test
@@ -53,6 +55,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             services.AddTransient<IStyleRepository, StyleRepository>();
             services.AddTransient<IValidationRepository, ValidationRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IApplicationModelProvider, RemoveAuthorizationModelProvider>();
 
             services.AddCors();
 
@@ -71,6 +74,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)
             );
+
+            PolicyCreator.CreatePolicies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
