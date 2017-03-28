@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
@@ -52,6 +56,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IStyleRepository, StyleRepository>();
             services.AddTransient<IValidationRepository, ValidationRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            
 
             services.AddCors();
 
@@ -63,7 +68,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                     options => options.MigrationsAssembly(migrationsAssembly)))
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddProfileService<ProfileService>();
-
+            
             // Add framework services.
             services.AddMvc();
 
@@ -98,6 +103,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddDbContext<ApplicationDbContext>(
                 opts => opts.UseNpgsql(connectionString)
             );
+
+
+
+            PolicyCreator.CreatePolicies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +120,8 @@ namespace Reichinger.Masterarbeit.PK_4_0
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseIdentityServer();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 
             app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
             {

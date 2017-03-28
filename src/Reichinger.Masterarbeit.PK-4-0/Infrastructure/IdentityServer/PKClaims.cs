@@ -9,6 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         public static string Email = "email";
         public static string RzName = "rz_name";
         public static string EmployeeType = "employee_type";
+        public static string Permissions = "permissions";
 
 
         public static List<string> ClaimList()
@@ -19,7 +20,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
                 Firstname,
                 Email,
                 RzName,
-                EmployeeType
+                EmployeeType,
+                Permissions
             };
         }
     }

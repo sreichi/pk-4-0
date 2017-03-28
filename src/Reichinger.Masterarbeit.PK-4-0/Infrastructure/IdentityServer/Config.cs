@@ -14,7 +14,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                new IdentityResources.Profile()
             };
         }
 

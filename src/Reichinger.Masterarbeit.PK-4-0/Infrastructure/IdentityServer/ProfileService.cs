@@ -12,15 +12,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             List<Claim> claimList = new List<Claim>();
+           
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var type in PKClaims.ClaimList())
+            foreach (var type in context.Subject.Claims.ToList())
             {
-                var claim = context.Subject.Claims.ToList().Find(s => s.Type == type);
-                if (claim != null && !string.IsNullOrEmpty(claim.Value))
-                {
-                    claimList.Add(new Claim(type, claim.Value));
-                }
+                claimList.Add(new Claim(type.Type, type.Value));
             }
 
             context.IssuedClaims = claimList;

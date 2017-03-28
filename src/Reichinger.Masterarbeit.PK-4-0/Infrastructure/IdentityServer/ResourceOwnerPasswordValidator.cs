@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
@@ -13,10 +12,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPermissionRepository _permissionRepository;
 
-        public ResourceOwnerPasswordValidator(IUserRepository userRepository)
+        public ResourceOwnerPasswordValidator(IUserRepository userRepository, IPermissionRepository permissionRepository)
         {
             _userRepository = userRepository;
+            _permissionRepository = permissionRepository;
         }
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
@@ -36,14 +37,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             }
             else
             {
-                var claimList = new List<Claim>
-                {
-                    new Claim(PKClaims.Lastname, appUser.Lastname),
-                    new Claim(PKClaims.Firstname, appUser.Firstname),
-                    new Claim(PKClaims.Email, appUser.Email),
-                    new Claim(PKClaims.RzName, appUser.RzName),
-                    new Claim(PKClaims.EmployeeType, appUser.EmployeeType)
-                };
+                var allPermissions = _permissionRepository.GetAllPermissions();
+                var claimList = allPermissions.Select(permission => new Claim("permission", permission.Name)).ToList();
+                claimList.Add(new Claim(PKClaims.Lastname, appUser.Lastname));
+                claimList.Add(new Claim(PKClaims.Firstname, appUser.Firstname));
+                claimList.Add(new Claim(PKClaims.Email, appUser.Email));
+                claimList.Add(new Claim(PKClaims.EmployeeType, appUser.EmployeeType));
 
                 context.Result = new GrantValidationResult(
                     subject: appUser.Id.ToString(),

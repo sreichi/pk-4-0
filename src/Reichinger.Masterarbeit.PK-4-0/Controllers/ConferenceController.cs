@@ -25,7 +25,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Controllers
         /// <param name="filter">Filter the Result</param>
         /// <param name="sort">Sort the Result</param>
         /// <response code="200">An array of Conferences</response>
-        [Authorize]
+        [Authorize("policyALL.EDIT")]
         [HttpGet]
         [Route("/conferences")]
         [SwaggerOperation("GetConferences")]
