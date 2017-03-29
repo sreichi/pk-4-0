@@ -9,11 +9,12 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
 {
     public class ProfileService : IProfileService
     {
+        // returns the Profile Data for a user
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             List<Claim> claimList = new List<Claim>();
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
+
             foreach (var type in PKClaims.ClaimList())
             {
                 var claim = context.Subject.Claims.ToList().Find(s => s.Type == type);

@@ -19,6 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all applications as a List of DTOs
         public IEnumerable<ApplicationListDto> GetAllApplications()
         {
             return _applicationDbContext.Application
@@ -30,6 +31,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToListDto());
         }
 
+        // returns all applications of a specific user as a List of DTOs
         public IEnumerable<ApplicationListDto> GetAllApplicationsOfUser(Guid? userId)
         {
             return _applicationDbContext.Application
@@ -41,6 +43,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(entry => entry.ToListDto());
         }
 
+        // returns an single application as a DTO
         public ApplicationDetailDto GetApplicationById(Guid applicationId)
         {
             var applicationById = _applicationDbContext.Application
@@ -70,6 +73,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return applicationById;
         }
 
+        // creates an new application and returns the object as a DTO
         public ApplicationDetailDto CreateApplication(ApplicationCreateDto applicationToCreate)
         {
             var newApplication = applicationToCreate.ToModel();
@@ -84,6 +88,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return GetApplicationById(newApplication.Id);
         }
 
+        // adds a comment to an specific application and returns the comment as a DTO
         public CommentDto AddCommentToApplication(Guid applicationId, CommentCreateDto comment)
         {
             var newComment = comment.ToModel();
@@ -96,6 +101,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .ToDto();
         }
 
+        // deletes one application from the database
         public IActionResult DeleteApplicationById(Guid applicationId)
         {
             var applicationToDelete =
@@ -117,9 +123,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
-        /*
-        * This update function creates a new entry for the application because of versioning.
-        */
+
+        // updates an Application
+        // the updated application is set to IsCurrent = false
+        // a new application will be created referencing the old one
         public ApplicationDetailDto UpdateApplication(Guid applicationId, ApplicationCreateDto newApplication)
         {
             var currentApplication = _applicationDbContext.Application
@@ -136,9 +143,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
 
             _applicationDbContext.Application.Add(updatedApplication);
 
-            /**
-            * Copies the comment to the new application
-            **/
+
+            // Copies the old comments to the new application
             currentApplication.Comment?.ToList()
                 .ForEach(comment =>
                 {
@@ -155,6 +161,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     _applicationDbContext.Comment.Add(copyOfComment);
                 });
 
+            // copies the old assignments to the new one
             currentApplication.Assignment?.ToList().ForEach(assignment =>
             {
                 _applicationDbContext.Assignment.Add(new Assignment()
@@ -169,6 +176,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return GetApplicationById(updatedApplication.Id);
         }
 
+        // returns all versions of an specific application as a list of DTOs
         public IEnumerable<ApplicationDetailDto> GetHistoryOfApplication(Guid applicationId)
         {
             var requestedApplication = GetApplicationById(applicationId);
@@ -178,6 +186,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history;
         }
 
+        // generates the history of a specific application
         private IEnumerable<ApplicationDetailDto> GenerateHistoryOfApplication(
             ApplicationDetailDto requestedApplication)
         {
@@ -193,6 +202,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return history.OrderByDescending(dto => dto.Version);
         }
 
+        // updates a specific comment of an application
         public CommentDto UpdateCommentOfApplication(Guid applicationId, Guid commentId,
             CommentCreateDto modifiedComment)
         {
@@ -207,6 +217,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return commentToEdit.ToDto();
         }
 
+        // removes an assingment of a user from an application
         public IActionResult RemoveAssignmentFromApplication(Guid applicationId, Guid userId)
         {
             var assignmentToRemove = _applicationDbContext.Assignment.SingleOrDefault(
@@ -228,6 +239,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
+        // assignes a user to an application
         public IActionResult AssignUserToApplication(Guid applicationId, AssignmentCreateDto assignmentCreateDto)
         {
             var assignmentExists = _applicationDbContext.Assignment.SingleOrDefault(
@@ -252,6 +264,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(updatedApplication);
         }
 
+        // updates the status of an application
         public IActionResult UpdateStatusOfApplication(Guid applicationId, int statusId)
         {
             var applicationToUpdate = _applicationDbContext.Application.SingleOrDefault(application => application.Id == applicationId);

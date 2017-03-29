@@ -10,6 +10,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Helper
         public static readonly int LdapPort = LdapConnection.DEFAULT_PORT;
         public static readonly string LdapHost = "ldap1.hs-augsburg.de";
 
+
+        // Valdidates the sent LDAP Credentials
         public static bool ValidateCredentials(string ldapUid, string password)
         {
             var objectDn = $"uid={ldapUid},ou=People,dc=fh-augsburg,dc=de";
@@ -30,11 +32,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Helper
             return true;
         }
 
-
+        // Maps all sent LDAP Properties of the user into a Dictionary
         public static Dictionary<string, string> GetLdapUser(string ldapUid)
         {
-            var objectDn = $"uid={ldapUid},ou=People,dc=fh-augsburg,dc=de";
-
             try
             {
                 LdapConnection conn= new LdapConnection();

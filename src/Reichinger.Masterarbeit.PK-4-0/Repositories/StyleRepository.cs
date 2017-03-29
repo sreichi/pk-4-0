@@ -16,6 +16,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all styles as a list of DTOs
         public IEnumerable<StyleDto> GetAllStyles()
         {
             return _applicationDbContext.Style.Select(style => style.ToDto());

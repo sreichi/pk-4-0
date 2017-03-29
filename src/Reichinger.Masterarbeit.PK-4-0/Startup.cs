@@ -127,7 +127,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
             {
-//                app.SeedData();
+                // if uncommenting this the application is clearing and seeding the database on every start.
+                // if you want to work with peristent data for longer time keep this comment
+
+                // app.SeedData();
             }
 
             IdentityServerStorageSeed.InitializeIdentitySrvDatabase(app);

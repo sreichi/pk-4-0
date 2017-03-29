@@ -6,9 +6,10 @@ using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
+    // This class contains all Mappings
+    // it is possible to map enitities to dtos and dtos back to entities
     public static class Mapper
     {
-
         public static ApplicationDetailDto ToDetailDto(this Application response)
         {
             return new ApplicationDetailDto()

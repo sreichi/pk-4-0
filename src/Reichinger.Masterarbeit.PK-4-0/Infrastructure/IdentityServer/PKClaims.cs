@@ -2,6 +2,7 @@
 
 namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
 {
+    // defines all Claims a user contains in the token
     public class PKClaims
     {
         public static string Lastname = "lastname";
