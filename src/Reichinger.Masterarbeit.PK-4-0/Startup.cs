@@ -6,15 +6,18 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
+using Reichinger.Masterarbeit.PK_4_0.Test.ApplicationModelProvider;
 using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0
@@ -56,6 +59,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IStyleRepository, StyleRepository>();
             services.AddTransient<IValidationRepository, ValidationRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IApplicationModelProvider, RemoveAuthorizationModelProvider>();
             
 
             services.AddCors();
@@ -138,7 +142,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
             {
-//                app.SeedData();
+                app.SeedData();
             }
 
             IdentityServerStorageSeed.InitializeIdentitySrvDatabase(app);

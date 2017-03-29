@@ -37,7 +37,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test.ApplicationModelProvider
         public void OnProvidersExecuted(ApplicationModelProviderContext context)
         {
             bool authorizationIsDisabled;
-            bool.TryParse(_configuration["Authentication:Disabled"], out authorizationIsDisabled);
+            bool.TryParse(_configuration["Authentication:IsDisabled"], out authorizationIsDisabled);
 
             var skipAuthorization = _environment.IsEnvironment("Development") && authorizationIsDisabled;
             if (!skipAuthorization)
