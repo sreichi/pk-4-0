@@ -30,9 +30,9 @@ RUN curl -SL $DOTNET_DOWNLOAD_URL --output dotnet.tar.gz \
     && rm dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
     
-RUN curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=827530 \
-    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \ 
-    && rm dotnet.tar.gz 
+#RUN curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?LinkID=827530 \
+#    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
+#    && rm dotnet.tar.gz
 
 
 # Trigger the population of the local package cache
