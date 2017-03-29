@@ -32,14 +32,7 @@ RUN curl -SL $DOTNET_DOWNLOAD_URL --output dotnet.tar.gz \
 
 
 
-# Trigger the population of the local package cache
-ENV NUGET_XMLDOC_MODE skip
-RUN mkdir warmup \
-    && cd warmup \
-    && dotnet new \
-    && cd .. \
-    && rm -rf warmup \
-    && rm -rf /tmp/NuGetScratch
+
 
 
 COPY /src/ ./src
