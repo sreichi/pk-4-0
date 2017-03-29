@@ -18,6 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all comments of an application a List of DTOs
         public IEnumerable<CommentDto> GetCommentsForApllication(Guid applicationId)
         {
             return _applicationDbContext.Comment.Include(comment => comment.User)
@@ -25,6 +26,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(comment => comment.ToDto());
         }
 
+        // returns a specific comment as a DTO
         public CommentDto GetCommentById(Guid commentId)
         {
             return _applicationDbContext.Comment.Include(comment => comment.User)

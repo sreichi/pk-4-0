@@ -1,13 +1,12 @@
-﻿
-
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
 
 namespace Reichinger.Masterarbeit.PK_4_0.Database
 {
+    // this class seeds the Application with test data.
+    // the test data is important for the tests of the application
     public static class DataSeeder
     {
         public static readonly Guid RoleId1 = new Guid("8fa4497d-bee4-411d-83ef-f195037cbb43");

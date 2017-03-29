@@ -19,6 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all forms as a list of DTOs
         public IEnumerable<FormListDto> GetAllForms()
         {
             return
@@ -28,6 +29,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     .Select(entry => entry.ToListDto());
         }
 
+        // returns a specific form as a DTO
         public FormDetailDto GetFormById(Guid formId)
         {
             return
@@ -44,6 +46,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                     .SingleOrDefault(entry => entry.Id == formId);
         }
 
+        // creates a new form and returns the created object as a DTO
         public FormDetailDto CreateNewForm(FormCreateDto formToCreate, Guid? previousVerison)
         {
             var fieldIndex = 1;
@@ -63,6 +66,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return GetFormById(newForm.Id);
         }
 
+        // deletes a specific form
         public IActionResult DeleteFormById(Guid formId)
         {
             var formToDelete =
@@ -93,6 +97,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
+        // updates a specific form
+        // sets the old form to deprecated
+        // the new form references the old one
+        // returns the updated form as a DTO
         public IActionResult UpdateFormById(Guid formId, FormCreateDto formCreateDto)
         {
             // Set updated Form Deprecated true
@@ -121,6 +129,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.SaveChanges();
         }
 
+        // deletes all references of a Form
         private void DeleteFieldReferencesOfForm(IQueryable<FormHasField> formHasFields)
         {
             if (!formHasFields.Any()) return;
@@ -131,6 +140,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
+        // deletes the field belonging to the deleted form
         private void DeleteField(Field fieldToRemove)
         {
             if (fieldToRemove != null)
@@ -139,6 +149,9 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             }
         }
 
+        // creates a new field
+        // creates a new reference to the form for the created field
+        // creates a reference for the styling and validation of the new field
         private void CreateNewField(Guid formId, FieldCreateDto fieldCreateDto, int fieldIndex)
         {
             var newField = new Field()

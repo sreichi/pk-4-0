@@ -17,6 +17,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // validates the user against the LDAP System and returns its propertues as a Dictionary
         public IActionResult CheckUserInLdapAndReturnAttributes(string username, string password)
         {
             var validCredentials = LdapHelper.ValidateCredentials(username, password);
@@ -32,6 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(ldapUserAttributes);
         }
 
+        // checks if the user is allready registered in the system
         private bool CheckIfUserAllreadyRegistered(Dictionary<string, string> ldapUserAsDictionary)
         {
             var uid = ldapUserAsDictionary["uid"];

@@ -18,11 +18,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
+
+        // returns all roles as a list of DTOs
         public IEnumerable<RoleDto> GetAllRoles()
         {
             return _applicationDbContext.Role.Select(entry => entry.ToDto());
         }
 
+        // returns a specific role as a DTO
         public RoleDto GetRoleById(Guid roleId)
         {
             return _applicationDbContext.Role
@@ -30,6 +33,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .FirstOrDefault(entry => entry.Id == roleId);
         }
 
+        // creates a new role
         public RoleDto CreateRole(RoleDto role)
         {
             var newRole = role.ToModel();
@@ -38,6 +42,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return newRole.ToDto();
         }
 
+        // adds a permission to a role
         public IActionResult AddPermissionToRole(Guid roleId, PermissionDto permission)
         {
             var exitingRolePermission = _applicationDbContext.RolePermission.SingleOrDefault(
@@ -54,6 +59,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Permission added to Role");
         }
 
+        // removes a permission of a role
         public IActionResult RemovePermissionFromRole(Guid roleId, Guid permissionId)
         {
             var rolePermissionToDelete = _applicationDbContext.RolePermission.SingleOrDefault(
@@ -66,6 +72,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Removed Permission from Role");
         }
 
+        // deletes a specific role
         public IActionResult DeleteRoleById(Guid roleId)
         {
             var roleToDelete = _applicationDbContext.Role.Include(role => role.RolePermission).Include(role => role.UserHasRole).SingleOrDefault(role => role.Id == roleId);
@@ -79,6 +86,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Role deleted");
         }
 
+        // updates a role
         public RoleDto UpdateRole(Guid roleId, RoleDto role)
         {
 

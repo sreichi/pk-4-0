@@ -60,7 +60,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
             services.AddTransient<IValidationRepository, ValidationRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddTransient<IApplicationModelProvider, RemoveAuthorizationModelProvider>();
-            
+
 
             services.AddCors();
 
@@ -72,7 +72,7 @@ namespace Reichinger.Masterarbeit.PK_4_0
                     options => options.MigrationsAssembly(migrationsAssembly)))
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddProfileService<ProfileService>();
-            
+
             // Add framework services.
             services.AddMvc();
 
@@ -142,7 +142,10 @@ namespace Reichinger.Masterarbeit.PK_4_0
 
             if (_environment.IsEnvironment("Development") || _environment.IsEnvironment("Travis"))
             {
-                app.SeedData();
+                // if uncommenting this the application is clearing and seeding the database on every start.
+                // if you want to work with peristent data for longer time keep this comment
+
+                // app.SeedData();
             }
 
             IdentityServerStorageSeed.InitializeIdentitySrvDatabase(app);

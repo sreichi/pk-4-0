@@ -9,6 +9,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
 {
     public class IdentityServerStorageSeed
     {
+        // adds the Clients, Identity Resources and Api Resources to the Identity Server Database
         public static void InitializeIdentitySrvDatabase(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())

@@ -18,6 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all field types as a list of DTOs
         public IEnumerable<FieldDefinitionDto> GetAllFieldTypes()
         {
             return _applicationDbContext.FieldType
@@ -30,6 +31,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Select(type => type.ToDto());
         }
 
+        // returns a specific fieldType
         public FieldType GetFieldTypeById(Guid fieldTypeId)
         {
             var fieldType = _applicationDbContext.FieldType.FirstOrDefault(entry => entry.Id == fieldTypeId);

@@ -19,12 +19,15 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all conferences as a List of DTOs
         public IEnumerable<ConferenceListDto> GetAllConferences()
         {
             return _applicationDbContext.Conference
                 .Select(entry => entry.ToListDto());
         }
 
+        // returns a specific conference as a DTO
+        // it includes all applications of the conference
         public ConferenceDetailDto GetConferernceById(Guid conferenceId)
         {
             var conferenceDetailDto = _applicationDbContext.Conference
@@ -54,6 +57,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return conferenceDetailDto;
         }
 
+        // returns all applications of a conference
         public IEnumerable<ApplicationDetailDto> GetApplicationsOfConferenceById(Guid conferenceId)
         {
             return _applicationDbContext.Conference
@@ -68,6 +72,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .Application.Select(application => application.ToDetailDto());
         }
 
+        // creates a new conference
         public ConferenceDetailDto CreateConference(ConferenceCreateDto conference)
         {
             var newConference = conference.ToModel();
@@ -76,6 +81,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return newConference.ToDetailDto();
         }
 
+        // deletes a conferences from the database
         public IActionResult DeleteConferenceById(Guid conferenceId)
         {
             var conferenceToDelete =
@@ -96,6 +102,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Conference successfully deleted");
         }
 
+        // updates a conference
         public ConferenceDetailDto UpdateConference(Guid conferenceId, ConferenceCreateDto modifiedConference)
         {
             var conferenceToEdit = _applicationDbContext.Conference
@@ -110,6 +117,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return conferenceToEdit.ToDetailDto();
         }
 
+        // removes an application from a conference
         public IActionResult RemoveApplicationFromConference(Guid conferenceId, Guid applicationId)
         {
             var affectedConference = _applicationDbContext.Conference.Include(conference => conference.Application)
@@ -126,6 +134,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkResult();
         }
 
+        // adds an application to a conference
         public IActionResult AddApplicationToConference(Guid conferenceId, Guid applicationId)
         {
             var application = _applicationDbContext.Application.SingleOrDefault(app => app.Id == applicationId);
@@ -144,6 +153,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(updatedConference);
         }
 
+        // adds an attendant to a conference
         public IActionResult AddAttendantToConference(Guid conferenceId, AttendantCreateDto attendantCreateDto)
         {
             var attendantExists = _applicationDbContext.Attendant.SingleOrDefault(
@@ -172,6 +182,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult(updatedConference);
         }
 
+        // removes an attendand from a conference
         public IActionResult RemoveAttendandFromConference(Guid conferenceId, Guid userId)
         {
             var assignmentToRemove = _applicationDbContext.Attendant.SingleOrDefault(

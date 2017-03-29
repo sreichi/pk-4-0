@@ -14,6 +14,8 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
         {
             _applicationDbContext = applicationDbContext;
         }
+
+        // returns all validations as a list of DTOs
         public IEnumerable<ValidationDto> GetAllValidations()
         {
             return _applicationDbContext.Validation.Select(validation => validation.ToDto());

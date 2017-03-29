@@ -21,9 +21,10 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             _permissionRepository = permissionRepository;
         }
 
+        // validates the user credentials and creates the Claimlist of the User.
+        // These Claims will be saved in the token
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            // Validation happens here
             var appUser = _userRepository.GetUserByEmail(context.UserName);
 
             if (appUser == null)

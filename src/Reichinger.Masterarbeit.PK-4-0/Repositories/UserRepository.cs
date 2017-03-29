@@ -21,11 +21,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all users as a list of DTOs
         public IEnumerable<UserListDto> GetAllUsers()
         {
             return _applicationDbContext.AppUser.Select(entry => entry.ToListDto());
         }
 
+        // returns a specific user as a DTO
         public UserDetailDto GetUserById(Guid userId)
         {
             return _applicationDbContext.AppUser
@@ -33,11 +35,13 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
                 .SingleOrDefault(e => e.Id == userId);
         }
 
+        // returns one user by its email
         public AppUser GetUserByEmail(string email)
         {
             return _applicationDbContext.AppUser.SingleOrDefault(e => e.Email == email);
         }
 
+        // creates a new user
         public IActionResult CreateUser(string rzName, string rzPassword, UserCreateDto user)
         {
             var rzNameData = Convert.FromBase64String(rzName);
@@ -75,6 +79,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new CreatedResult($"/users/{newUser.Id}", newUser.ToDetailDto());
         }
 
+        // removes a role from a user
         public IActionResult RemoveRoleFromUser(Guid userId, Guid roleId)
         {
             var userHasRole = _applicationDbContext.UserHasRole.SingleOrDefault(
@@ -90,6 +95,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             return new OkObjectResult("Role successfully removed from user");
         }
 
+        // adds a role to a user
         public IActionResult AddRoleToUser(Guid userId, RoleDto roleDto)
         {
             var userHasRole = _applicationDbContext.UserHasRole.SingleOrDefault(
@@ -118,12 +124,14 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext.SaveChanges();
         }
 
+        // checks if the user which should be created allready exists in the database
         private bool CheckIfUserAllreadyExists(int ldapId, string rzName)
         {
             var userToCreate = _applicationDbContext.AppUser.SingleOrDefault(user => user.LdapId == ldapId && user.RzName == rzName);
             return userToCreate != null;
         }
 
+        // checks if the LDAP credentials of the user are valid
         private bool CheckIfLdapCredentialsAreValid(string rzName, string rzPassword)
         {
             return LdapHelper.ValidateCredentials(rzName, rzPassword);

@@ -8,7 +8,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
 {
     public class Config
     {
-        // scopes define the resources in your system
+        // returns all Identity Resources
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
@@ -18,6 +18,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
             };
         }
 
+        // returns all Api Resources
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -27,7 +28,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity
         }
 
 
-        // clients want to access resources (aka scopes)
+        // returns all Clients which are authorized to send requests to the application
         public static IEnumerable<Client> GetClients()
         {
             // client credentials client

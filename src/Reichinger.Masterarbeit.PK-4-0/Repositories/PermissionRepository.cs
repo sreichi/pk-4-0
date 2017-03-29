@@ -19,6 +19,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        // returns all permission as a list of DTOs
         public IEnumerable<PermissionDto> GetAllPermissions()
         {
             return _applicationDbContext.Permission.Select(permission => permission.ToDto());
