@@ -16,7 +16,7 @@ RUN apt-get update \
         zlib1g \
         curl \
         gettext 
-#    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 
 # Install .NET Core SDK
