@@ -14,10 +14,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Reichinger.Masterarbeit.PK_4_0.Database;
 using Reichinger.Masterarbeit.PK_4_0.Database.Models;
+using Reichinger.Masterarbeit.PK_4_0.Infrastructure.ApplicationModelProvider;
 using Reichinger.Masterarbeit.PK_4_0.Infrastructure.Identity;
 using Reichinger.Masterarbeit.PK_4_0.Interfaces;
 using Reichinger.Masterarbeit.PK_4_0.Repositories;
-using Reichinger.Masterarbeit.PK_4_0.Test.ApplicationModelProvider;
 using Swashbuckle.Swagger.Model;
 
 namespace Reichinger.Masterarbeit.PK_4_0

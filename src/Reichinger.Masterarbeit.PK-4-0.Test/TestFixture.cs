@@ -30,6 +30,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Test
             var builder = new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls(_baseUri)
+                .UseEnvironment("Development")
                 .UseStartup<StartupTestEnvironment>();
 
             _server = builder.Build();
