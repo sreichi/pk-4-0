@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 
-namespace Reichinger.Masterarbeit.PK_4_0.Test.ApplicationModelProvider
+namespace Reichinger.Masterarbeit.PK_4_0.Infrastructure.ApplicationModelProvider
 {
     public class RemoveAuthorizationModelProvider : IApplicationModelProvider
     {
