@@ -588,7 +588,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Database
                     Id = FormId1,
                     Title = "Masterarbeit",
                     Created = DateTime.Now,
-                    IsActive = true,
+                    IsActive = false,
                     Deprecated = false,
                     IsPublic = true,
                     RestrictedAccess = false,
