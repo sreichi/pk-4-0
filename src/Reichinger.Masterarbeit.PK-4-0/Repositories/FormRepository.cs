@@ -121,7 +121,7 @@ namespace Reichinger.Masterarbeit.PK_4_0.Repositories
             if(formToActivate == null) return new NotFoundResult();
             formToActivate.IsActive = true;
             Save();
-            return new OkObjectResult(formToActivate);
+            return new OkObjectResult("TEST");
         }
 
         public void Save()
