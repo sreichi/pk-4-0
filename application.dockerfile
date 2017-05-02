@@ -15,7 +15,7 @@ RUN apt-get update \
         libuuid1 \
         zlib1g \
         curl \
-        gettext 
+        gettext \
     && rm -rf /var/lib/apt/lists/*
 
 
